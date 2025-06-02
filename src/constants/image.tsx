@@ -5,5 +5,7 @@ export const IMAGES = {
   customer: "/images/customer.png",
   avatar: "/images/avatar.png",
   logo: "/images/logo.png",
+  furniture: "/images/furniture.jpg",
+  fabric: "/images/fabrics.jpg",
 };
 

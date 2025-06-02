@@ -7,38 +7,8 @@ import OrderStatusDonut from "./components/orderDonut";
 import BarChart from "./components/barChart";
 import { TableView } from "@/components/table/tableView";
 import { BsThreeDots } from "react-icons/bs";
-import { bookings, bookingsColumns, fabricManagement, fabricManagementColumns, pillowOrders, pillowOrdersColumns, upholsteryQuotes } from "@/utils/data/furanitureData";
+import { bookings, bookingsColumns, fabricManagement, fabricManagementColumns, pillowOrders, pillowOrdersColumns, upholsteryQuotes, upholsteryQuotesColumns } from "@/utils/data/furanitureData";
 
-
-// Example data for upholsteryQuotes
-
-type Column<T> = {
-  header: string;
-  accessor: keyof T | ((row: T) => React.ReactNode);
-};
-
-const columns: Column<typeof upholsteryQuotes[0]>[] = [
-  { header: "Customer Name", accessor: "customer" },
-  { header: "Furniture Type", accessor: "furniture" },
-  {
-    header: "Status",
-    accessor: row => (
-      <span className="bg-orange-100 text-orange-500 px-2 py-1 rounded text-xs font-semibold">
-        {row.status}
-      </span>
-    )
-  },
-  { header: "Priority Quote", accessor: "priority" },
-  { header: "Date", accessor: "date" },
-  {
-    header: "Actions",
-    accessor: () => (
-      <button className="p-1 rounded hover:bg-gray-100">
-        <BsThreeDots className="text-gray-400" />
-      </button>
-    )
-  },
-];
 
 export default function Dashboard() {
   const user = {
@@ -60,38 +30,42 @@ export default function Dashboard() {
         ))}
       </div>
       <div>
-        <h2 className="text-xl font-semibold mb-2">Upholstery Quotes</h2>
+        <h2 className="text-xl font-semibold p-4">Upholstery Quotes</h2>
         <TableView
           listTitle="List of all submitted quotes"
-          columns={columns}
+          columns={upholsteryQuotesColumns}
           data={upholsteryQuotes}
+          rowLink={(row) => `/admin/upholstery/${encodeURIComponent(row.customer)}`}
         />
       </div>
 
       <div>
-        <h2 className="text-xl font-semibold mb-2">Pillow Orders</h2>
+        <h2 className="text-xl font-semibold p-4">Pillow Orders</h2>
         <TableView
-          listTitle="List of All Pillow Orders"
+          listTitle="List of all pillow orders"
           columns={pillowOrdersColumns}
           data={pillowOrders}
+          rowLink={(row) => `/admin/orders/${encodeURIComponent(row.customer)}`}
         />
       </div>
 
       <div>
-        <h2 className="text-xl font-semibold mb-2">Fabric Management</h2>
+        <h2 className="text-xl font-semibold p-4">Fabric Management</h2>
         <TableView
-          listTitle="List of All Fabric Entries"
+          listTitle="List of all fabric entries"
           columns={fabricManagementColumns}
           data={fabricManagement}
+          rowLink={(row) => `/admin/fabrics/${encodeURIComponent(row.identifier)}`}
         />
       </div>
 
       <div>
-        <h2 className="text-xl font-semibold mb-2">Bookings</h2>
+        <h2 className="text-xl font-semibold p-4">Bookings</h2>
         <TableView
-          listTitle="List of All Bookings & Consultations"
+          listTitle="All Client Consultations & Pickups"
           columns={bookingsColumns}
           data={bookings}
+          rowLink={(row) => `/admin/bookings/${encodeURIComponent(row.client)}`}
         />
       </div>
     </div>

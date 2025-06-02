@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Sidebar from "@/components/sidebar/sidebar";
-
-
 import { Poppins } from 'next/font/google';
 import Header from "@/components/header";
 import { IMAGES } from "@/constants/image";
@@ -25,15 +23,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${fontPoppins.variable}, ${fontPoppins.className}`}>
-      <body
-        className={`${fontPoppins.variable} antialiased p-4`}
-      >
-        <Sidebar />
-        <div className="pl-[320px] mx-4  bg-white w-full h-full ">
-          <Header user={{ name: "Jack Jonson", role: "Admin", avatarUrl: IMAGES.avatar }} />
-          {children}
-        </div>
-
+      <body className={`${fontPoppins.variable} antialiased `}>
+        {children}
       </body>
     </html>
   );
