@@ -1,5 +1,3 @@
-import { CheckCircle, Truck, XCircle } from "lucide-react";
-import { Hourglass, Package } from "../../../public/icons/icons";
 
 
 export const statusData = [

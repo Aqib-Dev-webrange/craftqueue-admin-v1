@@ -31,6 +31,16 @@ export function TableView<T>({ listTitle, columns, data, rowLink }: TableViewPro
     }
   };
 
+  const getCellContent = (row: T, col: Column<T>) => {
+    if (typeof col.accessor === "function") {
+      return col.accessor(row);
+    }
+    
+    // Type-safe property access, cast to React.ReactNode
+    const value = row[col.accessor] as React.ReactNode;
+    return value;
+  };
+
   return (
     <div className="bg-white rounded-2xl p-3 sm:p-6 border shadow-sm">
       <h1 className="font-semibold text-gray-500 mb-2 text-sm sm:text-base">{listTitle}</h1>
@@ -67,10 +77,7 @@ export function TableView<T>({ listTitle, columns, data, rowLink }: TableViewPro
                   onClick={() => handleRowClick(row)}
                 >
                   {columns.map((col, j) => {
-                    let cellContent =
-                      typeof col.accessor === "function"
-                        ? col.accessor(row)
-                        : (row as any)[col.accessor];
+                    let cellContent = getCellContent(row, col);
 
                     // If a link function is provided, wrap the cell content in a Link
                     if (col.link) {
@@ -78,6 +85,7 @@ export function TableView<T>({ listTitle, columns, data, rowLink }: TableViewPro
                         <Link 
                           href={col.link(row)} 
                           onClick={(e) => e.stopPropagation()} // Prevent row click
+                          className="hover:underline"
                         >
                           {cellContent}
                         </Link>

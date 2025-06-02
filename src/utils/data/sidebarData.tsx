@@ -1,10 +1,3 @@
-import {
-  LayoutDashboard,
-  CalendarCheck2,
-  Boxes,
-  Truck
-} from "lucide-react";
-import { GiPillow } from "react-icons/gi";
 import { BoxFast, Calendar, Dashboard, Pillow, Sofa, TruckLocation } from "../../../public/icons/icons";
 
 export type SidebarDataItem = {

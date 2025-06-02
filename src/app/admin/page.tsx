@@ -1,12 +1,7 @@
 "use client";
 import { statusData } from "@/utils/data/statusData";
 import StatusCard from "./components/statusCard";
-import Header from "@/components/header";
-import OverviewCard from "./components/overviewCard";
-import OrderStatusDonut from "./components/orderDonut";
-import BarChart from "./components/barChart";
 import { TableView } from "@/components/table/tableView";
-import { BsThreeDots } from "react-icons/bs";
 import { bookings, bookingsColumns, fabricManagement, fabricManagementColumns, pillowOrders, pillowOrdersColumns, upholsteryQuotes, upholsteryQuotesColumns } from "@/utils/data/furanitureData";
 
 
