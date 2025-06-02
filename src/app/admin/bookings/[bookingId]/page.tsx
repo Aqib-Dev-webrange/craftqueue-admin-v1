@@ -1,14 +1,12 @@
 "use client";
 import {
   FaArrowLeft,
-  FaEnvelope,
-  FaPhone,
-  FaMapMarkerAlt,
 } from "react-icons/fa";
 import Link from "next/link";
 import { IMAGES } from "@/constants/image";
 import CustomerInfo from "@/components/customerInfo";
 import { useState } from "react";
+import VendorModal from "../../upholstery/[upholsteryId]/components/assignVendorModal";
 
 export default function OrderDetail() {
   // In a real app, fetch data using the upholsteryId param
@@ -67,6 +65,9 @@ export default function OrderDetail() {
           <div className="font-bold text-lg">{order.customer.country}</div>
         </div>
       </div>
+      {showVendorModal && (
+                <VendorModal onClose={() => setShowVendorModal(false)} />
+              )}
     </div>
   );
 }

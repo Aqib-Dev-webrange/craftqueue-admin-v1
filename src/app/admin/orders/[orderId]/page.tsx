@@ -1,9 +1,6 @@
 "use client";
 import {
-  FaArrowLeft,
-  FaEnvelope,
-  FaPhone,
-  FaMapMarkerAlt,
+  FaArrowLeft
 } from "react-icons/fa";
 import Link from "next/link";
 import { IMAGES } from "@/constants/image";

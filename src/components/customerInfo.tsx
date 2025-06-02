@@ -1,10 +1,13 @@
+import Image from "next/image";
 import { FaEnvelope, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
 
 export default function CustomerInfo({ customer, onAssignVendor }: any) {
   return (
     <div className="flex items-center justify-between gap-4  ">
       <div className="flex items-center gap-4 py-4 ">
-        <img
+        <Image
+          width={64}
+          height={64}
           src={customer.avatar}
           alt={customer.name}
           className="w-16 h-16 rounded-full object-cover bg-slate-200"

@@ -2,10 +2,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa";
-import Image from "next/image";
 import { IMAGES } from "@/constants/image";
 import OrderStatusDropdown from "@/app/admin/upholstery/[upholsteryId]/components/orderStatus";
 import OrdersTrack from "@/app/admin/upholstery/[upholsteryId]/components/orderTracker";
+import VendorModal from "@/app/admin/upholstery/[upholsteryId]/components/assignVendorModal";
 
 
 const ORDER_STEPS = [
@@ -110,6 +110,9 @@ export default function UpholsteryOrderDetail() {
         </div>
       </div>
       <OrdersTrack order={order} steps={ORDER_STEPS}/> 
+      {showVendorModal && (
+                <VendorModal onClose={() => setShowVendorModal(false)} />
+              )}
     </div>
   );
 }

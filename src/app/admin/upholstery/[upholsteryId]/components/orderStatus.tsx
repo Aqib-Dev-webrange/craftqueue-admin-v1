@@ -2,7 +2,12 @@ import { useState } from "react";
 
 const ORDER_STATUSES = ["Pending", "On Route", "Deliverd"];
 
-export default function OrderStatusDropdown({ status, onChange }: any) {
+type OrderStatusDropdownProps = {
+  status: string;
+  onChange: (status: string) => void;
+};
+
+export default function OrderStatusDropdown({ status, onChange }: OrderStatusDropdownProps) {
   const [open, setOpen] = useState(false);
 
   return (

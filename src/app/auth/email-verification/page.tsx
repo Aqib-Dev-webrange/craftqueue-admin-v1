@@ -36,7 +36,7 @@ export default function EmailVerificationPage() {
 
           <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
             <p className="text-sm text-amber-800">
-              Didn't receive the email? Check your spam folder or wait {timeLeft}s to resend.
+              {`Didn't receive the email? Check your spam folder or wait ${timeLeft}s to resend.`}
             </p>
           </div>
 

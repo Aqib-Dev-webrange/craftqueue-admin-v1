@@ -1,72 +1,4 @@
-// "use client";
-// import { useState } from "react";
-// import { TableView, Column } from "@/components/table/tableView";
-// import { BsThreeDots } from "react-icons/bs";
-
-// type Booking = {
-//   customer: string;
-//   type: string;
-//   datetime: string;
-// };
-
-// const bookings: Booking[] = [
-//   { customer: "Emily R.", type: "Consultation", datetime: "05/05 – 05:45 PM" },
-//   { customer: "Emily R.", type: "Consultation", datetime: "05/05 – 05:45 PM" },
-//   { customer: "Emily R.", type: "Consultation", datetime: "05/05 – 05:45 PM" },
-//   { customer: "Emily R.", type: "Consultation", datetime: "05/05 – 05:45 PM" },
-//   { customer: "Emily R.", type: "Consultation", datetime: "05/05 – 05:45 PM" },
-// ];
-
-// const bookingsColumns: Column<Booking>[] = [
-//   { header: "Customer Name", accessor: "customer" },
-//   { header: "Booking Type", accessor: "type" },
-//   { header: "Date/Time", accessor: "datetime" },
-//   {
-//     header: "Actions",
-//     accessor: () => (
-//       <button className="p-1 rounded hover:bg-gray-100">
-//         <BsThreeDots className="text-gray-400" />
-//       </button>
-//     ),
-//   },
-// ];
-
-// export default function BookingsPage() {
-//   const [search, setSearch] = useState("");
-//   const filtered = bookings.filter(
-//     (b) =>
-//       b.customer.toLowerCase().includes(search.toLowerCase()) ||
-//       b.type.toLowerCase().includes(search.toLowerCase()) ||
-//       b.datetime.toLowerCase().includes(search.toLowerCase())
-//   );
-
-//   return (
-//     <div className="container mx-auto p-4">
-//       <div className="flex justify-between py-2">
-// <h1 className="text-3xl font-bold py-4">Upholstery Bookings</h1>
-//       <div className="flex justify-end mb-2">
-//         <input
-//           type="text"
-//           placeholder="Search Account"
-//           value={search}
-//           onChange={(e) => setSearch(e.target.value)}
-//           className="border rounded-lg px-4 py-2 w-72 focus:outline-none focus:ring-2 focus:ring-primary"
-//         />
-//       </div>
-//       </div>
-      
-//       <div className="">
-//         <TableView
-//           listTitle="All Client Consultations & Pickups"
-//           columns={bookingsColumns}
-//           data={filtered}
-//         />
-//       </div>
-//     </div>
-//   );
-// }
-
-"use client";
+"use client"
 import { useState } from "react";
 import { TableView, Column } from "@/components/table/tableView";
 import SearchInput from "@/components/ui/Input";
@@ -163,11 +95,11 @@ export default function BookingsPage() {
       </div>
 
       {/* Show results count */}
-      {search && (
+      {/* {search && (
         <div className="mt-4 text-sm text-gray-600">
           Found {filtered.length} result{filtered.length !== 1 ? 's' : ''} for "{search}"
         </div>
-      )}
+      )} */}
     </div>
   );
 }
