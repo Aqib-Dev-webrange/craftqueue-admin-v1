@@ -1,0 +1,173 @@
+// "use client";
+// import { useState } from "react";
+// import { TableView, Column } from "@/components/table/tableView";
+// import { BsThreeDots } from "react-icons/bs";
+
+// type Booking = {
+//   customer: string;
+//   type: string;
+//   datetime: string;
+// };
+
+// const bookings: Booking[] = [
+//   { customer: "Emily R.", type: "Consultation", datetime: "05/05 – 05:45 PM" },
+//   { customer: "Emily R.", type: "Consultation", datetime: "05/05 – 05:45 PM" },
+//   { customer: "Emily R.", type: "Consultation", datetime: "05/05 – 05:45 PM" },
+//   { customer: "Emily R.", type: "Consultation", datetime: "05/05 – 05:45 PM" },
+//   { customer: "Emily R.", type: "Consultation", datetime: "05/05 – 05:45 PM" },
+// ];
+
+// const bookingsColumns: Column<Booking>[] = [
+//   { header: "Customer Name", accessor: "customer" },
+//   { header: "Booking Type", accessor: "type" },
+//   { header: "Date/Time", accessor: "datetime" },
+//   {
+//     header: "Actions",
+//     accessor: () => (
+//       <button className="p-1 rounded hover:bg-gray-100">
+//         <BsThreeDots className="text-gray-400" />
+//       </button>
+//     ),
+//   },
+// ];
+
+// export default function BookingsPage() {
+//   const [search, setSearch] = useState("");
+//   const filtered = bookings.filter(
+//     (b) =>
+//       b.customer.toLowerCase().includes(search.toLowerCase()) ||
+//       b.type.toLowerCase().includes(search.toLowerCase()) ||
+//       b.datetime.toLowerCase().includes(search.toLowerCase())
+//   );
+
+//   return (
+//     <div className="container mx-auto p-4">
+//       <div className="flex justify-between py-2">
+// <h1 className="text-3xl font-bold py-4">Upholstery Bookings</h1>
+//       <div className="flex justify-end mb-2">
+//         <input
+//           type="text"
+//           placeholder="Search Account"
+//           value={search}
+//           onChange={(e) => setSearch(e.target.value)}
+//           className="border rounded-lg px-4 py-2 w-72 focus:outline-none focus:ring-2 focus:ring-primary"
+//         />
+//       </div>
+//       </div>
+      
+//       <div className="">
+//         <TableView
+//           listTitle="All Client Consultations & Pickups"
+//           columns={bookingsColumns}
+//           data={filtered}
+//         />
+//       </div>
+//     </div>
+//   );
+// }
+
+"use client";
+import { useState } from "react";
+import { TableView, Column } from "@/components/table/tableView";
+import SearchInput from "@/components/ui/Input";
+import { BsThreeDots } from "react-icons/bs";
+
+type Booking = {
+  customer: string;
+  type: string;
+  datetime: string;
+};
+
+const bookings: Booking[] = [
+  { customer: "Emily R.", type: "Consultation", datetime: "05/05 – 05:45 PM" },
+  { customer: "Emily R.", type: "Consultation", datetime: "05/05 – 05:45 PM" },
+  { customer: "Emily R.", type: "Consultation", datetime: "05/05 – 05:45 PM" },
+  { customer: "Emily R.", type: "Consultation", datetime: "05/05 – 05:45 PM" },
+  { customer: "Emily R.", type: "Consultation", datetime: "05/05 – 05:45 PM" },
+];
+
+const bookingsColumns: Column<Booking>[] = [
+  { header: "Customer Name", accessor: "customer" },
+  { header: "Booking Type", accessor: "type" },
+  { header: "Date/Time", accessor: "datetime" },
+  {
+    header: "Actions",
+    accessor: () => (
+      <button className="p-1 rounded hover:bg-gray-100">
+        <BsThreeDots className="text-gray-400" />
+      </button>
+    ),
+  },
+];
+
+export default function BookingsPage() {
+  const [search, setSearch] = useState("");
+
+  // Generate suggestions from existing data
+  const searchSuggestions = [
+    ...new Set([
+      ...bookings.map(b => b.customer),
+      ...bookings.map(b => b.type),
+      "Consultation",
+      "Pickup",
+      "Emily R.",
+      "Today",
+      "Tomorrow"
+    ])
+  ];
+
+  const filtered = bookings.filter(
+    (b) =>
+      b.customer.toLowerCase().includes(search.toLowerCase()) ||
+      b.type.toLowerCase().includes(search.toLowerCase()) ||
+      b.datetime.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const handleSearch = (value: string) => {
+    console.log("Searching for:", value);
+    // You can add additional search logic here if needed
+  };
+
+  const handleClear = () => {
+    console.log("Search cleared");
+  };
+
+  return (
+    <div className="container mx-auto p-4">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 py-2">
+        <h1 className="text-2xl  font-bold">Upholstery Bookings</h1>
+        
+        <div className="w-full sm:w-72">
+          <SearchInput
+            placeholder="Search bookings, customers..."
+            value={search}
+            onChange={setSearch}
+            onSearch={handleSearch}
+            onClear={handleClear}
+            suggestions={searchSuggestions}
+            onSuggestionClick={setSearch}
+            size="sm"
+            debounceMs={300}
+            className="w-full"
+          />
+        </div>
+      </div>
+      
+      <div className="mt-4">
+        <TableView
+          listTitle="All Client Consultations & Pickups"
+          columns={bookingsColumns}
+          data={filtered}
+          rowLink={(row) => `/admin/bookings/${encodeURIComponent(row.customer)}`}
+        />
+      </div>
+
+      {/* Show results count */}
+      {search && (
+        <div className="mt-4 text-sm text-gray-600">
+          Found {filtered.length} result{filtered.length !== 1 ? 's' : ''} for "{search}"
+        </div>
+      )}
+    </div>
+  );
+}

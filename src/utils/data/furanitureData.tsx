@@ -147,8 +147,16 @@ export const pillowOrdersColumns: Column<{
   fabric: string;
   date: string;
 }>[] = [
-  { header: "Customer Name", accessor: "customer" },
-  { header: "Pillow Type & Qty", accessor: "pillowType" },
+  {
+    header: "Customer Name",
+    accessor: "customer",
+    link: (row) => `/admin/pillows/${encodeURIComponent(row.customer)}`,
+  },
+  {
+    header: "Pillow Type & Qty",
+    accessor: "pillowType",
+    link: (row) => `/admin/pillows/${encodeURIComponent(row.pillowType)}`,
+  },
   {
     header: "Status",
     accessor: (row) => (
@@ -175,7 +183,11 @@ export const fabricManagementColumns: Column<{
   status: string;
   tracking: string;
 }>[] = [
-  { header: "Fabric Identifier", accessor: "identifier" },
+  {
+    header: "Fabric Identifier",
+    accessor: "identifier",
+    link: (row) => `/admin/fabrics/${encodeURIComponent(row.identifier)}`,
+  },
   { header: "Type (COM/Process)", accessor: "type" },
   {
     header: "Status",
@@ -201,7 +213,11 @@ export const bookingsColumns: Column<{
   type: string;
   datetime: string;
 }>[] = [
-  { header: "Client Name", accessor: "client" },
+  {
+    header: "Client Name",
+    accessor: "client",
+    link: (row) => `/admin/bookings/${encodeURIComponent(row.client)}`,
+  },
   { header: "Booking Type", accessor: "type" },
   { header: "Date/Time", accessor: "datetime" },
   {
@@ -214,9 +230,12 @@ export const bookingsColumns: Column<{
   },
 ];
 
-
 export const upholsteryQuotesColumns: Column<typeof upholsteryQuotes[0]>[] = [
-  { header: "Customer Name", accessor: "customer" },
+  {
+    header: "Customer Name",
+    accessor: "customer",
+    link: (row) => `/admin/upholstrey/${encodeURIComponent(row.customer)}`,
+  },
   { header: "Furniture Type", accessor: "furniture" },
   {
     header: "Status",
@@ -236,5 +255,4 @@ export const upholsteryQuotesColumns: Column<typeof upholsteryQuotes[0]>[] = [
       </button>
     ),
   },
-
 ];
