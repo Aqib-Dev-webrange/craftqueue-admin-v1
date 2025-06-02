@@ -1,9 +1,13 @@
+import Image from "next/image";
+
 export default function FurnitureDetails({ order }: any) {
   return (
     <div className="flex gap-12">
-      <img
+      <Image
         src={order.furnitureImage}
         alt="Furniture"
+        width={256}
+        height={256}
         className="w-64 h-64 rounded-2xl object-cover bg-slate-100"
       />
       <div className="grid grid-cols-2 gap-x-12 gap-y-6 flex-1">

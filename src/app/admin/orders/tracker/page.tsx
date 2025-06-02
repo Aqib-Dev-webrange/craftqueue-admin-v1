@@ -167,7 +167,7 @@ export default function OrderTrackerManager() {
       </div>
 
       {/* Search Results Info */}
-      {search && (
+      {/* {search && (
         <div className="mt-4 text-sm text-gray-600">
           Found {filtered.length} order
           {filtered.length !== 1 ? "s" : ""} for "{search}"
@@ -178,7 +178,7 @@ export default function OrderTrackerManager() {
             </span>
           )}
         </div>
-      )}
+      )} */}
     </div>
   );
 }

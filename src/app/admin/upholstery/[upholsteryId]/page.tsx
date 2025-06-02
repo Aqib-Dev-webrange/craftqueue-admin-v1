@@ -2,12 +2,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa";
-import Image from "next/image";
-
-// Components
-
-
-// Constants (replace with your real imports)
 import { IMAGES } from "@/constants/image";
 import OrderStatusDropdown from "./components/orderStatus";
 import Tabs from "./components/orderTaps";

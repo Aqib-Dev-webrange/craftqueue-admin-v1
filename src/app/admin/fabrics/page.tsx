@@ -156,7 +156,7 @@ export default function FabricPage() {
       </div>
 
       {/* Search Results Info */}
-      {search && (
+      {/* {search && (
         <div className="mt-4 text-sm text-gray-600">
           Found {filtered.length} fabric{filtered.length !== 1 ? 's' : ''} for "{search}"
           {filtered.length === 0 && (
@@ -170,7 +170,7 @@ export default function FabricPage() {
             </span>
           )}
         </div>
-      )}
+      )} */}
     </div>
   );
 }

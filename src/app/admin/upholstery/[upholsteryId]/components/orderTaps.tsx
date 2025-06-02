@@ -1,4 +1,9 @@
-export default function Tabs({ current, onChange }: any) {
+type TabsProps = {
+  current: string;
+  onChange: (tab: string) => void;
+};
+
+export default function Tabs({ current, onChange }: TabsProps) {
   return (
     <div className="flex gap-8 border-b mb-6">
       {["furniture", "orderTrack"].map((tab) => (

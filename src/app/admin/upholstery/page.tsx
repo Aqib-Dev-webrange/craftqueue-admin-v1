@@ -79,7 +79,7 @@ export default function UpholsteryPage() {
       </div>
 
       {/* Search Results Info */}
-      {search && (
+      {/* {search && (
         <div className="mt-4 text-sm text-gray-600">
           Found{" "}
           {filteredQuotes.length} quote
@@ -91,7 +91,7 @@ export default function UpholsteryPage() {
             </span>
           )}
         </div>
-      )}
+      )} */}
     </div>
   );
 }

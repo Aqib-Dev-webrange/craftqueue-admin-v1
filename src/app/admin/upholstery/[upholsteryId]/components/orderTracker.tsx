@@ -1,5 +1,6 @@
 import { FaMapPin } from "react-icons/fa";
 import Stepper from "./stepper";
+import Image from "next/image";
 
 export default function OrdersTrack({ order, steps }: any) {
   return (
@@ -9,14 +10,16 @@ export default function OrdersTrack({ order, steps }: any) {
           <span className="text-2xl font-bold">Order Dispatched</span>
           <span className="text-gray-400 text-lg">Order ID #ADI-1254512</span>
         </div>
-        <img
+        <Image
           src={order.furnitureImage}
           alt="Furniture"
+          width={400}
+          height={400}
           className="w-12 h-12 rounded-lg bg-slate-100"
         />
       </div>
 
-      <Stepper steps={steps} />
+      <Stepper  />
 
       <div className="bg-white rounded-2xl border p-6 mt-8 flex flex-col gap-4 ">
         <div className="flex flex-col  gap-2 text-gray-700 border-b pb-4">

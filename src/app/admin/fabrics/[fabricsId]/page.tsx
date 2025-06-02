@@ -3,14 +3,12 @@ import { useState } from "react";
 import Link from "next/link";
 import {
   FaArrowLeft,
-  FaEnvelope,
-  FaPhone,
-  FaMapMarkerAlt,
 } from "react-icons/fa";
 import CustomerInfo from "@/components/customerInfo";
 import { IMAGES } from "@/constants/image";
 import OrderStatusDropdown from "../../upholstery/[upholsteryId]/components/orderStatus";
 import VendorModal from "../../upholstery/[upholsteryId]/components/assignVendorModal";
+import Image from "next/image";
 
 export default function FabricPage() {
   const [status, setStatus] = useState("Pending");
@@ -63,9 +61,11 @@ export default function FabricPage() {
 
       {/* Fabric Details */}
       <div className="grid grid-cols-3 gap-2 items-start mt-8">
-        <img
+        <Image
           src={fabric.image}
           alt="Fabric"
+          width={384}
+          height={384}
           className="w-96 h-96 rounded-2xl object-cover bg-slate-100"
         />
         <div className="col-span-2 grid grid-cols-2  gap-y-4">

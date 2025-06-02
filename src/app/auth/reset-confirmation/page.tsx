@@ -50,7 +50,7 @@ export default function ResetConfirmationPage() {
           {/* Security Tip */}
           <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-xl">
             <p className="text-xs text-amber-800">
-              💡 <strong>Security Tip:</strong> Keep your password safe and don't share it with anyone.
+              💡 <strong>Security Tip:</strong> {`Keep your password safe and don't share it with anyone.`}
             </p>
           </div>
         </div>

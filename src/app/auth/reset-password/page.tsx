@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { LockIcon, LockKeyholeIcon } from 'lucide-react';
+import { LockKeyholeIcon } from 'lucide-react';
 
 export default function ResetPasswordPage() {
   const [password, setPassword] = useState('');
@@ -99,7 +99,7 @@ export default function ResetPasswordPage() {
                 </button>
               </div>
               {confirmPassword && password !== confirmPassword && (
-                <p className="mt-1 text-xs text-red-600">Passwords don't match</p>
+                <p className="mt-1 text-xs text-red-600">{`Passwords don't match`}</p>
               )}
             </div>
 

@@ -20,7 +20,7 @@ export default function ForgotPasswordPage() {
               <span className="text-2xl text-white">🔑</span>
             </div>
             <h2 className="text-2xl font-bold text-[#3a2415] mb-2">Forgot Password?</h2>
-            <p className="text-gray-600">No worries, we'll send you reset instructions.</p>
+            <p className="text-gray-600">{`No worries, we'll send you reset instructions.`}</p>
           </div>
 
           {!isSubmitted ? (
@@ -52,7 +52,7 @@ export default function ForgotPasswordPage() {
                 <span className="text-2xl text-green-600">✓</span>
               </div>
               <p className="text-gray-600">
-                We've sent a password reset link to <strong>{email}</strong>
+                {`We've sent a password reset link to `}<strong>{email}</strong>
               </p>
               <Link
                 href="/auth/email-verification"
