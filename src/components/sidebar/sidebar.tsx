@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import SidebarItem from "./sidebarItem";
-import SidebarSection from "./sidebarSection";
 import { sidebarData } from "@/utils/data/sidebarData";
 import Image from "next/image";
 import { IMAGES } from "@/constants/image";
