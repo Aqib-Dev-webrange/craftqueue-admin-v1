@@ -2,8 +2,6 @@
 import { useState } from "react";
 import { TableView } from "@/components/table/tableView";
 import SearchInput from "@/components/ui/Input";
-import { IMAGES } from "@/constants/image";
-import Image from "next/image";
 import { BsThreeDots } from "react-icons/bs";
 
 // You can place this in a shared types file
@@ -13,18 +11,18 @@ export interface Column<T> {
   className?: string;
 }
 
-interface OrderRow {
-  orderId: string;
-  productImg: string;
-  productName: string;
-  sellerLogo: string;
-  sellerName: string;
-  customerImg: string;
-  customerName: string;
-  amount: string | number;
-  profit: string | number;
-  // Add other fields as needed
-}
+// interface OrderRow {
+//   orderId: string;
+//   productImg: string;
+//   productName: string;
+//   sellerLogo: string;
+//   sellerName: string;
+//   customerImg: string;
+//   customerName: string;
+//   amount: string | number;
+//   profit: string | number;
+//   // Add other fields as needed
+// }
 
 
 type PillowOrder = {

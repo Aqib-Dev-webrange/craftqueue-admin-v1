@@ -86,7 +86,7 @@ export default function UpholsteryOrderDetail() {
 
   const [status, setStatus] = useState(order.status);
   const [showVendorModal, setShowVendorModal] = useState(false);
-  const [tab, setTab] = useState<"furniture" | "orderTrack">("furniture");
+  // const [tab, setTab] = useState<"furniture" | "orderTrack">("furniture");
 
   return (
     <div className="p-6">
