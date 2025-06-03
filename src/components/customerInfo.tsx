@@ -1,7 +1,18 @@
 import Image from "next/image";
 import { FaEnvelope, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
 
-export default function CustomerInfo({ customer, onAssignVendor }: any) {
+type CustomerInfoProps = {
+  customer: {
+    avatar: string;
+    name: string;
+    email: string;
+    phone: string;
+    address: string;
+  };
+  onAssignVendor: () => void;
+};
+
+export default function CustomerInfo({ customer, onAssignVendor }: CustomerInfoProps) {
   return (
     <div className="flex items-center justify-between gap-4  ">
       <div className="flex items-center gap-4 py-4 ">
