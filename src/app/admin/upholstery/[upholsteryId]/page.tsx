@@ -4,42 +4,29 @@ import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa";
 import { IMAGES } from "@/constants/image";
 import OrderStatusDropdown from "./components/orderStatus";
-import Tabs from "./components/orderTaps";
 import FurnitureDetails from "./components/furnitureDetails";
 import OrdersTrack from "./components/orderTracker";
 import VendorModal from "./components/assignVendorModal";
 import CustomerInfo from "@/components/customerInfo";
+import Tabs from "./components/orderTaps";
 
-const ORDER_STEPS = [
-  {
-    label: "Pick up",
-    date: "12 April, 20",
-    sub: "Islamabad, PK",
-    active: true,
-    img: IMAGES.furniture,
-  },
-  {
-    label: "Dispatched",
-    date: "13 April, 20",
-    sub: "Islamabad, PK",
-    active: false,
-    img: IMAGES.furniture,
-  },
-  {
-    label: "In Transit",
-    date: "14 April, 20",
-    sub: "Lahore, PK",
-    active: false,
-    img: IMAGES.furniture,
-  },
-  {
-    label: "Delivered",
-    date: "15 April, 20",
-    sub: "Karachi, PK",
-    active: false,
-    img: IMAGES.furniture,
-  },
+// Define proper types
+interface Step {
+  id: number;
+  title: string;
+  status: "completed" | "current" | "pending";
+  date?: string;
+}
+
+const ORDER_STEPS: Step[] = [
+  { id: 1, title: "Order Placed", status: "completed", date: "2024-01-15" },
+  { id: 2, title: "Processing", status: "completed", date: "2024-01-16" },
+  { id: 3, title: "Dispatched", status: "current", date: "2024-01-17" },
+  { id: 4, title: "Delivered", status: "pending" },
 ];
+
+// Define tab type
+type TabType = "furniture" | "orderTrack";
 
 export default function UpholsteryOrderDetail() {
   const order = {
@@ -62,12 +49,12 @@ export default function UpholsteryOrderDetail() {
     quoteTotal: "$1,250",
     shipTo: "House Number 2345, 516 Chandler Groves, New Mexico",
     priority: true,
-    productName: "Sofa Reupholstery",
+    productName: "Sofa Reupholsters",
   };
 
   const [status, setStatus] = useState(order.status);
   const [showVendorModal, setShowVendorModal] = useState(false);
-  const [tab, setTab] = useState<"furniture" | "orderTrack">("furniture");
+  const [tab, setTab] = useState<TabType>("furniture");
 
   return (
     <div className="p-6">
@@ -75,18 +62,15 @@ export default function UpholsteryOrderDetail() {
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
           <Link
-            href="/upholstery"
+            href="/admin/upholstery"
             className="mr-2 text-gray-500 hover:text-black flex items-center gap-2"
           >
             <FaArrowLeft className="inline mr-1" />
             <span className="text-xl font-semibold">Order Details</span>
           </Link>
-          
         </div>
         <div className="flex items-center gap-4">
-          <span className="font-medium text-gray-600">
-            Update Order Status
-          </span>
+          <span className="font-medium text-gray-600">Update Order Status</span>
           <OrderStatusDropdown status={status} onChange={setStatus} />
         </div>
       </div>
