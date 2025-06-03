@@ -1,6 +1,16 @@
 import Image from "next/image";
 
-export default function FurnitureDetails({ order }: any) {
+interface FurnitureOrder {
+  furnitureImage: string;
+  furnitureType: string;
+  fabricSource: string;
+  dimensions: string;
+  leadTime: string;
+  upholsteryFeatures: string;
+  priorityQuote: string;
+}
+
+export default function FurnitureDetails({ order }: { order: FurnitureOrder }) {
   return (
     <div className="flex gap-12">
       <Image
