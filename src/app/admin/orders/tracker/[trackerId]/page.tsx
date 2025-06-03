@@ -7,56 +7,57 @@ import OrderStatusDropdown from "@/app/admin/upholstery/[upholsteryId]/component
 import OrdersTrack from "@/app/admin/upholstery/[upholsteryId]/components/orderTracker";
 import VendorModal from "@/app/admin/upholstery/[upholsteryId]/components/assignVendorModal";
 
+// Define the Step interface to match what OrdersTrack expects
+interface Step {
+  id: number;
+  title: string;
+  status: 'completed' | 'current' | 'pending';
+  date?: string;
+}
 
-const ORDER_STEPS = [
+// Convert your existing data to match the Step interface
+const ORDER_STEPS: Step[] = [
   {
-    label: "Quote Submitted",
+    id: 1,
+    title: "Quote Submitted",
     date: "April 12, 2020",
-    sub: "Lahore, PK",
-    active: true,
-    img: IMAGES.furniture,
+    status: "completed",
   },
   {
-    label: "Fabric Confirmed",
+    id: 2,
+    title: "Fabric Confirmed",
     date: "April 13, 2020",
-    sub: "Lahore, PK",
-    active: true,
-    img: IMAGES.furniture,
+    status: "completed",
   },
   {
-    label: "Fabric Received",
+    id: 3,
+    title: "Fabric Received",
     date: "April 14, 2020",
-    sub: "Lahore, PK",
-    active: true,
-    img: IMAGES.furniture,
+    status: "completed",
   },
   {
-    label: "In Production",
+    id: 4,
+    title: "In Production",
     date: "April 14, 2020",
-    sub: "Lahore, PK",
-    active: false,
-    img: IMAGES.furniture,
+    status: "current",
   },
   {
-    label: "Finishing",
+    id: 5,
+    title: "Finishing",
     date: "April 14, 2020",
-    sub: "Lahore, PK",
-    active: false,
-    img: IMAGES.furniture,
+    status: "pending",
   },
   {
-    label: "Ready for Delivery",
+    id: 6,
+    title: "Ready for Delivery",
     date: "April 14, 2020",
-    sub: "Lahore, PK",
-    active: false,
-    img: IMAGES.furniture,
+    status: "pending",
   },
   {
-    label: "Delivered",
+    id: 7,
+    title: "Delivered",
     date: "April 15, 2020",
-    sub: "Lahore, PK",
-    active: false,
-    img: IMAGES.furniture,
+    status: "pending",
   },
 ];
 
@@ -86,7 +87,6 @@ export default function UpholsteryOrderDetail() {
 
   const [status, setStatus] = useState(order.status);
   const [showVendorModal, setShowVendorModal] = useState(false);
-  // const [tab, setTab] = useState<"furniture" | "orderTrack">("furniture");
 
   return (
     <div className="p-6">
@@ -94,13 +94,12 @@ export default function UpholsteryOrderDetail() {
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
           <Link
-            href="/orders/tracker"
+            href="/admin/orders/tracker"
             className="mr-2 text-gray-500 hover:text-black flex items-center gap-2"
           >
             <FaArrowLeft className="inline mr-1" />
-            <span className="text-xl font-semibold">Track Pillow Order </span>
+            <span className="text-xl font-semibold">Track Pillow Order</span>
           </Link>
-          
         </div>
         <div className="flex items-center gap-4">
           <span className="font-medium text-gray-600">
@@ -109,10 +108,12 @@ export default function UpholsteryOrderDetail() {
           <OrderStatusDropdown status={status} onChange={setStatus} />
         </div>
       </div>
-      <OrdersTrack order={order} steps={ORDER_STEPS}/> 
+      
+      <OrdersTrack order={order} steps={ORDER_STEPS} />
+      
       {showVendorModal && (
-                <VendorModal onClose={() => setShowVendorModal(false)} />
-              )}
+        <VendorModal onClose={() => setShowVendorModal(false)} />
+      )}
     </div>
   );
 }
