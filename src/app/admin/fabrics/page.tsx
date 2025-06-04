@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { TableView, Column } from "@/components/table/tableView";
 import SearchInput from "@/components/ui/Input";
-import { BsThreeDots } from "react-icons/bs";
+import ActionDropdown from "../components/actionDropdown";
 
 type Fabric = {
   name: string;
@@ -50,13 +50,24 @@ const fabricColumns: Column<Fabric>[] = [
   { header: "Type of Furniture", accessor: "furniture" },
   {
     header: "Actions",
-    accessor: () => (
-      <button className="p-1 rounded hover:bg-gray-100">
-        <BsThreeDots className="text-gray-400" />
-      </button>
-    ),
+    accessor: (row) => (
+          <ActionDropdown
+            onEdit={() => handleEdit(row)}
+            onClear={() => handleClear(row)}
+          />
+        ),
   },
 ];
+
+const handleEdit = (row: Fabric) => {
+  console.log("Edit fabric:", row);
+  // Implement your edit logic here
+};
+
+const handleClear = (row: Fabric) => {
+  console.log("Clear fabric:", row);
+  // Implement your clear logic here
+};
 
 export default function FabricPage() {
   const [search, setSearch] = useState("");
@@ -112,7 +123,7 @@ export default function FabricPage() {
   };
 
   return (
-    <div className="p-4 sm:p-6">
+    <div className="container mx-auto p-2">
       {/* Header with Search */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
         <h1 className="text-2xl  font-bold">Fabric Management</h1>
@@ -126,7 +137,7 @@ export default function FabricPage() {
             onClear={handleClear}
             suggestions={searchSuggestions}
             onSuggestionClick={setSearch}
-            size="sm"
+            size="md"
             debounceMs={300}
             className="w-full"
           />
@@ -143,16 +154,6 @@ export default function FabricPage() {
         />
         
         {/* Load More Button */}
-        {visibleCount < filtered.length && (
-          <div className="flex justify-center mt-4 pb-4">
-            <button
-              className="px-6 py-2 rounded-lg bg-gray-100 font-semibold hover:bg-gray-200 transition-colors"
-              onClick={() => setVisibleCount((c) => c + 5)}
-            >
-              Explore More ({filtered.length - visibleCount} remaining)
-            </button>
-          </div>
-        )}
       </div>
 
       {/* Search Results Info */}

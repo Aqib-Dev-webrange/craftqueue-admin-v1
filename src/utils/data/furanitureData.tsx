@@ -1,5 +1,5 @@
-import { BsThreeDots } from "react-icons/bs";
-import { Column } from "@/components/table/tableView"; // adjust the import path if needed
+import ActionDropdown from "@/app/admin/components/actionDropdown";
+import { Column } from "@/components/table/tableView";
 
 export const upholsteryQuotes = [
   {
@@ -150,12 +150,12 @@ export const pillowOrdersColumns: Column<{
   {
     header: "Customer Name",
     accessor: "customer",
-    link: (row) => `/admin/pillows/${encodeURIComponent(row.customer)}`,
+    // link: (row) => `/admin/pillows/${encodeURIComponent(row.customer)}`,
   },
   {
     header: "Pillow Type & Qty",
     accessor: "pillowType",
-    link: (row) => `/admin/pillows/${encodeURIComponent(row.pillowType)}`,
+    // link: (row) => `/admin/pillows/${encodeURIComponent(row.pillowType)}`,
   },
   {
     header: "Status",
@@ -169,10 +169,11 @@ export const pillowOrdersColumns: Column<{
   { header: "Order Date", accessor: "date" },
   {
     header: "Actions",
-    accessor: () => (
-      <button className="p-1 rounded hover:bg-gray-100">
-        <BsThreeDots className="text-gray-400" />
-      </button>
+    accessor: (row) => (
+      <ActionDropdown
+        onEdit={() => handleEditPillow(row)}
+        onClear={() => handleClearPillow(row)}
+      />
     ),
   },
 ];
@@ -186,7 +187,7 @@ export const fabricManagementColumns: Column<{
   {
     header: "Fabric Identifier",
     accessor: "identifier",
-    link: (row) => `/admin/fabrics/${encodeURIComponent(row.identifier)}`,
+    // link: (row) => `/admin/fabrics/${encodeURIComponent(row.identifier)}`,
   },
   { header: "Type (COM/Process)", accessor: "type" },
   {
@@ -200,10 +201,11 @@ export const fabricManagementColumns: Column<{
   { header: "Tracking Number", accessor: "tracking" },
   {
     header: "Actions",
-    accessor: () => (
-      <button className="p-1 rounded hover:bg-gray-100">
-        <BsThreeDots className="text-gray-400" />
-      </button>
+    accessor: (row) => (
+      <ActionDropdown
+        onEdit={() => handleEditFabric(row)}
+        onClear={() => handleClearFabric(row)}
+      />
     ),
   },
 ];
@@ -216,16 +218,17 @@ export const bookingsColumns: Column<{
   {
     header: "Client Name",
     accessor: "client",
-    link: (row) => `/admin/bookings/${encodeURIComponent(row.client)}`,
+    // link: (row) => `/admin/bookings/${encodeURIComponent(row.client)}`,
   },
   { header: "Booking Type", accessor: "type" },
   { header: "Date/Time", accessor: "datetime" },
   {
     header: "Actions",
-    accessor: () => (
-      <button className="p-1 rounded hover:bg-gray-100">
-        <BsThreeDots className="text-gray-400" />
-      </button>
+    accessor: (row) => (
+      <ActionDropdown
+        onEdit={() => handleEditBooking(row)}
+        onClear={() => handleClearBooking(row)}
+      />
     ),
   },
 ];
@@ -234,7 +237,7 @@ export const upholsteryQuotesColumns: Column<typeof upholsteryQuotes[0]>[] = [
   {
     header: "Customer Name",
     accessor: "customer",
-    link: (row) => `/admin/upholstrey/${encodeURIComponent(row.customer)}`,
+    // link: (row) => `/admin/upholstrey/${encodeURIComponent(row.customer)}`,
   },
   { header: "Furniture Type", accessor: "furniture" },
   {
@@ -249,10 +252,50 @@ export const upholsteryQuotesColumns: Column<typeof upholsteryQuotes[0]>[] = [
   { header: "Date", accessor: "date" },
   {
     header: "Actions",
-    accessor: () => (
-      <button className="p-1 rounded hover:bg-gray-100">
-        <BsThreeDots className="text-gray-400" />
-      </button>
+    accessor: (row) => (
+      <ActionDropdown
+        onEdit={() => handleEdit(row)}
+        onClear={() => handleClear(row)}
+      />
     ),
   },
 ];
+
+// Handler functions (add these to your component that uses the tables)
+const handleEdit = (row: typeof upholsteryQuotes[0]) => {
+  console.log("Edit upholstery quote:", row);
+  // Add edit logic here
+};
+
+const handleClear = (row: typeof upholsteryQuotes[0]) => {
+  console.log("Clear upholstery quote:", row);
+  // Add clear logic here
+};
+const handleEditPillow = (row: typeof pillowOrders[0]) => {
+  console.log("Edit pillow order:", row);
+  // Add edit logic here
+};
+const handleClearPillow = (row: typeof pillowOrders[0]) => {
+  console.log("Clear pillow order:", row);
+  // Add clear logic here
+};
+
+const handleEditFabric = (row: typeof fabricManagement[0]) => {
+  console.log("Edit fabric management:", row);
+  // Add edit logic here
+};
+
+const handleClearFabric = (row: typeof fabricManagement[0]) => {
+  console.log("Clear fabric management:", row);
+  // Add clear logic here
+};
+
+const handleEditBooking = (row: typeof bookings[0]) => {
+  console.log("Edit booking:", row);
+  // Add edit logic here
+};
+
+const handleClearBooking = (row: typeof bookings[0]) => {
+  console.log("Clear booking:", row);
+  // Add clear logic here
+};

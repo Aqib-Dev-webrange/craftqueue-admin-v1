@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { TableView, Column } from "@/components/table/tableView";
 import SearchInput from "@/components/ui/Input";
-import { BsThreeDots } from "react-icons/bs";
+import ActionDropdown from "../components/actionDropdown";
 
 type Booking = {
   customer: string;
@@ -24,13 +24,24 @@ const bookingsColumns: Column<Booking>[] = [
   { header: "Date/Time", accessor: "datetime" },
   {
     header: "Actions",
-    accessor: () => (
-      <button className="p-1 rounded hover:bg-gray-100">
-        <BsThreeDots className="text-gray-400" />
-      </button>
-    ),
+    accessor: (row) => (
+          <ActionDropdown
+            onEdit={() => handleEdit(row)}
+            onClear={() => handleClear(row)}
+          />
+        ),
   },
 ];
+
+const handleEdit = (row: Booking) => {
+  console.log("Edit booking:", row);
+  // Implement your edit logic here
+}
+
+const handleClear = (row: Booking) => {
+  console.log("Clear booking:", row);
+  // Implement your clear logic here
+};
 
 export default function BookingsPage() {
   const [search, setSearch] = useState("");
@@ -65,7 +76,7 @@ export default function BookingsPage() {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-2">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 py-2">
         <h1 className="text-2xl  font-bold">Upholstery Bookings</h1>
         
@@ -78,7 +89,7 @@ export default function BookingsPage() {
             onClear={handleClear}
             suggestions={searchSuggestions}
             onSuggestionClick={setSearch}
-            size="sm"
+            size="md"
             debounceMs={300}
             className="w-full"
           />
@@ -93,13 +104,6 @@ export default function BookingsPage() {
           rowLink={(row) => `/admin/bookings/${encodeURIComponent(row.customer)}`}
         />
       </div>
-
-      {/* Show results count */}
-      {/* {search && (
-        <div className="mt-4 text-sm text-gray-600">
-          Found {filtered.length} result{filtered.length !== 1 ? 's' : ''} for "{search}"
-        </div>
-      )} */}
     </div>
   );
 }
