@@ -35,7 +35,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gray-100 flex items-center font-poppins justify-center p-4">
       <div className="w-full max-w-md bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8">
         {/* Logo/Brand */}
         <div className="text-center mb-8 ">
@@ -48,7 +48,7 @@ export default function LoginPage() {
               className="object-contain"
             />
           </div>
-          <h1 className="text-2xl font-semibold text-gray-700 mb-2">Login to your account</h1>
+          <h1 className="text-2xl  text-gray-700 mb-2">Login to your account</h1>
         </div>
 
         {/* Login Form */}
@@ -63,7 +63,7 @@ export default function LoginPage() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl  focus:ring-2 focus:ring-[#8b6b47] focus:border-transparent transition-all bg-gray-50"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-1 focus:ring-primary focus:border-transparent transition-all bg-gray-50"
                 placeholder="Enter your email"
               />
             </div>
@@ -78,7 +78,7 @@ export default function LoginPage() {
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#8b6b47] focus:border-transparent transition-all pr-12 bg-gray-50"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-1 focus:ring-primary focus:border-transparent transition-all pr-12 bg-gray-50"
                   placeholder="Enter your password"
                 />
                 <button
@@ -104,7 +104,7 @@ export default function LoginPage() {
             {/* Login Button */}
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-[#8b6b47] via-[#a67c52] to-[#c49a73] py-3 rounded-xl font-semibold hover:from-[#c49a73] hover:to-[#8b6b47] transform hover:scale-[1.02] transition-all duration-200 shadow-lg text-white focus:outline-none focus:ring-2 focus:ring-[#8b6b47] focus:ring-offset-2"
+              className="w-full bg-gradient-to-r from-[#8b6b47] via-[#a67c52] to-[#c49a73] py-3 rounded-xl  hover:from-[#c49a73] hover:to-[#8b6b47] transform hover:scale-[1.02] transition-all duration-200 shadow-lg text-white focus:outline-none focus:ring-2 focus:ring-[#8b6b47] focus:ring-offset-2"
             >
               Login
             </button>
@@ -112,7 +112,7 @@ export default function LoginPage() {
 
           {/* Change Password Link */}
           <div className="mt-6 text-center">
-            <Link href="/auth/forgot-password" className="text-sm text-gray-500 hover:text-[#8b6b47] underline font-medium">
+            <Link href="/auth/forgot-password" className="text-sm text-gray-500 hover:text-[#8b6b47] underline ">
               Change Password
             </Link>
           </div>

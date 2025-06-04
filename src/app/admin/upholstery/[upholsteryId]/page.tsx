@@ -22,7 +22,7 @@ const ORDER_STEPS: Step[] = [
   { id: 1, title: "Order Placed", status: "completed", date: "2024-01-15" },
   { id: 2, title: "Processing", status: "completed", date: "2024-01-16" },
   { id: 3, title: "Dispatched", status: "current", date: "2024-01-17" },
-  { id: 4, title: "Delivered", status: "pending" },
+  { id: 4, title: "Delivered", status: "pending", date: "2024-01-20" },
 ];
 
 // Define tab type

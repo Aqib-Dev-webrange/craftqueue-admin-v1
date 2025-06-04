@@ -2,8 +2,7 @@
 import { useState } from "react";
 import { TableView, Column } from "@/components/table/tableView";
 import SearchInput from "@/components/ui/Input";
-import { BsThreeDots } from "react-icons/bs";
-// import Link from "next/link";
+import ActionDropdown from "../../components/actionDropdown";
 
 type TextileOrder = {
   customer: string;
@@ -77,13 +76,22 @@ const textileColumns: Column<TextileOrder>[] = [
   },
   {
     header: "Actions",
-    accessor: () => (
-      <button className="p-1 rounded hover:bg-gray-100">
-        <BsThreeDots className="text-gray-400" />
-      </button>
-    ),
+    accessor: (row) => (
+          <ActionDropdown
+            onEdit={() => handleEdit(row)}
+            onClear={() => handleClear(row)}
+          />
+        ),
   },
 ];
+
+const handleEdit = (row: TextileOrder) => {
+  console.log("Edit order:", row);
+}
+
+const handleClear = (row: TextileOrder) => {
+  console.log("Clear order:", row);
+};
 
 export default function OrderTrackerManager() {
   const [search, setSearch] = useState("");
@@ -133,7 +141,7 @@ export default function OrderTrackerManager() {
   };
 
   return (
-    <div className="p-4 sm:p-6">
+    <div className="container mx-auto p-2">
       {/* Header with Search */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
         <h1 className="text-2xl  font-bold">
@@ -149,7 +157,7 @@ export default function OrderTrackerManager() {
             onClear={handleClear}
             suggestions={searchSuggestions}
             onSuggestionClick={setSearch}
-            size="sm"
+            size="md"
             debounceMs={300}
             className="w-full"
           />

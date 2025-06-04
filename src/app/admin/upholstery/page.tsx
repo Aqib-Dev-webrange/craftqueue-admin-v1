@@ -47,10 +47,10 @@ export default function UpholsteryPage() {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-2 ">
       {/* Header with Search */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
-        <h2 className="text-2xl  font-semibold">Upholstery Quotes</h2>
+        <h2 className="text-2xl font-semibold">Upholstery Quotes</h2>
 
         <div className="w-full sm:w-80">
           <SearchInput
@@ -61,7 +61,7 @@ export default function UpholsteryPage() {
             onClear={handleClear}
             suggestions={searchSuggestions}
             onSuggestionClick={setSearch}
-            size="sm"
+            size="md"
             debounceMs={300}
             className="w-full"
           />
@@ -77,21 +77,6 @@ export default function UpholsteryPage() {
           rowLink={(row) => `/admin/upholstery/${encodeURIComponent(row.customer)}`}
         />
       </div>
-
-      {/* Search Results Info */}
-      {/* {search && (
-        <div className="mt-4 text-sm text-gray-600">
-          Found{" "}
-          {filteredQuotes.length} quote
-          {filteredQuotes.length !== 1 ? "s" : ""} for "{search}"
-          {filteredQuotes.length === 0 && (
-            <span className="block mt-1 text-gray-500">
-              Try searching for customer names, furniture types, fabrics, or quote
-              status
-            </span>
-          )}
-        </div>
-      )} */}
     </div>
   );
 }

@@ -10,12 +10,12 @@ interface TabsProps {
 
 export default function Tabs({ current, onChange }: TabsProps) {
   const tabs = [
-    { id: "furniture" as const, label: "Furniture Details", icon: "🪑" },
-    { id: "orderTrack" as const, label: "Order Tracking", icon: "📦" },
+    { id: "furniture" as const, label: "Furniture Details"},
+    { id: "orderTrack" as const, label: "Order Tracking"},
   ];
 
   return (
-    <div className="border-b border-gray-200 mb-6">
+    <div className="border-b border-gray-200 mb-6 font-poppins">
       <nav className="flex space-x-8">
         {tabs.map((tab) => (
           <button
@@ -29,7 +29,7 @@ export default function Tabs({ current, onChange }: TabsProps) {
               }
             `}
           >
-            <span>{tab.icon}</span>
+            {/* <span>{tab.icon}</span> */}
             {tab.label}
           </button>
         ))}

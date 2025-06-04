@@ -30,8 +30,8 @@ export default function VendorModal({ onClose, onAssign }: VendorModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl px-8 py-6 min-w-[340px] max-w-md w-full shadow-2xl relative animate-fade-in">
+    <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50 p-2">
+      <div className="bg-white rounded-2xl px-6 py-4 min-w-[400px] max-w-md w-full shadow-2xl relative animate-fade-in">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <h1 className="font-semibold text-lg text-gray-800">Assign Vendor to Order</h1>
@@ -44,13 +44,16 @@ export default function VendorModal({ onClose, onAssign }: VendorModalProps) {
           </button>
         </div>
 
+        <div className="absolute left-0 top-12 h-[1px] bg-gray-200 w-full"/>
+
         {/* Vendor Selection */}
         <div className="mb-6">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Select Vendor
           </label>
-          <select 
-            className="border border-gray-300 rounded-lg w-full px-3 py-2 focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+          <div className='border border-gray-200 rounded-lg overflow-hidden p-2'>
+<select 
+            className="rounded-lg w-full  focus:outline-none "
             value={selectedVendor}
             onChange={(e) => setSelectedVendor(e.target.value)}
           >
@@ -60,6 +63,8 @@ export default function VendorModal({ onClose, onAssign }: VendorModalProps) {
               </option>
             ))}
           </select>
+          </div>
+          
         </div>
 
         {/* Action Buttons */}

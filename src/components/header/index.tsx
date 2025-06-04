@@ -44,7 +44,7 @@ const Header: React.FC<{ user: User }> = ({ user }) => {
   };
 
   return (
-    <div className="flex justify-between items-center px-2 sm:px-6 py-2">
+    <div className="flex justify-between items-center px-4 sm:px-4 py-2">
       {/* Left - Greeting (Hidden on mobile) */}
       <div className="hidden sm:block">
         <p className="text-sm text-gray-500">{getCurrentDate()}</p>

@@ -85,7 +85,7 @@ export default function Sidebar() {
     <>
       {/* Hamburger for mobile */}
       <button
-        className="md:hidden fixed top-4 left-4 z-50 bg-primary p-2 rounded"
+        className="md:hidden fixed top-4 left-4 z-[60] bg-primary p-2 rounded"
         onClick={() => setMobileOpen(true)}
         aria-label="Open sidebar"
       >

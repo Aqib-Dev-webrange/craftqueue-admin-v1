@@ -34,14 +34,14 @@ export default function ResetConfirmationPage() {
           <div className="space-y-4">
             <Link
               href="/auth/login"
-              className="block w-full bg-primary text-white py-3 rounded-xl font-semibold hover:from-[#5d3a24] hover:to-[#3a2415] transform hover:scale-[1.02] transition-all duration-200 shadow-lg"
+              className="block w-full bg-primary text-white py-3 rounded-xl  hover:from-[#5d3a24] hover:to-[#3a2415] transform hover:scale-[1.02] transition-all duration-200 shadow-lg"
             >
               Continue to Login
             </Link>
 
             <Link
-              href="/dashboard"
-              className="block w-full bg-white border-2 border-[#3a2415] text-[#3a2415] py-3 rounded-xl font-semibold hover:bg-[#3a2415] hover:text-white transition-all"
+              href="/admin"
+              className="block w-full bg-white border border-primary text-primary py-3 rounded-xl hover:bg-primary hover:text-white transition-all"
             >
               Go to Dashboard
             </Link>

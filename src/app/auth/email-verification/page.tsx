@@ -29,13 +29,13 @@ export default function EmailVerificationPage() {
             <MdMarkEmailRead className="text-4xl text-white" />
           </div>
           
-          <h2 className="text-2xl font-bold text-[#3a2415] mb-4">Check Your Email</h2>
+          <h2 className="text-2xl font-bold text-primary mb-4">Check Your Email</h2>
           <p className="text-gray-600 mb-6">
             We sent a verification link to your email address. Click the link to verify your account.
           </p>
 
           <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
-            <p className="text-sm text-amber-800">
+            <p className="text-sm text-primary">
               {`Didn't receive the email? Check your spam folder or wait ${timeLeft}s to resend.`}
             </p>
           </div>
@@ -46,7 +46,7 @@ export default function EmailVerificationPage() {
               disabled={!canResend}
               className={`w-full py-3 rounded-xl font-semibold transition-all ${
                 canResend
-                  ? 'bg-gradient-to-r from-[#3a2415] to-[#5d3a24] text-white hover:from-[#5d3a24] hover:to-[#3a2415] transform hover:scale-[1.02]'
+                  ? 'bg-gradient-to-r from-primary to-[#5d3a24] text-white hover:from-[#5d3a24] hover:to-primary transform hover:scale-[1.02]'
                   : 'bg-gray-300 text-gray-500 cursor-not-allowed'
               }`}
             >
@@ -55,7 +55,7 @@ export default function EmailVerificationPage() {
 
             <Link
               href="/auth/reset-password"
-              className="block w-full bg-white border-2 border-[#3a2415] text-[#3a2415] py-3 rounded-xl font-semibold hover:bg-[#3a2415] hover:text-white transition-all"
+              className="block w-full bg-white border-2 border-primary text-primary py-3 rounded-xl font-semibold hover:bg-primary hover:text-white transition-all"
             >
               I Got The Email
             </Link>

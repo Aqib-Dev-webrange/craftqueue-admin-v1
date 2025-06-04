@@ -12,14 +12,14 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gray-100 flex items-center font-poppins justify-center p-4">
       <div className="w-full max-w-md">
         <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8">
           <div className="text-center mb-6">
             <div className="w-16 h-16 bg-gradient-to-r from-primary to-[#5d3a24] rounded-full flex items-center justify-center mx-auto mb-4">
               <span className="text-2xl text-white">🔑</span>
             </div>
-            <h2 className="text-2xl font-bold text-[#3a2415] mb-2">Forgot Password?</h2>
+            <h2 className="text-2xl  text-primary mb-2">Forgot Password?</h2>
             <p className="text-gray-600">{`No worries, we'll send you reset instructions.`}</p>
           </div>
 
@@ -33,7 +33,7 @@ export default function ForgotPasswordPage() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#3a2415] focus:border-transparent transition-all"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-1 focus:ring-[#3a2415] focus:border-transparent transition-all"
                   placeholder="Enter your email"
                   required
                 />
@@ -41,7 +41,7 @@ export default function ForgotPasswordPage() {
 
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-primary to-[#5d3a24] text-white py-3 rounded-xl font-semibold hover:from-[#5d3a24] hover:to-primary transform hover:scale-[1.02] transition-all duration-200 shadow-lg"
+                className="w-full bg-gradient-to-r from-primary to-[#5d3a24] text-white py-3 rounded-xl  hover:from-[#5d3a24] hover:to-primary transform hover:scale-[1.02] transition-all duration-200 shadow-lg"
               >
                 Reset Password
               </button>
@@ -56,7 +56,7 @@ export default function ForgotPasswordPage() {
               </p>
               <Link
                 href="/auth/email-verification"
-                className="inline-block bg-gradient-to-r from-[#8b6b47] via-[#a67c52] to-[#c49a73] text-white px-6 py-3 rounded-xl font-semibold hover:from-[#5d3a24] hover:to-[#3a2415] transition-all"
+                className="inline-block bg-gradient-to-r from-[#8b6b47] via-[#a67c52] to-[#c49a73] text-white px-6 py-3 rounded-xl font-semibold hover:from-[#5d3a24] hover:to-primary transition-all"
               >
                 Check Your Email
               </Link>
