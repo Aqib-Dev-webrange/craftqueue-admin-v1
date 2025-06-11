@@ -49,22 +49,24 @@ export function Category(props: React.SVGProps<SVGSVGElement>) {
 export function Sofa(props: React.SVGProps<SVGSVGElement>) {
   return (
 
-    <svg width="24" height="25" viewBox="0 0 24 25" fill="currentColor" xmlns="http://www.w3.org/2000/svg" {...props}>
-      <path d="M2 12.65C3.56208 12.1975 4.43788 12.1798 6 12.65V20.65H2V12.65Z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" />
-      <path d="M18 12.65C19.5621 12.2429 20.4379 12.2557 22 12.65V20.65H18V12.65Z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" />
-      <rect x="6" y="15.65" width="12" height="5" stroke="currentColor" strokeWidth="1.3" />
-      <path d="M4 12.65L4 7.34502C4 6.36699 4.7069 5.52878 5.67472 5.38789C10.3214 4.71147 13.5495 4.71317 18.3166 5.3929C19.2881 5.53143 20 6.37121 20 7.35256V12.65" stroke="currentColor" strokeWidth="1.3" />
-      <path d="M19 20.65H21V22.65H20L19 20.65Z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" />
-      <path d="M5 20.65H3V22.65H4L5 20.65Z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" />
-      <circle cx="8.5" cy="8.15002" r="0.5" fill="currentColor" />
-      <circle cx="8.5" cy="12.15" r="0.5"  fill="currentColor"/>
-      <circle cx="12.5" cy="8.15002" r="0.5" fill="currentColor" />
-      <circle cx="12.5" cy="12.15" r="0.5"  fill="currentColor"/>
-      <circle cx="10.5" cy="10.15" r="0.5"  fill="currentColor"/>
-      <circle cx="16.5" cy="8.15002" r="0.5"  fill="currentColor"/>
-      <circle cx="16.5" cy="12.15" r="0.5" fill="currentColor" />
-      <circle cx="14.5" cy="10.15" r="0.5"  fill="currentColor"/>
-    </svg>
+    
+<svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+<path d="M2 12.6501C3.56208 12.1976 4.43788 12.1799 6 12.6501V20.6501H2V12.6501Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+<path d="M18 12.6501C19.5621 12.243 20.4379 12.2557 22 12.6501V20.6501H18V12.6501Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+<rect x="6" y="15.6501" width="12" height="5" stroke="currentColor" stroke-width="1.3"/>
+<path d="M4 12.6501L4 7.34511C4 6.36708 4.7069 5.52887 5.67472 5.38798C10.3214 4.71156 13.5495 4.71326 18.3166 5.39299C19.2881 5.53152 20 6.37131 20 7.35265V12.6501" stroke="currentColor" stroke-width="1.3"/>
+<path d="M19 20.6501H21V22.6501H20L19 20.6501Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+<path d="M5 20.6501H3V22.6501H4L5 20.6501Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+<circle cx="8.5" cy="8.15005" r="0.5" fill="currentColor"/>
+<circle cx="8.5" cy="12.1501" r="0.5" fill="currentColor"/>
+<circle cx="12.5" cy="8.15005" r="0.5" fill="currentColor"/>
+<circle cx="12.5" cy="12.1501" r="0.5" fill="currentColor"/>
+<circle cx="10.5" cy="10.1501" r="0.5" fill="currentColor"/>
+<circle cx="16.5" cy="8.15005" r="0.5" fill="currentColor"/>
+<circle cx="16.5" cy="12.1501" r="0.5" fill="currentColor"/>
+<circle cx="14.5" cy="10.1501" r="0.5" fill="currentColor"/>
+</svg>
+
 
   );
 }
@@ -110,19 +112,21 @@ export function Pillow(props: React.SVGProps<SVGSVGElement>) {
 }
 export function Calendar(props: React.SVGProps<SVGSVGElement>) {
   return (
-<svg width="24" height="25" viewBox="0 0 24 25" fill="currentColor" xmlns="http://www.w3.org/2000/svg" {...props}>
-<path d="M11.5 22.4C11.9142 22.4 12.25 22.0642 12.25 21.65C12.25 21.2358 11.9142 20.9 11.5 20.9V22.4ZM11.5 21.65V20.9H6.5V21.65V22.4H11.5V21.65ZM6.5 21.65V20.9C5.25736 20.9 4.25 19.8927 4.25 18.65H3.5H2.75C2.75 20.7211 4.42893 22.4 6.5 22.4V21.65Z" />
-<path d="M20.7505 12.15C20.7505 12.5642 21.0863 12.9 21.5005 12.9C21.9147 12.9 22.2505 12.5642 22.2505 12.15H20.7505ZM2.52838 16.3372L3.21374 16.6418L2.52838 16.3372ZM10.6 19.4C11.0142 19.4 11.35 19.0642 11.35 18.65C11.35 18.2358 11.0142 17.9 10.6 17.9V19.4ZM7.00047 4.65002V5.40002H18.0005V4.65002V3.90002H7.00047V4.65002ZM10.6 18.65V17.9H4.03141V18.65V19.4H10.6V18.65ZM3.50047 11.7565H4.25047V8.15002H3.50047H2.75047V11.7565H3.50047ZM3.50047 11.7565H2.75047C2.75047 13.2297 2.44132 14.6864 1.84302 16.0326L2.52838 16.3372L3.21374 16.6418C3.89728 15.1039 4.25047 13.4396 4.25047 11.7565H3.50047ZM4.03141 18.65V17.9C3.38389 17.9 2.95075 17.2335 3.21374 16.6418L2.52838 16.3372L1.84302 16.0326C1.13918 17.6163 2.2984 19.4 4.03141 19.4V18.65ZM18.0005 4.65002V5.40002C19.5192 5.40002 20.7505 6.63124 20.7505 8.15002H21.5005H22.2505C22.2505 5.80281 20.3477 3.90002 18.0005 3.90002V4.65002ZM7.00047 4.65002V3.90002C4.65326 3.90002 2.75047 5.80281 2.75047 8.15002H3.50047H4.25047C4.25047 6.63124 5.48168 5.40002 7.00047 5.40002V4.65002ZM21.5005 8.15002H20.7505V12.15H21.5005H22.2505V8.15002H21.5005Z" />
-<path d="M9 3.65002V5.65002M16 3.65002V5.65002" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-<path d="M8 9.65002H8.25" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-<path d="M8 13.65H8.25" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-<path d="M12 9.65002H12.25" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-<path d="M12 13.65H12.25" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-<path d="M16 9.65002H16.25" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-<path d="M17.75 16.9L17.75 18.4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-<path d="M17.7499 18.4001L16.2996 19.1252" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-<circle cx="17.75" cy="18.4" r="4" stroke="currentColor" strokeWidth="1.5"/>
+
+<svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+<path d="M11.5 22.4001C11.9142 22.4001 12.25 22.0643 12.25 21.6501C12.25 21.2358 11.9142 20.9001 11.5 20.9001V22.4001ZM11.5 21.6501V20.9001H6.5V21.6501V22.4001H11.5V21.6501ZM6.5 21.6501V20.9001C5.25736 20.9001 4.25 19.8927 4.25 18.6501H3.5H2.75C2.75 20.7211 4.42893 22.4001 6.5 22.4001V21.6501Z" fill="currentColor"/>
+<path d="M20.7505 12.1501C20.7505 12.5643 21.0863 12.9001 21.5005 12.9001C21.9147 12.9001 22.2505 12.5643 22.2505 12.1501H20.7505ZM2.52838 16.3372L3.21374 16.6418L2.52838 16.3372ZM10.6 19.4001C11.0142 19.4001 11.35 19.0643 11.35 18.6501C11.35 18.2358 11.0142 17.9001 10.6 17.9001V19.4001ZM7.00047 4.65005V5.40005H18.0005V4.65005V3.90005H7.00047V4.65005ZM10.6 18.6501V17.9001H4.03141V18.6501V19.4001H10.6V18.6501ZM3.50047 11.7566H4.25047V8.15006H3.50047H2.75047V11.7566H3.50047ZM3.50047 11.7566H2.75047C2.75047 13.2297 2.44132 14.6865 1.84302 16.0326L2.52838 16.3372L3.21374 16.6418C3.89728 15.1039 4.25047 13.4396 4.25047 11.7566H3.50047ZM4.03141 18.6501V17.9001C3.38389 17.9001 2.95075 17.2336 3.21374 16.6418L2.52838 16.3372L1.84302 16.0326C1.13918 17.6163 2.2984 19.4001 4.03141 19.4001V18.6501ZM18.0005 4.65005V5.40005C19.5192 5.40005 20.7505 6.63127 20.7505 8.15006H21.5005H22.2505C22.2505 5.80285 20.3477 3.90005 18.0005 3.90005V4.65005ZM7.00047 4.65005V3.90005C4.65326 3.90005 2.75047 5.80285 2.75047 8.15006H3.50047H4.25047C4.25047 6.63127 5.48168 5.40005 7.00047 5.40005V4.65005ZM21.5005 8.15006H20.7505V12.1501H21.5005H22.2505V8.15006H21.5005Z" fill="currentColor"/>
+<path d="M9 3.65005V5.65005M16 3.65005V5.65005" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M8 9.65005H8.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M8 13.6501H8.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12 9.65005H12.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12 13.6501H12.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M16 9.65005H16.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M17.75 16.9001L17.75 18.4001" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M17.7502 18.4001L16.2998 19.1252" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+<circle cx="17.75" cy="18.4001" r="4" stroke="currentColor" stroke-width="1.5"/>
 </svg>
+
  );
 }
 export function BoxFast (props: React.SVGProps<SVGSVGElement>) {

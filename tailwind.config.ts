@@ -12,6 +12,7 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
         primary: "#745535",
+        secondary: "#48525B",
                 brand: {
           50: "#faf8f5",
           100: "#f5f0e8",
@@ -23,6 +24,9 @@ export default {
           700: "#88653e",
           800: "#745535", // Your primary color
           900: "#5f452b",
+        },
+        gray: {
+          500: "#A1A5B7"
         },
         // Warm neutrals from your palette
         warm: {
@@ -42,7 +46,10 @@ export default {
         package: ["var(--font-geist-sans)"],
         poppins: ["Poppins", "sans-serif"],
         mono: ["var(--font-geist-mono)"],
-      }
+        inter: ["Inter", "sans-serif"], 
+        dmSans: ["DM Sans", "sans-serif"],
+      },
+      
     },
   },
   plugins: [],

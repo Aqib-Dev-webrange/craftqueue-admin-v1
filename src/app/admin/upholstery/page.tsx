@@ -50,11 +50,11 @@ export default function UpholsteryPage() {
     <div className="container mx-auto p-2 ">
       {/* Header with Search */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
-        <h2 className="text-2xl font-semibold">Upholstery Quotes</h2>
+        <h2 className="text-[24px] font-dmSans ">Upholstery Quotes</h2>
 
         <div className="w-full sm:w-80">
           <SearchInput
-            placeholder="Search quotes, customers, furniture..."
+            placeholder="Search "
             value={search}
             onChange={setSearch}
             onSearch={handleSearch}

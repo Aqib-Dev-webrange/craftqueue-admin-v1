@@ -60,46 +60,46 @@ export default function FabricPage() {
       </div>
 
       {/* Fabric Details */}
-      <div className="grid grid-cols-3 gap-2 items-start mt-8">
+      <div className="flex gap-10 p-6">
         <Image
           src={fabric.image}
           alt="Fabric"
           width={384}
           height={384}
-          className="w-96 h-96 rounded-2xl object-cover bg-slate-100"
+          className="w-72 h-72 rounded-2xl object-cover bg-slate-100"
         />
-        <div className="col-span-2 grid grid-cols-2  gap-y-4">
+        <div className="grid grid-cols-2 gap-x-14 gap-y-10 font-poppins font-semibold text-[18px] tracking-[1.2px]">
           <div>
-            <div className="text-gray-400 font-semibold">Cotton Blend</div>
-            <div className="font-bold text-lg">{fabric.blend}</div>
+            <div className="text-gray-500 py-2">Cotton Blend</div>
+            <div className=" ">{fabric.blend}</div>
           </div>
           <div>
-            <div className="text-gray-400 font-semibold">Shipment ID</div>
-            <div className="font-bold text-lg">{fabric.shipmentId}</div>
+            <div className="text-gray-500 py-2">Shipment ID</div>
+            <div className="">{fabric.shipmentId}</div>
           </div>
           <div>
-            <div className="text-gray-400 font-semibold">Material Type</div>
-            <div className="font-bold text-lg">{fabric.materialType}</div>
+            <div className="text-gray-500 py-2">Material Type</div>
+            <div className="">{fabric.materialType}</div>
           </div>
           <div>
-            <div className="text-gray-400 font-semibold">
+            <div className="text-gray-500 py-2">
               Order Reference ID
             </div>
-            <div className="font-bold text-lg">{fabric.orderRef}</div>
+            <div className="">{fabric.orderRef}</div>
           </div>
           <div>
-            <div className="text-gray-400 font-semibold">Current Status</div>
-            <span className="bg-orange-100 text-orange-500 px-2 py-1 rounded text-xs font-semibold">
+            <div className="text-gray-500 py-2">Current Status</div>
+            <span className="bg-orange-100 text-orange-500 px-2 py-1 rounded-full text-xs">
               {fabric.status}
             </span>
           </div>
           <div>
-            <div className="text-gray-400 font-semibold">Estimated Yardage</div>
-            <div className="font-bold text-lg">{fabric.yardage}</div>
+            <div className="text-gray-500 py-2">Estimated Yardage</div>
+            <div className="">{fabric.yardage}</div>
           </div>
           <div>
-            <div className="text-gray-400 font-semibold">Price per Yard</div>
-            <div className="font-bold text-lg">{fabric.price}</div>
+            <div className="text-gray-500 py-2">Price per Yard</div>
+            <div className="">{fabric.price}</div>
           </div>
         </div>
         {showVendorModal && (

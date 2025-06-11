@@ -9,3 +9,5 @@ export const IMAGES = {
   fabric: "/images/fabrics.jpg",
 };
 
+
+

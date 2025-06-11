@@ -13,6 +13,7 @@ interface Step {
   title: string;
   status: 'completed' | 'current' | 'pending';
   date?: string;
+  location?: string;
 }
 
 // Convert your existing data to match the Step interface
@@ -22,42 +23,49 @@ const ORDER_STEPS: Step[] = [
     title: "Quote Submitted",
     date: "April 12, 2020",
     status: "completed",
+    location: "Islamabad, Pk",
   },
   {
     id: 2,
     title: "Fabric Confirmed",
     date: "April 13, 2020",
     status: "completed",
+    location: "Lahore, Pk",
   },
   {
     id: 3,
     title: "Fabric Received",
     date: "April 14, 2020",
     status: "completed",
+    location: "Karachi, Pk",
   },
   {
     id: 4,
     title: "In Production",
     date: "April 14, 2020",
     status: "current",
+    location: "Faisalabad, Pk",
   },
   {
     id: 5,
     title: "Finishing",
     date: "April 14, 2020",
     status: "pending",
+    location: "Multan, Pk",
   },
   {
     id: 6,
     title: "Ready for Delivery",
     date: "April 14, 2020",
     status: "pending",
+    location: "Peshawar, Pk",
   },
   {
     id: 7,
     title: "Delivered",
     date: "April 15, 2020",
     status: "pending",
+    location: "Quetta, Pk",
   },
 ];
 
@@ -98,11 +106,11 @@ export default function UpholsteryOrderDetail() {
             className="mr-2 text-gray-500 hover:text-black flex items-center gap-2"
           >
             <FaArrowLeft className="inline mr-1" />
-            <span className="text-xl font-semibold">Track Pillow Order</span>
+            <span className="font-inter text-[18px] font-semibold text-black">Track Pillow Order</span>
           </Link>
         </div>
         <div className="flex items-center gap-4">
-          <span className="font-medium text-gray-600">
+          <span className="font-inter font-medium text-[16px] text-[#484C5D]">
             Update Order Status
           </span>
           <OrderStatusDropdown status={status} onChange={setStatus} />

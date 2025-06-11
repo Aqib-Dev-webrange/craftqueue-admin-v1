@@ -31,7 +31,7 @@ export default function OrderDetail() {
         <div className="flex items-center gap-2">
           <Link
             href="/upholstery"
-            className="mr-2 text-gray-500 hover:text-black flex items-center gap-2"
+            className="mr-2 text-black flex items-center gap-2"
           >
             <FaArrowLeft className="inline mr-1" />
             <span className="text-xl font-semibold">Pillow Order Details</span>
@@ -51,18 +51,18 @@ export default function OrderDetail() {
         />
       </div>
 
-      <div className="grid grid-cols-3 gap-8 p-4">
+      <div className="grid grid-cols-3 gap-8 p-4 w-2/3 font-poppins tracking-[1.2] text-[18px] font-semibold">
         <div>
-          <div className="text-gray-400 font-semibold">Type</div>
-          <div className="font-bold text-lg">{order.type}</div>
+          <div className="text-gray-500 ">Type</div>
+          <div className="">{order.type}</div>
         </div>
         <div>
-          <div className="text-gray-400 font-semibold">Date & Time</div>
-          <div className="font-bold text-lg">{order.datetime}</div>
+          <div className="text-gray-500 ">Date & Time</div>
+          <div className="">{order.datetime}</div>
         </div>
         <div>
-          <div className="text-gray-400 font-semibold">Address</div>
-          <div className="font-bold text-lg">{order.customer.country}</div>
+          <div className="text-gray-500 ">Address</div>
+          <div className="">{order.customer.country}</div>
         </div>
       </div>
       {showVendorModal && (

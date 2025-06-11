@@ -62,7 +62,7 @@ export function TableView<T>({
 
   return (
     <div className="bg-white rounded-xl p-3 sm:p-6 border shadow-sm">
-      <h1 className="font-semibold text-gray-800 mb-2 text-sm sm:text-base">{listTitle}</h1>
+      <h1 className="font-poppins text-gray-800 mb-2 text-sm sm:text-[18px]">{listTitle}</h1>
       
       {/* Table with horizontal scroll on mobile */}
       <div className="overflow-x-auto -mx-3 sm:mx-0">
@@ -73,7 +73,7 @@ export function TableView<T>({
                 {columns.map((col, idx) => (
                   <th
                     key={idx}
-                    className={`text-left py-2 sm:py-4 px-2 sm:px-4 text-gray-400 font-poppins text-sm sm:text-[16px] whitespace-nowrap ${col.className || ""}`}
+                    className={`text-left py-2 sm:py-4 px-2 sm:px-4 text-gray-500 font-poppins text-[12px] tracking-[1.2] ${col.className || ""}`}
                   >
                     {col.header}
                   </th>
@@ -84,7 +84,7 @@ export function TableView<T>({
               {displayData.map((row, i) => (
                 <tr
                   key={i}
-                  className={`last:border-b-0 hover:bg-gray-50 transition ${rowLink ? "cursor-pointer" : ""}`}
+                  className={`last:border-b-0 hover:bg-gray-50 text-[13px] transition ${rowLink ? "cursor-pointer" : ""}`}
                   style={{
                     borderWidth: 1,
                     borderStyle: "dashed",

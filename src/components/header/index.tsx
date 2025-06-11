@@ -48,7 +48,7 @@ const Header: React.FC<{ user: User }> = ({ user }) => {
       {/* Left - Greeting (Hidden on mobile) */}
       <div className="hidden sm:block">
         <p className="text-sm text-gray-500">{getCurrentDate()}</p>
-        <h1 className="text-xl md:text-2xl lg:text-3xl font-bold mt-1">Good Evening, {firstName}</h1>
+        <h1 className="text-xl md:text-2xl lg:text-3xl mt-1">Good Evening, {firstName}</h1>
       </div>
 
       {/* Mobile Greeting - Only first name */}
@@ -57,11 +57,11 @@ const Header: React.FC<{ user: User }> = ({ user }) => {
       </div>
 
       {/* Right - User Profile */}
-      <div className="flex items-center gap-2 sm:gap-4 border rounded-xl p-2 sm:p-3 relative"
+      <div className="flex items-center gap-8 border rounded-xl p-2 sm:p-3 relative"
         style={{ borderWidth: 2, borderStyle: "dashed", borderColor: "#e5e7eb" }}
       >
         {/* Desktop version - Full info */}
-        <div className="hidden sm:flex items-center gap-3">
+        <div className="hidden sm:flex items-center gap-4">
           <Image
             src={user.avatarUrl}
             alt="User Avatar"

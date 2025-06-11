@@ -18,7 +18,7 @@ export default function SidebarItem({ label, icon, count, active, link, onClick 
       <Link
         href={link}
         className={`
-          flex items-center justify-between text-sm px-4 py-3 rounded-lg cursor-pointer
+          flex items-center justify-between text-[16px] px-4 py-3 rounded-lg cursor-pointer
           transition-all duration-300 ease-in-out relative overflow-hidden
           before:absolute before:inset-0 before:bg-white before:scale-x-0 before:origin-left 
           before:transition-transform before:duration-300 before:rounded-lg
@@ -40,7 +40,7 @@ export default function SidebarItem({ label, icon, count, active, link, onClick 
           </div>
           
           {/* Label with typing effect */}
-          <span className="tracking-wider font-medium relative overflow-hidden">
+          <span className="tracking-wider font-medium h-8 relative overflow-hidden">
             <span className={`
               inline-block transition-all duration-500 ease-in-out
               ${active 
