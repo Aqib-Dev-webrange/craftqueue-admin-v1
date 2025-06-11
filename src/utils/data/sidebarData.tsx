@@ -11,37 +11,37 @@ export const sidebarData: SidebarDataItem[] = [
   {
     type: "item",
     label: "Dashboard",
-    icon: <Dashboard className="w-5 h-5" />,
+    icon: <Dashboard className="w-6 h-6" />,
     link: "/admin",
   },
   {
     type: "item",
     label: "Upholstery Quotes",
-    icon: <Sofa className="w-5 h-5" />,
+    icon: <Sofa className="w-6 h-6" />,
     link: "/admin/upholstery",
   },
   {
     type: "item",
     label: "Pillow Orders",
-    icon: <Pillow className="w-5 h-5" />,
+    icon: <Pillow className="w-6 h-6" />,
     link: "/admin/orders",
   },
   {
     type: "item",
     label: "Bookings",
-    icon: <Calendar className="w-5 h-5" />,
+    icon: <Calendar className="w-6 h-6" />,
     link: "/admin/bookings",
   },
   {
     type: "item",
     label: "Fabric Management",
-    icon: <BoxFast className="w-5 h-5" />,
+    icon: <BoxFast className="w-6 h-6" />,
     link: "/admin/fabrics",
   },
   {
     type: "item",
     label: "Order Tracker",
-    icon: <TruckLocation className="w-5 h-5" />,
+    icon: <TruckLocation className="w-6 h-6" />,
     link: "/admin/orders/tracker",
   },
 ];

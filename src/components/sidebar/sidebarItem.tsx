@@ -34,7 +34,6 @@ export default function SidebarItem({ label, icon, count, active, link, onClick 
           {/* Icon with bounce animation */}
           <div className={`
             transition-all duration-300 ease-in-out
-            
           `}>
             {icon}
           </div>
