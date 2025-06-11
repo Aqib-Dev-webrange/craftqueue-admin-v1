@@ -78,11 +78,11 @@ export default function BookingsPage() {
   return (
     <div className="container mx-auto p-2">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 py-2">
-        <h1 className="text-2xl  font-bold">Upholstery Bookings</h1>
+        <h1 className="text-[24px] font-dmSans font-semibold">Upholstery Bookings</h1>
         
         <div className="w-full sm:w-72">
           <SearchInput
-            placeholder="Search bookings, customers..."
+            placeholder="Search..."
             value={search}
             onChange={setSearch}
             onSearch={handleSearch}

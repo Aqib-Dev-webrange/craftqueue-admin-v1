@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Poppins } from 'next/font/google';
+import { DM_Sans, Inter, Poppins } from 'next/font/google';
 
 
 const fontPoppins = Poppins({
@@ -8,6 +8,19 @@ const fontPoppins = Poppins({
   subsets: ['latin'],
   variable: '--font-poppins',
 });
+
+
+const fontInter = Inter({
+  weight: ['400', '500', '600', '700'],
+  subsets: ['latin'],
+  variable: '--font-inter',
+});
+
+const fontDmSans = DM_Sans({
+  weight: ['400', '500', '600', '700'],
+  subsets: ['latin'],
+  variable: '--font-dm-sans',
+})
 
 export const metadata: Metadata = {
   title: "CraftQueue",
@@ -21,7 +34,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${fontPoppins.variable}, ${fontPoppins.className}`}>
+    <html lang="en" className={`${fontPoppins.variable}, ${fontPoppins.className} , ${fontInter.variable}, ${fontInter.className} , ${fontDmSans.variable}, ${fontDmSans.className}`}>
       <body className={`${fontPoppins.variable} antialiased `}>
         {children}
       </body>

@@ -12,7 +12,7 @@ interface FurnitureOrder {
 
 export default function FurnitureDetails({ order }: { order: FurnitureOrder }) {
   return (
-    <div className="flex gap-12">
+    <div className="flex gap-12 font-poppins">
       <Image
         src={order.furnitureImage}
         alt="Furniture"
@@ -20,7 +20,7 @@ export default function FurnitureDetails({ order }: { order: FurnitureOrder }) {
         height={256}
         className="w-64 h-64 rounded-2xl object-cover bg-slate-100"
       />
-      <div className="grid grid-cols-2 gap-x-12 gap-y-6 flex-1">
+      <div className="grid grid-cols-2 gap-x-12 gap-y-6 flex-1 text-[18px]">
         {[
           ["Furniture Type", order.furnitureType],
           ["Fabric Source", order.fabricSource],
@@ -30,8 +30,8 @@ export default function FurnitureDetails({ order }: { order: FurnitureOrder }) {
           ["Priority Quote", order.priorityQuote],
         ].map(([label, value], idx) => (
           <div key={idx}>
-            <div className="text-gray-400 font-semibold">{label}</div>
-            <div className="font-bold text-lg">{value}</div>
+            <div className="text-gray-400 ">{label}</div>
+            <div className="">{value}</div>
           </div>
         ))}
       </div>

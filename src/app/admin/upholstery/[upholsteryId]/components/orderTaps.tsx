@@ -10,8 +10,8 @@ interface TabsProps {
 
 export default function Tabs({ current, onChange }: TabsProps) {
   const tabs = [
-    { id: "furniture" as const, label: "Furniture Details"},
-    { id: "orderTrack" as const, label: "Order Tracking"},
+    { id: "furniture" as const, label: "Furniture"},
+    { id: "orderTrack" as const, label: "Orders Track"},
   ];
 
   return (
@@ -24,7 +24,7 @@ export default function Tabs({ current, onChange }: TabsProps) {
             className={`
               py-2 px-1 border-b-2 font-medium text-sm flex items-center gap-2 transition-colors
               ${current === tab.id
-                ? 'border-primary text-primary'
+                ? 'border-[#3A2414] text-[#3A2414]'
                 : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }
             `}

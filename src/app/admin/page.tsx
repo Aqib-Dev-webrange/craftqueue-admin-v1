@@ -20,7 +20,7 @@ export default function Dashboard() {
 
       {/* Upholstery Quotes - Show 3 initially */}
       <div>
-        <h2 className="text-xl font-semibold py-4">Upholstery Quotes</h2>
+        <h2 className="text-[24px] font-dmSans py-4">Upholstery Quotes</h2>
         <TableView
           listTitle="List of all submitted quotes"
           columns={upholsteryQuotesColumns}
@@ -34,7 +34,7 @@ export default function Dashboard() {
 
       {/* Pillow Orders - Show 4 initially */}
       <div>
-        <h2 className="text-xl font-semibold py-4">Pillow Orders</h2>
+        <h2 className="text-[24px] font-dmSans py-4">Pillow Orders</h2>
         <TableView
           listTitle="List of all pillow orders"
           columns={pillowOrdersColumns}
@@ -48,7 +48,7 @@ export default function Dashboard() {
 
       {/* Fabric Management - Show 2 initially */}
       <div>
-        <h2 className="text-xl font-semibold py-4">Fabric Management</h2>
+        <h2 className="text-[24px] font-dmSans py-4">Fabric Management</h2>
         <TableView
           listTitle="List of all fabric entries"
           columns={fabricManagementColumns}
@@ -62,7 +62,7 @@ export default function Dashboard() {
 
       {/* Bookings - Show 6 initially */}
       <div>
-        <h2 className="text-xl font-semibold py-4">Bookings</h2>
+        <h2 className="text-[24px] font-dmSans py-4">Bookings</h2>
         <TableView
           listTitle="All Client Consultations & Pickups"
           columns={bookingsColumns}

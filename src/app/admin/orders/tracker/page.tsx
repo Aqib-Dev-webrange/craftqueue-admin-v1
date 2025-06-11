@@ -144,13 +144,13 @@ export default function OrderTrackerManager() {
     <div className="container mx-auto p-2">
       {/* Header with Search */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
-        <h1 className="text-2xl  font-bold">
+        <h1 className="text-[24px] font-dmSans font-semibold">
           Order Tracker Manager
         </h1>
 
         <div className="w-full sm:w-80">
           <SearchInput
-            placeholder="Search orders, fabrics, quotes..."
+            placeholder="Search ..."
             value={search}
             onChange={setSearch}
             onSearch={handleSearch}

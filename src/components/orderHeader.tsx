@@ -35,7 +35,7 @@ export default function OrderHeader({
             </span>
             <div className="relative">
               <button
-                className="bg-green-100 text-green-600 px-4 py-1 rounded-full text-sm font-semibold flex items-center gap-1"
+                className="bg-green-100 text-[#50CD89] font-poppins px-4 py-1 rounded-full text-sm font-semibold flex items-center gap-1"
                 onClick={() => setShowStatusDropdown((v) => !v)}
               >
                 {status}
@@ -55,7 +55,7 @@ export default function OrderHeader({
                     <div
                       key={s}
                       className={`px-4 py-2 cursor-pointer hover:bg-gray-100 ${
-                        s === status ? "font-bold text-green-600" : ""
+                        s === status ? "font-bold text-[#50CD89]" : ""
                       }`}
                       onClick={() => {
                         setStatus(s);

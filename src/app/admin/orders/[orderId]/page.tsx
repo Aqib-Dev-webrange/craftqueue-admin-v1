@@ -53,7 +53,7 @@ export default function Page() {
           <div className="flex items-center gap-2">
             <Link
               href="/upholstery"
-              className="mr-2 text-gray-500 hover:text-black flex items-center gap-2"
+              className="mr-2 text-black flex items-center gap-2"
             >
               <FaArrowLeft className="inline mr-1" />
               <span className="text-xl font-semibold">
@@ -77,10 +77,10 @@ export default function Page() {
         />
       </div>
 
-      <div className="grid grid-cols-3 gap-8 p-4">
+      <div className="grid grid-cols-3 gap-8 p-4 w-2/3 font-poppins tracking-wide">
         {orderDetails.map((item, idx) => (
           <div key={idx}>
-            <div className="text-gray-400 font-semibold">{item.label}</div>
+            <div className="text-gray-500 ">{item.label}</div>
             <div className="font-bold text-lg flex items-center gap-2">
               {item.icon}
               {item.value}

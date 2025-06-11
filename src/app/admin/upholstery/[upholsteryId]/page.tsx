@@ -16,20 +16,21 @@ interface Step {
   title: string;
   status: "completed" | "current" | "pending";
   date?: string;
+  location?: string;
 }
 
 const ORDER_STEPS: Step[] = [
-  { id: 1, title: "Order Placed", status: "completed", date: "2024-01-15" },
-  { id: 2, title: "Processing", status: "completed", date: "2024-01-16" },
-  { id: 3, title: "Dispatched", status: "current", date: "2024-01-17" },
-  { id: 4, title: "Delivered", status: "pending", date: "2024-01-20" },
+  { id: 1, title: "Order Placed", status: "completed", date: "2024-01-15", location: "Islamabad, Pk" },
+  { id: 2, title: "Processing", status: "completed", date: "2024-01-16", location: "Lahore, Pk" },
+  { id: 3, title: "Dispatched", status: "current", date: "2024-01-17", location: "Karachi, Pk" },
+  { id: 4, title: "Delivered", status: "pending", date: "2024-01-20", location: "Multan, Pk" },
 ];
 
 // Define tab type
 type TabType = "furniture" | "orderTrack";
 
 export default function UpholsteryOrderDetail() {
-  const order = {
+const order = {
     customer: {
       name: "Adidas",
       email: "max@kt.com",
@@ -49,7 +50,7 @@ export default function UpholsteryOrderDetail() {
     quoteTotal: "$1,250",
     shipTo: "House Number 2345, 516 Chandler Groves, New Mexico",
     priority: true,
-    productName: "Sofa Reupholsters",
+    productName: "Sofa Reupholstery",
   };
 
   const [status, setStatus] = useState(order.status);
@@ -59,11 +60,11 @@ export default function UpholsteryOrderDetail() {
   return (
     <div className="p-6">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-6 font-poppins">
         <div className="flex items-center gap-2">
           <Link
             href="/admin/upholstery"
-            className="mr-2 text-gray-500 hover:text-black flex items-center gap-2"
+            className="mr-2 text-black flex items-center gap-2"
           >
             <FaArrowLeft className="inline mr-1" />
             <span className="text-xl font-semibold">Order Details</span>
@@ -87,7 +88,7 @@ export default function UpholsteryOrderDetail() {
       {/* Tab Content */}
       {tab === "furniture" && <FurnitureDetails order={order} />}
       {tab === "orderTrack" && <OrdersTrack order={order} steps={ORDER_STEPS} />}
-
+      {/* <OrderCard order={order}/> */}
       {/* Modal */}
       {showVendorModal && (
         <VendorModal onClose={() => setShowVendorModal(false)} />
