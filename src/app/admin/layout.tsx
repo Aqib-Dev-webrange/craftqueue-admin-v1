@@ -8,13 +8,13 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="bg-[#ffffff] h-full min-h-screen flex font-poppins p-4">
+    <div className="bg-[#ffffff] h-full min-h-screen flex font-poppins px-6 py-10">
       <div className="lg:fixed h-screen">
         <Sidebar />
       </div>
 
       <div className="pl-0 md:pl-[330px] w-full h-full">
-        <div className="sticky top-0 z-50 pb-4 bg-white ">
+        <div className="sticky top-0  z-50 pb-4 bg-white ">
           <Header
             user={{
               name: "Jack Jonson",

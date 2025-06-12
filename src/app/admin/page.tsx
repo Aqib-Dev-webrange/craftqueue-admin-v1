@@ -64,7 +64,7 @@ export default function Dashboard() {
       <div>
         <h2 className="text-[24px] font-dmSans py-4">Bookings</h2>
         <TableView
-          listTitle="All Client Consultations & Pickups"
+          listTitle="List of All Bookings & Consultations"
           columns={bookingsColumns}
           data={bookings}
           rowLink={(row) => `/admin/bookings/${encodeURIComponent(row.client)}`}

@@ -18,7 +18,7 @@ export default function FurnitureDetails({ order }: { order: FurnitureOrder }) {
         alt="Furniture"
         width={256}
         height={256}
-        className="w-64 h-64 rounded-2xl object-cover bg-slate-100"
+        className="w-72 h-72 rounded-2xl object-cover bg-slate-100"
       />
       <div className="grid grid-cols-2 gap-x-12 gap-y-6 flex-1 text-[18px]">
         {[
@@ -31,7 +31,7 @@ export default function FurnitureDetails({ order }: { order: FurnitureOrder }) {
         ].map(([label, value], idx) => (
           <div key={idx}>
             <div className="text-gray-400 ">{label}</div>
-            <div className="">{value}</div>
+            <div className="py-3">{value}</div>
           </div>
         ))}
       </div>

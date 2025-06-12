@@ -35,7 +35,7 @@ export default function Stepper({ steps }: StepperProps) {
   };
 
   return (
-    <div className="w-full mb-8 px-6">
+    <div className="w-full mb-8 ">
 
       <div className='flex items-center justify-between mb-4'>
         {steps.map((step) => (
@@ -48,7 +48,7 @@ export default function Stepper({ steps }: StepperProps) {
         ))}
       </div>
       {/* Visual Progress Line - Full Width */}
-      <div className='w-full mx-auto flex items-center justify-between mb-4 pr-6'>
+      <div className='w-full mx-auto flex items-center justify-between mb-4 '>
         {steps.map((step, index) => (
           <React.Fragment key={step.id}>
             {/* Step Circle */}
@@ -70,7 +70,7 @@ export default function Stepper({ steps }: StepperProps) {
       {/* Step Labels - Full Width */}
       <div className="flex items-center  justify-between">
         {steps.map((step) => (
-          <div key={step.id} className="flex flex-col items-center text-center w-24 flex-">
+          <div key={step.id} className="flex flex-col ">
             <div className={`text-xs md:text-sm lg:text-base font-medium text-nowrap`}>
               {step.title}
             </div>
