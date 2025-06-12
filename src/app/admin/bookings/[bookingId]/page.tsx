@@ -51,7 +51,7 @@ export default function OrderDetail() {
         />
       </div>
 
-      <div className="grid grid-cols-3 gap-8 p-4 w-2/3 font-poppins tracking-[1.2] text-[18px] font-semibold">
+      <div className="grid grid-cols-3 gap-8 p-4 w-2/3 font-poppins  text-[18px] font-medium">
         <div>
           <div className="text-gray-500 ">Type</div>
           <div className="text-secondary py-3">{order.type}</div>
