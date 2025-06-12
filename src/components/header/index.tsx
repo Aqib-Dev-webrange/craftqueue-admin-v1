@@ -44,11 +44,11 @@ const Header: React.FC<{ user: User }> = ({ user }) => {
   };
 
   return (
-    <div className="flex justify-between items-center px-4 sm:px-4 py-2">
+    <div className="flex justify-between items-center px-4 sm:px-4">
       {/* Left - Greeting (Hidden on mobile) */}
-      <div className="hidden sm:block">
-        <p className="text-sm text-gray-500">{getCurrentDate()}</p>
-        <h1 className="text-xl md:text-2xl lg:text-3xl mt-1">Good Evening, {firstName}</h1>
+      <div className="hidden sm:block ">
+        <p className="text-sm text-gray-800">{getCurrentDate()}</p>
+        <h1 className="text-xl md:text-2xl lg:text-3xl mt-2">Good Evening, {firstName}</h1>
       </div>
 
       {/* Mobile Greeting - Only first name */}
