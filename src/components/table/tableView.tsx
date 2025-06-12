@@ -73,7 +73,7 @@ export function TableView<T>({
                 {columns.map((col, idx) => (
                   <th
                     key={idx}
-                    className={`text-left py-2 sm:py-4 px-2 sm:px-4 text-gray-500 font-poppins text-[12px] tracking-[1.2] ${col.className || ""}`}
+                    className={`text-left py-2 sm:py-4 px-2 sm:px-4 text-gray-500 font-poppins font-normal text-[12px] ] ${col.className || ""}`}
                   >
                     {col.header}
                   </th>

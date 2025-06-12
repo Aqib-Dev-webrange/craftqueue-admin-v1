@@ -92,7 +92,7 @@ export default function Page() {
         {orderDetails.map((item, idx) => (
           <div key={idx}>
             <div className="text-gray-500 ">{item.label}</div>
-            <div className="font-bold text-lg flex items-center gap-2 text-secondary py-3">
+            <div className="font- text-lg flex items-center gap-2 text-secondary py-3">
               {/* {item.icon} */}
               {item.value}
             </div>

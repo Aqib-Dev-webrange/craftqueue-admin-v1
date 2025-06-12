@@ -68,7 +68,7 @@ export default function FabricPage() {
           height={384}
           className="w-80 h-80 rounded-2xl object-cover bg-slate-100"
         />
-        <div className="grid grid-cols-2 gap-x-14 gap-y-10 font-poppins font-semibold text-[18px] tracking-[1.2px]">
+        <div className="grid grid-cols-2 gap-x-14 gap-y-10 font-poppins text-[18px] tracking-[1]">
           <div>
             <div className="text-gray-500 ">Cotton Blend</div>
             <div className="text-secondary py-3 ">{fabric.blend}</div>
