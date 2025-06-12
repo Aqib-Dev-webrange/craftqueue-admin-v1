@@ -31,18 +31,18 @@ export default function OrdersTrack({ order, steps }: OrdersTrackProps) {
   );
 
   return (
-    <div className="pt-6">
+    <div className="p-6">
       <div className="flex gap-8 items-center justify-between mb-6">
         <div className="flex flex-col gap-2 font-poppins">
           <span className="text-[24px] font-medium">Order Dispatched</span>
-          <span className="font-[16px] text-opacity-40 text-lg">Order ID {order.quoteId}</span>
+          <span className="font-[16px] text-gray-500 text-lg">Order ID {order.quoteId}</span>
         </div>
         <Image
           src={order.furnitureImage}
           alt="Furniture"
           width={400}
           height={400}
-          className="w-12 h-12 rounded-lg bg-slate-100 object-cover"
+          className="w-16 h-16 rounded-lg bg-slate-100 object-cover"
         />
       </div>
 

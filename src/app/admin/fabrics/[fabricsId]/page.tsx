@@ -60,46 +60,46 @@ export default function FabricPage() {
       </div>
 
       {/* Fabric Details */}
-      <div className="flex gap-10 p-6">
+      <div className="flex gap-10 py-6 ">
         <Image
           src={fabric.image}
           alt="Fabric"
           width={384}
           height={384}
-          className="w-72 h-72 rounded-2xl object-cover bg-slate-100"
+          className="w-80 h-80 rounded-2xl object-cover bg-slate-100"
         />
         <div className="grid grid-cols-2 gap-x-14 gap-y-10 font-poppins font-semibold text-[18px] tracking-[1.2px]">
           <div>
-            <div className="text-gray-500 py-2">Cotton Blend</div>
-            <div className=" ">{fabric.blend}</div>
+            <div className="text-gray-500 ">Cotton Blend</div>
+            <div className="text-secondary py-3 ">{fabric.blend}</div>
           </div>
           <div>
-            <div className="text-gray-500 py-2">Shipment ID</div>
-            <div className="">{fabric.shipmentId}</div>
+            <div className="text-gray-500 ">Shipment ID</div>
+            <div className=" text-secondary py-3">{fabric.shipmentId}</div>
           </div>
           <div>
-            <div className="text-gray-500 py-2">Material Type</div>
-            <div className="">{fabric.materialType}</div>
+            <div className="text-gray-500 ">Material Type</div>
+            <div className=" text-secondary py-3">{fabric.materialType}</div>
           </div>
           <div>
-            <div className="text-gray-500 py-2">
+            <div className="text-gray-500 ">
               Order Reference ID
             </div>
-            <div className="">{fabric.orderRef}</div>
+            <div className="text-secondary py-3">{fabric.orderRef}</div>
           </div>
           <div>
-            <div className="text-gray-500 py-2">Current Status</div>
+            <div className="text-gray-500 ">Current Status</div>
             <span className="bg-orange-100 text-orange-500 px-2 py-1 rounded-full text-xs">
               {fabric.status}
             </span>
           </div>
           <div>
-            <div className="text-gray-500 py-2">Estimated Yardage</div>
-            <div className="">{fabric.yardage}</div>
+            <div className="text-gray-500 ">Estimated Yardage</div>
+            <div className="text-secondary py-3">{fabric.yardage}</div>
           </div>
           <div>
-            <div className="text-gray-500 py-2">Price per Yard</div>
-            <div className="">{fabric.price}</div>
+            <div className="text-gray-500 ">Price per Yard</div>
+            <div className="text-secondary py-3">{fabric.price}</div>
           </div>
         </div>
         {showVendorModal && (

@@ -15,7 +15,7 @@ const StatusCard: React.FC<StatusCardProps> = ({ icon, label, count, color }) =>
           <span className="text-2xl">{icon}</span>
         </div>
       )}
-      <div className="flex flex-col items-start gap-2">
+      <div className="flex flex-col items-start gap-1">
         <h3 className="text-[38px]  leading-none">{count}</h3>
         <p className="text-[14px]  text-gray-500">{label}</p>
       </div>

@@ -44,7 +44,7 @@ const Header: React.FC<{ user: User }> = ({ user }) => {
   };
 
   return (
-    <div className="flex justify-between items-center px-4 sm:px-4">
+    <div className="flex justify-between items-center px-4 sm:px-4 mb-10">
       {/* Left - Greeting (Hidden on mobile) */}
       <div className="hidden sm:block ">
         <p className="text-sm text-gray-800">{getCurrentDate()}</p>
@@ -69,7 +69,7 @@ const Header: React.FC<{ user: User }> = ({ user }) => {
             height={48}
             className="rounded-full w-10 h-10 md:w-12 md:h-12 object-cover"
           />
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-2">
             <p className="font-semibold leading-none text-sm">{user.name}</p>
             <p className="text-xs text-gray-500">{user.role}</p>
           </div>
@@ -100,7 +100,7 @@ const Header: React.FC<{ user: User }> = ({ user }) => {
           {showDropdown && (
             <div className="absolute right-0 top-full mt-2 w-48 sm:w-56 bg-white rounded-xl shadow-2xl border border-gray-200 py-2 z-50">
               {/* User Info */}
-              <div className="px-4 py-3 border-b border-gray-100">
+              <div className="px-4 py-3 border-b border-gray-100 ">
                 <p className="font-semibold text-sm text-gray-900">{user.name}</p>
                 <p className="text-xs text-gray-500">{user.role}</p>
               </div>

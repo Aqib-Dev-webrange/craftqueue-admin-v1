@@ -103,10 +103,10 @@ export default function UpholsteryOrderDetail() {
         <div className="flex items-center gap-2">
           <Link
             href="/admin/orders/tracker"
-            className="mr-2 text-gray-500 hover:text-black flex items-center gap-2"
+            className="mr-2 text-black flex items-center gap-2"
           >
             <FaArrowLeft className="inline mr-1" />
-            <span className="font-inter text-[18px] font-semibold text-black">Track Pillow Order</span>
+            <span className="font-inter text-[18px] font-semibold ">Track Pillow Order</span>
           </Link>
         </div>
         <div className="flex items-center gap-4">

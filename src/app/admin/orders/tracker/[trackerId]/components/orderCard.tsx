@@ -21,7 +21,7 @@ export default function OrderCard({ order }: OrderCardProps) {
       <div className="flex flex-col gap-2 text-gray-700 border-b pb-4 font-poppins">
         <div className="flex items-center gap-2">
           
-          <span className="">Ship to</span>
+          <span className="text-gray-500">Ship to</span>
         </div>
 
         <span className="flex"><TiLocation className="text-xl" />{order.shipTo}</span>

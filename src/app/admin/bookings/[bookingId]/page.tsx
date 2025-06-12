@@ -54,15 +54,15 @@ export default function OrderDetail() {
       <div className="grid grid-cols-3 gap-8 p-4 w-2/3 font-poppins tracking-[1.2] text-[18px] font-semibold">
         <div>
           <div className="text-gray-500 ">Type</div>
-          <div className="">{order.type}</div>
+          <div className="text-secondary py-3">{order.type}</div>
         </div>
         <div>
           <div className="text-gray-500 ">Date & Time</div>
-          <div className="">{order.datetime}</div>
+          <div className="text-secondary py-3">{order.datetime}</div>
         </div>
         <div>
           <div className="text-gray-500 ">Address</div>
-          <div className="">{order.customer.country}</div>
+          <div className="text-secondary py-3">{order.customer.country}</div>
         </div>
       </div>
       {showVendorModal && (

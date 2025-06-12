@@ -20,10 +20,10 @@ interface Step {
 }
 
 const ORDER_STEPS: Step[] = [
-  { id: 1, title: "Order Placed", status: "completed", date: "2024-01-15", location: "Islamabad, Pk" },
-  { id: 2, title: "Processing", status: "completed", date: "2024-01-16", location: "Lahore, Pk" },
-  { id: 3, title: "Dispatched", status: "current", date: "2024-01-17", location: "Karachi, Pk" },
-  { id: 4, title: "Delivered", status: "pending", date: "2024-01-20", location: "Multan, Pk" },
+  { id: 1, title: "Pick up", status: "completed", date: "12 April, 25", location: "Islamabad, Pk" },
+  { id: 2, title: "Dispatched", status: "completed", date: "13 April, 25", location: "Islamabad, Pk" },
+  { id: 3, title: "Dispatched", status: "current", date: "14 April, 25", location: "Islamabad, Pk" },
+  { id: 4, title: "Dispatched", status: "pending", date: "15 April, 25", location: "Islamabad, Pk" },
 ];
 
 // Define tab type
