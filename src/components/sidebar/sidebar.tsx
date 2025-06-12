@@ -50,7 +50,7 @@ export default function Sidebar() {
         </button>
 
         {/* Sidebar for desktop */}
-        <aside className="hidden md:block absolute w-80 h-screen bg-primary text-white p-6 rounded-[20px] space-y-2">
+        <aside className="hidden md:block absolute w-[300px] h-screen bg-primary text-white p-[25px] rounded-[20px] space-y-2">
           {/* Logo */}
           <div className="flex justify-center mb-6">
             <Image
