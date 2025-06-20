@@ -8,7 +8,6 @@ type CustomerInfoProps = {
     avatar: string;
     name: string;
     email: string;
-    phone: string;
     address: string;
   };
   onAssignVendor: () => void;

@@ -60,6 +60,8 @@ export interface UpholsteryFeature {
 
 export interface RawUpholsteryOrder {
   id?: string;
+  user_name?: string;
+  user_email?: string;
   order_number?: string;
   created_at?: string;
   is_priority?: boolean;

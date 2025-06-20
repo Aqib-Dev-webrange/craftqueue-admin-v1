@@ -108,9 +108,9 @@ export default function UpholsteryOrderDetail({ params }: UpholsteryOrderDetailP
   // Transform the raw order data to match component expectations
   const transformedOrder = {
     customer: {
-      name: order.user_name ,
+      name: order.user_name || "N/A",
       email: order.user_email || "N/A",
-      phone: order.created_user?.phone || "N/A",
+      // phone: order.created_user?.phone || "N/A",
       address: order.address?.address || "N/A",
       avatar: getValidImageUrl(
         order.created_user?.raw_user_meta_data?.profileImage, 
