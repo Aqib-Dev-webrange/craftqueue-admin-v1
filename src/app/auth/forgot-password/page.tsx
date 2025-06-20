@@ -1,14 +1,28 @@
 'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { supabase } from '@/lib/supabase';
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/update-password`, // or wherever your reset page is
+    });
+
+    if (error) {
+      console.error('Error sending reset email:', error.message);
+      setError(error.message);
+      return;
+    }
+
     setIsSubmitted(true);
+    setError('');
   };
 
   return (
@@ -38,6 +52,8 @@ export default function ForgotPasswordPage() {
                   required
                 />
               </div>
+
+              {error && <p className="text-red-500 text-sm">{error}</p>}
 
               <button
                 type="submit"

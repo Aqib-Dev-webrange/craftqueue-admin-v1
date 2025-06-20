@@ -44,7 +44,7 @@ const Header: React.FC<{ user: User }> = ({ user }) => {
   };
 
   return (
-    <div className="flex justify-between items-center px-4 sm:px-4 mb-10">
+    <div className="flex justify-between items-center px-4 sm:px-4 ">
       {/* Left - Greeting (Hidden on mobile) */}
       <div className="hidden sm:block ">
         <p className="text-sm text-gray-800">{getCurrentDate()}</p>
@@ -57,7 +57,7 @@ const Header: React.FC<{ user: User }> = ({ user }) => {
       </div>
 
       {/* Right - User Profile */}
-      <div className="flex items-center gap-8 border rounded-xl p-2 sm:p-3 relative"
+      <div className="flex items-center gap-8 border rounded-xl m-1 sm:p-3 relative"
         style={{ borderWidth: 2, borderStyle: "dashed", borderColor: "#e5e7eb" }}
       >
         {/* Desktop version - Full info */}
@@ -98,12 +98,12 @@ const Header: React.FC<{ user: User }> = ({ user }) => {
 
           {/* Dropdown Menu */}
           {showDropdown && (
-            <div className="absolute right-0 top-full mt-2 w-48 sm:w-56 bg-white rounded-xl shadow-2xl border border-gray-200 py-2 z-50">
+            <div className="absolute right-0 top-full mt-2 w-36 sm:w-40 bg-white rounded-xl font-d shadow-sm border py-2 z-50">
               {/* User Info */}
-              <div className="px-4 py-3 border-b border-gray-100 ">
+              {/* <div className="px-4 py-3 border-b border-gray-100 ">
                 <p className="font-semibold text-sm text-gray-900">{user.name}</p>
                 <p className="text-xs text-gray-500">{user.role}</p>
-              </div>
+              </div> */}
               
               {/* Menu Items */}
               <div className="py-1">
@@ -112,21 +112,21 @@ const Header: React.FC<{ user: User }> = ({ user }) => {
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition"
                   onClick={() => setShowDropdown(false)}
                 >
-                  👤 Profile Settings
+                  Profile Settings
                 </Link>
                 <Link 
                   href="/settings" 
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition"
                   onClick={() => setShowDropdown(false)}
                 >
-                  ⚙️ Account Settings
+                  Account Settings
                 </Link>
                 <hr className="my-1 border-gray-100" />
                 <button 
                   onClick={handleLogout}
                   className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition flex items-center gap-2"
                 >
-                  🚪 Sign Out
+                  Sign Out
                 </button>
               </div>
             </div>

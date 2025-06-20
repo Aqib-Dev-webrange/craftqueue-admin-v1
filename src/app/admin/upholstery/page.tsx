@@ -2,59 +2,60 @@
 import { useState } from "react";
 import { TableView } from "@/components/table/tableView";
 import SearchInput from "@/components/ui/Input";
-import {
-  upholsteryQuotes,
-  upholsteryQuotesColumns,
-} from "@/utils/data/furanitureData";
+import { upholsteryQuotesColumns } from "@/utils/data/furanitureData";
+import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
+import { NoResultsMessage } from "@/components/ui/NoResultsMessage";
+import { useUpholsteryData } from "@/hooks/useUpholsteryData";
+import { generateSearchSuggestions } from "@/utils/searchSuggestions";
 
 export default function UpholsteryPage() {
   const [search, setSearch] = useState("");
-
-  // Generate search suggestions from upholstery data
-  const searchSuggestions = [
-    ...new Set([
-      ...upholsteryQuotes.map((quote) => quote.customer),
-      ...upholsteryQuotes.map((quote) => quote.furniture || ""),
-      // ...upholsteryQuotes.map((quote) => quote.fabric || ""), // Removed: 'fabric' does not exist
-      ...upholsteryQuotes.map((quote) => quote.status || ""),
-      // Add common search terms
-      "Sofa",
-      "Chair",
-      "Ottoman",
-      "Leather",
-      "Fabric",
-      "Cotton",
-      "Pending",
-      "Approved",
-      "Completed",
-      "In Progress",
-    ].filter(Boolean)), // Remove empty strings
-  ];
+  const { upholsteryQuotes, loading, error } = useUpholsteryData();
 
   // Filter quotes based on search
   const filteredQuotes = upholsteryQuotes.filter((quote) =>
     Object.values(quote).some((value) =>
-      value && value.toString().toLowerCase().includes(search.toLowerCase())
+      value?.toString().toLowerCase().includes(search.toLowerCase())
     )
   );
+
+  // Generate search suggestions from actual data
+  const searchSuggestions = generateSearchSuggestions(upholsteryQuotes);
 
   const handleSearch = (value: string) => {
     console.log("Searching upholstery quotes for:", value);
   };
 
   const handleClear = () => {
-    console.log("Search cleared");
+    setSearch("");
   };
 
+  if (error) {
+    return (
+      <div className="container mx-auto p-2">
+        <div className="text-center py-8 text-red-500">
+          Error loading upholstery orders: {error}
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="container mx-auto p-2 ">
-      {/* Header with Search */}
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
-        <h2 className="text-[24px] font-dmSans ">Upholstery Quotes</h2>
+    <div className="container mx-auto p-2">
+      {/* Header Section */}
+      <header className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
+        <div className="flex items-center gap-4">
+          <h1 className="text-[24px] font-dmSans">Upholstery Quotes</h1>
+          {!loading && (
+            <span className="bg-primary/10 text-primary text-sm font-medium px-2.5 py-0.5 rounded">
+              {filteredQuotes.length} orders
+            </span>
+          )}
+        </div>
 
         <div className="w-full sm:w-80">
           <SearchInput
-            placeholder="Search "
+            placeholder="Search orders, furniture, status..."
             value={search}
             onChange={setSearch}
             onSearch={handleSearch}
@@ -64,19 +65,33 @@ export default function UpholsteryPage() {
             size="md"
             debounceMs={300}
             className="w-full"
+            disabled={loading}
           />
         </div>
-      </div>
+      </header>
 
-      {/* Table */}
-      <div className="bg-white rounded-2xl">
-        <TableView
-          listTitle="List of all submitted quotes"
-          columns={upholsteryQuotesColumns}
-          data={filteredQuotes}
-          rowLink={(row) => `/admin/upholstery/${encodeURIComponent(row.customer)}`}
-        />
-      </div>
+      {/* Main Content */}
+      <main className="bg-white rounded-2xl">
+        {loading ? (
+          <LoadingSpinner message="Loading upholstery orders..." />
+        ) : (
+          <TableView
+            listTitle="List of all submitted quotes"
+            columns={upholsteryQuotesColumns}
+            data={filteredQuotes}
+            rowLink={(row) =>
+              `/admin/upholstery/${encodeURIComponent(
+                row.id || row.order_number || row.customer
+              )}`
+            }
+          />
+        )}
+      </main>
+
+      {/* No Results */}
+      {!loading && search && filteredQuotes.length === 0 && (
+        <NoResultsMessage searchTerm={search} onClearSearch={() => setSearch("")} />
+      )}
     </div>
   );
 }

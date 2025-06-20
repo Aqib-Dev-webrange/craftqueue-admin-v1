@@ -13,8 +13,8 @@ export default function DashboardLayout({
         <Sidebar />
       </div>
 
-      <div className="pl-0 md:pl-[330px] w-full h-full">
-        <div className="sticky top-0  z-50 pb-4 bg-white ">
+      <div className="pl-0 md:pl-[336px] w-full h-full">
+        <div className="sticky top-0  z-50   bg-white ">
           <Header
             user={{
               name: "Jack Jonson",
@@ -23,8 +23,7 @@ export default function DashboardLayout({
             }}
           />
         </div>
-
-        {children}
+        <div className="w-full h-full mt-10">{children}</div>
       </div>
     </div>
   );
