@@ -26,7 +26,7 @@ export function useUpholsteryOrderDetail(orderId: string) {
 
         // Find the specific order by ID or order number
         const foundOrder = upholstery_orders?.find(
-          (orderData: any) => 
+          (orderData: RawUpholsteryOrder) => 
             orderData.id?.toString() === orderId || 
             orderData.order_number === orderId
         );
