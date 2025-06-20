@@ -35,7 +35,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${fontPoppins.variable}, ${fontPoppins.className} , ${fontInter.variable}, ${fontInter.className} , ${fontDmSans.variable}, ${fontDmSans.className}`}>
-      <body className={`${fontPoppins.variable} antialiased `}>
+      <body className={`${fontPoppins.variable} antialiased text-black`}>
         {children}
       </body>
     </html>

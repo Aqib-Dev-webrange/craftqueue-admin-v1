@@ -1,5 +1,7 @@
 import Image from "next/image";
 import { ICONS } from "@/constants/icon";
+import { SupabaseImage } from "./ui/SupabaseImage";
+import { IMAGES } from "@/constants/image";
 
 type CustomerInfoProps = {
   customer: {
@@ -16,12 +18,14 @@ export default function CustomerInfo({ customer, onAssignVendor }: CustomerInfoP
   return (
     <div className="flex items-center justify-between gap-4">
       <div className="flex items-center gap-4 py-4">
-        <Image
+        <SupabaseImage
+          src={customer.avatar || IMAGES.avatar}
+          alt={`${customer.name}'s avatar`}
+          className="w-16 h-16 rounded-full object-cover"
           width={64}
           height={64}
-          src={customer.avatar}
-          alt={customer.name}
-          className="w-16 h-16 rounded-full object-cover bg-slate-200"
+          fill={false}
+          priority
         />
         <div className="font-inter">
           <div className="text-2xl font-semibold tracking-tight">{customer.name}</div>
@@ -36,7 +40,7 @@ export default function CustomerInfo({ customer, onAssignVendor }: CustomerInfoP
               />
               <span className="tracking-normal ">{customer.email}</span>
             </span>
-            <span className="flex items-center gap-2">
+            {/* <span className="flex items-center gap-2">
               <Image
                 src={ICONS.phone}
                 alt="Phone"
@@ -45,7 +49,7 @@ export default function CustomerInfo({ customer, onAssignVendor }: CustomerInfoP
                 className="w-6 h-6"
               />
               <span className="tracking-normal">{customer.phone}</span>
-            </span>
+            </span> */}
             <span className="flex items-center gap-2">
               <Image
                 src={ICONS.user}
