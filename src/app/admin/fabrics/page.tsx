@@ -1,145 +1,190 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TableView, Column } from "@/components/table/tableView";
 import SearchInput from "@/components/ui/Input";
+import AddFabricModal from "./components/addFabrics";
 import ActionDropdown from "../components/actionDropdown";
+import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
+import { addFabricOption, deleteFabricOption, FabricFormData, FabricOption, getFabricOptions } from "@/services/fibric";
 
-type Fabric = {
-  name: string;
-  type: string;
-  status: string;
-  shipment: string;
-  furniture: string;
-};
-
-const allFabrics: Fabric[] = [
-  { name: "Satin Fabric", type: "COM", status: "On Route", shipment: "12345678901", furniture: "type of furniture" },
-  { name: "Chiffon Fabric", type: "COM", status: "On Route", shipment: "12345678901", furniture: "type of furniture" },
-  { name: "Taffeta Fabric", type: "COM", status: "On Route", shipment: "12345678901", furniture: "type of furniture" },
-  { name: "Velvet Fabric", type: "COM", status: "On Route", shipment: "12345678901", furniture: "type of furniture" },
-  { name: "Georgette Fabric", type: "COM", status: "On Route", shipment: "12345678901", furniture: "type of furniture" },
-  { name: "Crepe Fabric", type: "COM", status: "On Route", shipment: "12345678901", furniture: "type of furniture" },
-  { name: "Organza Fabric", type: "COM", status: "On Route", shipment: "12345678901", furniture: "type of furniture" },
-  { name: "Lace Fabric", type: "COM", status: "On Route", shipment: "12345678901", furniture: "type of furniture" },
-  { name: "Net Fabric", type: "COM", status: "On Route", shipment: "12345678901", furniture: "type of furniture" },
-  { name: "Muslin Fabric", type: "COM", status: "On Route", shipment: "12345678901", furniture: "type of furniture" },
-
-];
-
-const fabricColumns: Column<Fabric>[] = [
-  { header: "Polyester Fabric", accessor: "name" },
-  { header: "Material Type (COM/Process)", accessor: "type" },
-  {
-    header: "Current Status",
-    accessor: (row) => {
-      const statusColors = {
-        "On Route": "bg-yellow-100 text-yellow-600",
-        "Delivered": "bg-green-100 text-green-600",
-        "Processing": "bg-blue-100 text-blue-600",
-        "Cancelled": "bg-red-100 text-red-600",
-      };
-      
-      return (
-        <span className={`px-2 py-1 rounded text-xs font-semibold ${statusColors[row.status as keyof typeof statusColors] || "bg-gray-100 text-gray-600"}`}>
-          {row.status}
-        </span>
-      );
-    },
-  },
-  { header: "Shipment ID", accessor: "shipment" },
-  { header: "Type of Furniture", accessor: "furniture" },
-  {
-    header: "Actions",
-    accessor: (row) => (
-          <ActionDropdown
-            onEdit={() => handleEdit(row)}
-            onClear={() => handleClear(row)}
-          />
-        ),
-  },
-];
-
-const handleEdit = (row: Fabric) => {
-  console.log("Edit fabric:", row);
-  // Implement your edit logic here
-};
-
-const handleClear = (row: Fabric) => {
-  console.log("Clear fabric:", row);
-  // Implement your clear logic here
-};
 
 export default function FabricPage() {
   const [search, setSearch] = useState("");
-  const [visibleCount, setVisibleCount] = useState(5);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [fabrics, setFabrics] = useState<FabricOption[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  // Generate search suggestions from fabric data
+  // Fetch fabrics on component mount
+  useEffect(() => {
+    fetchFabrics();
+  }, []);
+
+  const fetchFabrics = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const data = await getFabricOptions();
+      setFabrics(data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to fetch fabrics");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleAddFabric = async (fabricData: FabricFormData) => {
+    try {
+      setSubmitLoading(true);
+      const newFabric = await addFabricOption(fabricData);
+      if (newFabric) {
+        setFabrics(prev => [newFabric, ...prev]);
+        setIsModalOpen(false);
+      }
+    } catch (err) {
+      console.error("Error adding fabric:", err);
+      alert(err instanceof Error ? err.message : "Failed to add fabric");
+    } finally {
+      setSubmitLoading(false);
+    }
+  };
+
+  const handleEdit = async (fabric: FabricOption) => {
+    // Implement edit functionality
+    console.log("Edit fabric:", fabric);
+  };
+
+  const handleDelete = async (fabric: FabricOption) => {
+    if (window.confirm(`Are you sure you want to delete "${fabric.option_name}"?`)) {
+      try {
+        await deleteFabricOption(fabric.id);
+        setFabrics(prev => prev.filter(f => f.id !== fabric.id));
+      } catch (err) {
+        console.error("Error deleting fabric:", err);
+        alert(err instanceof Error ? err.message : "Failed to delete fabric");
+      }
+    }
+  };
+
+  // Filter fabrics based on search
+  const filteredFabrics = fabrics.filter(fabric =>
+    fabric.option_name.toLowerCase().includes(search.toLowerCase()) ||
+    fabric.fabric_type.toLowerCase().includes(search.toLowerCase()) ||
+    fabric.markup_percentage.toString().includes(search.toLowerCase())
+  );
+
+  // Generate search suggestions from actual data
   const searchSuggestions = [
     ...new Set([
-      ...allFabrics.map(fabric => fabric.name),
-      ...allFabrics.map(fabric => fabric.type),
-      ...allFabrics.map(fabric => fabric.status),
-      // Add common fabric terms
-      "Satin",
-      "Chiffon", 
-      "Taffeta",
+      ...fabrics.map(f => f.option_name),
+      ...fabrics.map(f => f.fabric_type),
+      "Classic Fabrics",
+      "Premium Fabrics", 
+      "Luxury Fabrics",
+      "Cotton Blend",
+      "Linen",
       "Velvet",
-      "Georgette",
-      "Crepe",
-      "Organza",
-      "Lace",
-      "Net",
-      "Muslin",
-      "Cotton",
-      "Polyester",
-      "Silk",
-      "COM",
-      "On Route",
-      "Delivered",
-      "Processing"
+      "Leather",
+      "Silk"
     ])
   ];
 
-  const filtered = allFabrics.filter(
-    (f) =>
-      f.name.toLowerCase().includes(search.toLowerCase()) ||
-      f.type.toLowerCase().includes(search.toLowerCase()) ||
-      f.status.toLowerCase().includes(search.toLowerCase()) ||
-      f.shipment.toLowerCase().includes(search.toLowerCase()) ||
-      f.furniture.toLowerCase().includes(search.toLowerCase())
-  );
+  // Define table columns
+  const fabricColumns: Column<FabricOption>[] = [
+    {
+      header: "Fabric Name",
+      accessor: "option_name",
+    },
+    {
+      header: "Fabric Type",
+      accessor: "fabric_type",
+    },
+    {
+      header: "Markup %",
+      accessor: (row) => `${row.markup_percentage}%`,
+    },
+    {
+      header: "Status",
+      accessor: (row) => (
+        <span className={`px-2 py-1 rounded text-xs font-medium ${
+          row.isactive 
+            ? 'bg-green-100 text-green-600' 
+            : 'bg-red-100 text-red-600'
+        }`}>
+          {row.isactive ? 'Active' : 'Inactive'}
+        </span>
+      ),
+    },
+    {
+      header: "Created At",
+      accessor: (row) => new Date(row.created_at).toLocaleDateString(),
+    },
+    {
+      header: "Actions",
+      accessor: (row) => (
+        <ActionDropdown
+          onEdit={() => handleEdit(row)}
+          onClear={() => handleDelete(row)}
+        />
+      ),
+    },
+  ];
 
-  const visibleFabrics = filtered.slice(0, visibleCount);
+  if (loading) {
+    return (
+      <div className="container mx-auto p-2">
+        <LoadingSpinner message="Loading fabric options..." />
+      </div>
+    );
+  }
 
-  const handleSearch = (value: string) => {
-    console.log("Searching fabrics for:", value);
-    // Reset visible count when searching
-    setVisibleCount(5);
-  };
-
-  const handleClear = () => {
-    console.log("Fabric search cleared");
-    setVisibleCount(5);
-  };
+  if (error) {
+    return (
+      <div className="container mx-auto p-2">
+        <div className="text-center text-red-500">
+          <p>Error: {error}</p>
+          <button 
+            onClick={fetchFabrics}
+            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto p-2">
       {/* Header with Search */}
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
-        <h1 className="text-[24px] font-dmSans font-semibold">Fabric Management</h1>
-        
-        <div className="w-full sm:w-80">
+      <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-6">
+        <h1 className="text-[24px] font-dmSans font-semibold">
+          Fabric Management ({fabrics.length})
+        </h1>
+
+        <div className="flex w-1/3 items-center gap-2">
+          {/* Add Fabric Button */}
+          <button
+            className="bg-primary text-white py-2 w-1/3 px-3 text-sm font-poppins rounded-lg hover:bg-primary/90 transition-colors"
+            onClick={() => setIsModalOpen(true)}
+            disabled={submitLoading}
+          >
+            Add Fabrics
+          </button>
+          
+          {/* Search Input */}
           <SearchInput
-            placeholder="Search ..."
+            placeholder="Search fabrics..."
             value={search}
             onChange={setSearch}
-            onSearch={handleSearch}
-            onClear={handleClear}
+            onSearch={() => {}}
+            onClear={() => setSearch("")}
             suggestions={searchSuggestions}
             onSuggestionClick={setSearch}
-            size="md"
+            size="sm"
             debounceMs={300}
-            className="w-full"
+            className="w-80"
           />
         </div>
       </div>
@@ -147,31 +192,27 @@ export default function FabricPage() {
       {/* Table */}
       <div className="bg-white rounded-2xl">
         <TableView
-          listTitle="Browse All Fabrics"
+          listTitle={`Browse All Fabrics (${filteredFabrics.length})`}
           columns={fabricColumns}
-          data={visibleFabrics}
-          rowLink={(row) => `/admin/fabrics/${encodeURIComponent(row.name)}`}
+          data={filteredFabrics}
+          rowLink={(row) => `/admin/fabrics/${row.id}`}
         />
-        
-        {/* Load More Button */}
       </div>
 
+      {/* Add Fabric Modal */}
+      <AddFabricModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleAddFabric}
+        loading={submitLoading}
+      />
+
       {/* Search Results Info */}
-      {/* {search && (
+      {search && (
         <div className="mt-4 text-sm text-gray-600">
-          Found {filtered.length} fabric{filtered.length !== 1 ? 's' : ''} for "{search}"
-          {filtered.length === 0 && (
-            <span className="block mt-1 text-gray-500">
-              Try searching for fabric names, material types, or shipment status
-            </span>
-          )}
-          {visibleCount < filtered.length && (
-            <span className="block mt-1 text-blue-600">
-              Showing {visibleCount} of {filtered.length} results
-            </span>
-          )}
+          Found {filteredFabrics.length} fabric{filteredFabrics.length !== 1 ? 's' : ''} for &quot;{search}&quot;
         </div>
-      )} */}
+      )}
     </div>
   );
 }
