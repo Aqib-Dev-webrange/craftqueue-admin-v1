@@ -18,6 +18,17 @@ const bookings: Booking[] = [
   { customer: "Emily R.", type: "Consultation", datetime: "05/05 – 05:45 PM" },
 ];
 
+// Move these functions outside of the component or use different names
+const handleEditBooking = (row: Booking) => {
+  console.log("Edit booking:", row);
+  // Implement your edit logic here
+};
+
+const handleClearBooking = (row: Booking) => {
+  console.log("Clear booking:", row);
+  // Implement your clear logic here
+};
+
 const bookingsColumns: Column<Booking>[] = [
   { header: "Customer Name", accessor: "customer" },
   { header: "Booking Type", accessor: "type" },
@@ -25,28 +36,16 @@ const bookingsColumns: Column<Booking>[] = [
   {
     header: "Actions",
     accessor: (row) => (
-          <ActionDropdown
-            onEdit={() => handleEdit(row)}
-            onClear={() => handleClear(row)}
-          />
-        ),
+      <ActionDropdown
+        onEdit={() => handleEditBooking(row)}
+        onClear={() => handleClearBooking(row)}
+      />
+    ),
   },
 ];
 
-const handleEdit = (row: Booking) => {
-  console.log("Edit booking:", row);
-  // Implement your edit logic here
-}
-
-const handleClear = (row: Booking) => {
-  console.log("Clear booking:", row);
-  // Implement your clear logic here
-};
-
-export default function BookingsPage({ show }: { show: boolean }) {
+export default function BookingsPage({ show = true }: { show: boolean }) {
   const [search, setSearch] = useState("");
-  // If show is false, we can skip rendering the search input
-  
 
   // Generate suggestions from existing data
   const searchSuggestions = [
@@ -73,7 +72,8 @@ export default function BookingsPage({ show }: { show: boolean }) {
     // You can add additional search logic here if needed
   };
 
-  const handleClear = () => {
+  const handleClearSearch = () => {
+    setSearch("");
     console.log("Search cleared");
   };
 
@@ -81,29 +81,25 @@ export default function BookingsPage({ show }: { show: boolean }) {
     <div className="container mx-auto p-2">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 py-2">
         <h1 className="text-[24px] font-dmSans font-semibold">Upholstery Bookings</h1>
-        {
-          show && (
-            <div className="w-full sm:w-72">
-          <SearchInput
-            placeholder="Search..."
-            value={search}
-            onChange={setSearch}
-            onSearch={handleSearch}
-            onClear={handleClear}
-            suggestions={searchSuggestions}
-            onSuggestionClick={setSearch}
-            size="sm"
-            debounceMs={300}
-            className="w-full"
-          />
-        </div>
-          )
-        }
-        
+        {show && (
+          <div className="w-full sm:w-72">
+            <SearchInput
+              placeholder="Search..."
+              value={search}
+              onChange={setSearch}
+              onSearch={handleSearch}
+              onClear={handleClearSearch}
+              suggestions={searchSuggestions}
+              onSuggestionClick={setSearch}
+              size="sm"
+              debounceMs={300}
+              className="w-full"
+            />
+          </div>
+        )}
       </div>
       
       <div className="mt-4">
-        
         <TableView
           listTitle="All Client Consultations & Pickups"
           columns={bookingsColumns}
