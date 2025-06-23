@@ -1,14 +1,16 @@
 "use client";
 import { statusData } from "@/utils/data/statusData";
 import StatusCard from "./components/statusCard";
-import { TableView } from "@/components/table/tableView";
-import { bookings, bookingsColumns, fabricManagement, fabricManagementColumns, pillowOrders, pillowOrdersColumns, upholsteryQuotes, upholsteryQuotesColumns } from "@/utils/data/furanitureData";
+import UpholsteryPage from "./upholstery/page";
+import Orders from "./orders/page";
+import FabricPage from "./fabrics/page";
+import BookingsPage from "./bookings/page";
 
 export default function Dashboard() {
   return (
-    <div className="flex flex-col gap-4 p-4">
+    <div className="flex flex-col gap-4 ">
       {/* Status Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
         {statusData.map((item, index) => (
           <StatusCard
             key={index}
@@ -20,58 +22,22 @@ export default function Dashboard() {
 
       {/* Upholstery Quotes - Show 3 initially */}
       <div>
-        <h2 className="text-[24px] font-dmSans py-4">Upholstery Quotes</h2>
-        <TableView
-          listTitle="List of all submitted quotes"
-          columns={upholsteryQuotesColumns}
-          data={upholsteryQuotes}
-          rowLink={(row) => `/admin/upholstery/${encodeURIComponent(row.customer)}`}
-          initialRowCount={4}
-          viewMoreText="View More"
-          showLessText="Show Less"
-        />
+        <UpholsteryPage show={false} />
       </div>
 
       {/* Pillow Orders - Show 4 initially */}
       <div>
-        <h2 className="text-[24px] font-dmSans py-4">Pillow Orders</h2>
-        <TableView
-          listTitle="List of all pillow orders"
-          columns={pillowOrdersColumns}
-          data={pillowOrders}
-          rowLink={(row) => `/admin/orders/${encodeURIComponent(row.customer)}`}
-          initialRowCount={4}
-          viewMoreText="View More"
-          showLessText="Show Less"
-        />
+        <Orders show={false} />
       </div>
 
       {/* Fabric Management - Show 2 initially */}
       <div>
-        <h2 className="text-[24px] font-dmSans py-4">Fabric Management</h2>
-        <TableView
-          listTitle="List of all fabric entries"
-          columns={fabricManagementColumns}
-          data={fabricManagement}
-          rowLink={(row) => `/admin/fabrics/${encodeURIComponent(row.identifier)}`}
-          initialRowCount={4}
-          viewMoreText="View More"
-          showLessText="Show Less"
-        />
+        <FabricPage show={false} />
       </div>
 
       {/* Bookings - Show 6 initially */}
       <div>
-        <h2 className="text-[24px] font-dmSans py-4">Bookings</h2>
-        <TableView
-          listTitle="List of All Bookings & Consultations"
-          columns={bookingsColumns}
-          data={bookings}
-          rowLink={(row) => `/admin/bookings/${encodeURIComponent(row.client)}`}
-          initialRowCount={4}
-          viewMoreText="View More"
-          showLessText="Show Less"
-        />
+        <BookingsPage show={false} />
       </div>
     </div>
   );

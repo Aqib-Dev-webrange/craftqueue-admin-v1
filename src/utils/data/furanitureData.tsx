@@ -243,7 +243,7 @@ export const upholsteryQuotesColumns: Column<typeof upholsteryQuotes[0]>[] = [
   {
     header: "Status",
     accessor: (row) => (
-      <span className="bg-orange-100 text-orange-500 px-2 py-1 rounded text-xs font-semibold">
+      <span className="bg-orange-100 text-[#FF8800] px-2 py-1 rounded text-xs font-semibold">
         {row.status}
       </span>
     ),

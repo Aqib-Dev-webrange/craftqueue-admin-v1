@@ -43,8 +43,10 @@ const handleClear = (row: Booking) => {
   // Implement your clear logic here
 };
 
-export default function BookingsPage() {
+export default function BookingsPage({ show }: { show: boolean }) {
   const [search, setSearch] = useState("");
+  // If show is false, we can skip rendering the search input
+  
 
   // Generate suggestions from existing data
   const searchSuggestions = [
@@ -79,8 +81,9 @@ export default function BookingsPage() {
     <div className="container mx-auto p-2">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 py-2">
         <h1 className="text-[24px] font-dmSans font-semibold">Upholstery Bookings</h1>
-        
-        <div className="w-full sm:w-72">
+        {
+          show && (
+            <div className="w-full sm:w-72">
           <SearchInput
             placeholder="Search..."
             value={search}
@@ -89,14 +92,18 @@ export default function BookingsPage() {
             onClear={handleClear}
             suggestions={searchSuggestions}
             onSuggestionClick={setSearch}
-            size="md"
+            size="sm"
             debounceMs={300}
             className="w-full"
           />
         </div>
+          )
+        }
+        
       </div>
       
       <div className="mt-4">
+        
         <TableView
           listTitle="All Client Consultations & Pickups"
           columns={bookingsColumns}
