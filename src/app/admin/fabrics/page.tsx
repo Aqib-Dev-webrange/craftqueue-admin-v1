@@ -8,7 +8,7 @@ import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { addFabricOption, deleteFabricOption, FabricFormData, FabricOption, getFabricOptions } from "@/services/fibric";
 
 
-export default function FabricPage() {
+export default function FabricPage({ show }: { show: boolean }) {
   const [search, setSearch] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [fabrics, setFabrics] = useState<FabricOption[]>([]);
@@ -163,7 +163,8 @@ export default function FabricPage() {
           Fabric Management ({fabrics.length})
         </h1>
 
-        <div className="flex w-1/3 items-center gap-2">
+        {show && (
+          <div className="flex w-1/3 items-center gap-2">
           {/* Add Fabric Button */}
           <button
             className="bg-primary text-white py-2 w-1/3 px-3 text-sm font-poppins rounded-lg hover:bg-primary/90 transition-colors"
@@ -187,6 +188,8 @@ export default function FabricPage() {
             className="w-80"
           />
         </div>
+          )}
+        
       </div>
 
       {/* Table */}

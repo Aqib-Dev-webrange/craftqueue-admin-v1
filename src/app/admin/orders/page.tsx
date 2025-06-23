@@ -6,7 +6,7 @@ import { pillowOrdersColumns } from "@/utils/data/furanitureData";
 import { formatPillowOrders, getPillowOrders, FormattedPillowOrder } from "@/lib/supabase";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 
-export default function Orders() {
+export default function Orders({ show }: { show: boolean }) {
   const [search, setSearch] = useState("");
   const [orders, setOrders] = useState<FormattedPillowOrder[]>([]);
   const [loading, setLoading] = useState(true);
@@ -49,13 +49,13 @@ export default function Orders() {
     "Memory Foam", "Cotton", "Latex", "Gel", "Feather", "On the Way", "Processing", "Delivered", "Cancelled"
   ];
 
-  if (loading) {
-    return (
-      <div className="container mx-auto p-2">
-        <LoadingSpinner message="Loading pillow orders..." />
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="container mx-auto p-2">
+  //       <LoadingSpinner message="Loading pillow orders..." />
+  //     </div>
+  //   );
+  // }
 
   if (error) {
     return (
@@ -82,7 +82,8 @@ export default function Orders() {
         <h1 className="text-[24px] font-dmSans font-semibold">
           Pillow Orders 
         </h1>
-        <div className="w-full sm:w-80">
+        {show && (
+<div className="w-full sm:w-80">
           <SearchInput
             placeholder="Search..."
             value={search}
@@ -96,15 +97,21 @@ export default function Orders() {
             className="w-full"
           />
         </div>
+        )}
+        
       </div>
 
       <div className="bg-white rounded-2xl">
-        <TableView
-          listTitle="Overview of All Pillow Orders"
-          columns={pillowOrdersColumns}
-          data={filteredOrders}
-          rowLink={(row) => `/admin/orders/${encodeURIComponent(row.orderNumber)}`}
-        />
+        {loading ? (
+          <LoadingSpinner message="Loading orders..." />
+        ) : (
+          <TableView
+            listTitle="Overview of All Pillow Orders"
+            columns={pillowOrdersColumns}
+            data={filteredOrders}
+            rowLink={(row) => `/admin/orders/${encodeURIComponent(row.orderNumber)}`}
+          />
+        )}
       </div>
 
       {search && (

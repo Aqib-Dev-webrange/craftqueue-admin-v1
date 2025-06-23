@@ -8,7 +8,7 @@ import { NoResultsMessage } from "@/components/ui/NoResultsMessage";
 import { useUpholsteryData } from "@/hooks/useUpholsteryData";
 import { generateSearchSuggestions } from "@/utils/searchSuggestions";
 
-export default function UpholsteryPage() {
+export default function UpholsteryPage({ show = true }: { show: boolean }) {
   const [search, setSearch] = useState("");
   const { upholsteryQuotes, loading, error } = useUpholsteryData();
 
@@ -46,34 +46,35 @@ export default function UpholsteryPage() {
       <header className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
         <div className="flex items-center gap-4">
           <h1 className="text-[24px] font-dmSans">Upholstery Quotes</h1>
-          {!loading && (
+          {/* {!loading && (
             <span className="bg-primary/10 text-primary text-sm font-medium px-2.5 py-0.5 rounded">
               {filteredQuotes.length} orders
             </span>
-          )}
+          )} */}
         </div>
 
-        <div className="w-full sm:w-80">
-          <SearchInput
-            placeholder="Search orders, furniture, status..."
-            value={search}
-            onChange={setSearch}
-            onSearch={handleSearch}
-            onClear={handleClear}
-            suggestions={searchSuggestions}
-            onSuggestionClick={setSearch}
-            size="md"
+        {show && (
+          <div className="w-full sm:w-80">
+            <SearchInput
+              placeholder="Search orders, furniture, status..."
+              value={search}
+              onChange={setSearch}
+              onSearch={handleSearch}
+              onClear={handleClear}
+              suggestions={searchSuggestions}
+              onSuggestionClick={setSearch}
+                size="sm"
             debounceMs={300}
             className="w-full"
             disabled={loading}
           />
         </div>
+        )}
       </header>
-
       {/* Main Content */}
       <main className="bg-white rounded-2xl">
         {loading ? (
-          <LoadingSpinner message="Loading upholstery orders..." />
+          <LoadingSpinner message="Processing ..." />
         ) : (
           <TableView
             listTitle="List of all submitted quotes"
