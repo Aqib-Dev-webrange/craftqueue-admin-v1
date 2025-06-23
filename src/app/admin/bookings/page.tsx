@@ -12,40 +12,41 @@ type Booking = {
 
 const bookings: Booking[] = [
   { customer: "Emily R.", type: "Consultation", datetime: "05/05 – 05:45 PM" },
-  { customer: "Emily R.", type: "Consultation", datetime: "05/05 – 05:45 PM" },
-  { customer: "Emily R.", type: "Consultation", datetime: "05/05 – 05:45 PM" },
-  { customer: "Emily R.", type: "Consultation", datetime: "05/05 – 05:45 PM" },
-  { customer: "Emily R.", type: "Consultation", datetime: "05/05 – 05:45 PM" },
+  { customer: "John D.", type: "Pickup", datetime: "05/06 – 02:30 PM" },
+  { customer: "Sarah M.", type: "Consultation", datetime: "05/07 – 10:15 AM" },
+  { customer: "Mike B.", type: "Delivery", datetime: "05/08 – 04:00 PM" },
+  { customer: "Lisa K.", type: "Consultation", datetime: "05/09 – 01:45 PM" },
 ];
 
-// Move these functions outside of the component or use different names
-const handleEditBooking = (row: Booking) => {
-  console.log("Edit booking:", row);
-  // Implement your edit logic here
-};
-
-const handleClearBooking = (row: Booking) => {
-  console.log("Clear booking:", row);
-  // Implement your clear logic here
-};
-
-const bookingsColumns: Column<Booking>[] = [
-  { header: "Customer Name", accessor: "customer" },
-  { header: "Booking Type", accessor: "type" },
-  { header: "Date/Time", accessor: "datetime" },
-  {
-    header: "Actions",
-    accessor: (row) => (
-      <ActionDropdown
-        onEdit={() => handleEditBooking(row)}
-        onClear={() => handleClearBooking(row)}
-      />
-    ),
-  },
-];
-
-export default function BookingsPage({ show = true }: { show: boolean }) {
+export default function BookingsTable({ show = true }: { show?: boolean }) {
   const [search, setSearch] = useState("");
+
+  // Define booking action handlers inside the component
+  const handleEditBooking = (row: Booking) => {
+    console.log("Edit booking:", row);
+    // Implement your edit logic here
+  };
+
+  const handleClearBooking = (row: Booking) => {
+    console.log("Clear booking:", row);
+    // Implement your clear logic here
+  };
+
+  // Define columns inside component to access the handlers
+  const bookingsColumns: Column<Booking>[] = [
+    { header: "Customer Name", accessor: "customer" },
+    { header: "Booking Type", accessor: "type" },
+    { header: "Date/Time", accessor: "datetime" },
+    {
+      header: "Actions",
+      accessor: (row) => (
+        <ActionDropdown
+          onEdit={() => handleEditBooking(row)}
+          onClear={() => handleClearBooking(row)}
+        />
+      ),
+    },
+  ];
 
   // Generate suggestions from existing data
   const searchSuggestions = [
@@ -54,6 +55,7 @@ export default function BookingsPage({ show = true }: { show: boolean }) {
       ...bookings.map(b => b.type),
       "Consultation",
       "Pickup",
+      "Delivery",
       "Emily R.",
       "Today",
       "Tomorrow"
@@ -69,7 +71,6 @@ export default function BookingsPage({ show = true }: { show: boolean }) {
 
   const handleSearch = (value: string) => {
     console.log("Searching for:", value);
-    // You can add additional search logic here if needed
   };
 
   const handleClearSearch = () => {

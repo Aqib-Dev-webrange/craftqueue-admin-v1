@@ -8,7 +8,7 @@ import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { addFabricOption, deleteFabricOption, FabricFormData, FabricOption, getFabricOptions } from "@/services/fibric";
 
 
-export default function FabricPage({ show }: { show: boolean }) {
+export default function FabricPage({ show = true }: { show?: boolean }) {
   const [search, setSearch] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [fabrics, setFabrics] = useState<FabricOption[]>([]);
