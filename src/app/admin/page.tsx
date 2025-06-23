@@ -1,16 +1,16 @@
 "use client";
 import { statusData } from "@/utils/data/statusData";
 import StatusCard from "./components/statusCard";
-import UpholsteryPage from "./upholstery/page";
-import Orders from "./orders/page";
-import FabricPage from "./fabrics/page";
-import BookingsPage from "./bookings/page";
+import BookingsTable from "./bookings/components/Bookings";
+import Orders from "./orders/components/pillowOrder";
+import FabricPage from "./fabrics/components/FabricsTable";
+import UpholsteryTable from "./upholstery/components/UpholstreyTable";
 
 export default function Dashboard() {
   return (
     <div className="flex flex-col gap-4 ">
       {/* Status Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-2">
         {statusData.map((item, index) => (
           <StatusCard
             key={index}
@@ -22,7 +22,7 @@ export default function Dashboard() {
 
       {/* Upholstery Quotes - Show 3 initially */}
       <div>
-        <UpholsteryPage show={false} />
+        <UpholsteryTable show={false} />
       </div>
 
       {/* Pillow Orders - Show 4 initially */}
@@ -37,7 +37,7 @@ export default function Dashboard() {
 
       {/* Bookings - Show 6 initially */}
       <div>
-        <BookingsPage show={false} />
+        <BookingsTable show={false} />
       </div>
     </div>
   );
