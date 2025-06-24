@@ -6,7 +6,9 @@ import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { addFabricOption, deleteFabricOption, FabricFormData, FabricOption, getFabricOptions } from "@/services/fibric";
 import ActionDropdown from "../../components/actionDropdown";
 import AddFabricModal from "./addFabrics";
-
+import ViewFabricModal from "./modals/ViewFabricModal";
+import EditFabricModal from "./modals/EditFabricModal";
+import DeleteFabricModal from "./modals/DeleteFabricModal";
 
 export default function FabricPage({ show = true }: { show?: boolean }) {
   const [search, setSearch] = useState("");
@@ -15,6 +17,12 @@ export default function FabricPage({ show = true }: { show?: boolean }) {
   const [loading, setLoading] = useState(true);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Modal states
+  const [selectedFabric, setSelectedFabric] = useState<FabricOption | null>(null);
+  const [showViewModal, setShowViewModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   // Fetch fabrics on component mount
   useEffect(() => {
@@ -50,20 +58,54 @@ export default function FabricPage({ show = true }: { show?: boolean }) {
     }
   };
 
-  const handleEdit = async (fabric: FabricOption) => {
-    // Implement edit functionality
-    console.log("Edit fabric:", fabric);
+  // Action handlers
+  const handleView = (fabric: FabricOption) => {
+    setSelectedFabric(fabric);
+    setShowViewModal(true);
   };
 
-  const handleDelete = async (fabric: FabricOption) => {
-    if (window.confirm(`Are you sure you want to delete "${fabric.option_name}"?`)) {
-      try {
-        await deleteFabricOption(fabric.id);
-        setFabrics(prev => prev.filter(f => f.id !== fabric.id));
-      } catch (err) {
-        console.error("Error deleting fabric:", err);
-        alert(err instanceof Error ? err.message : "Failed to delete fabric");
-      }
+  const handleEdit = (fabric: FabricOption) => {
+    setSelectedFabric(fabric);
+    setShowEditModal(true);
+  };
+
+  const handleDelete = (fabric: FabricOption) => {
+    setSelectedFabric(fabric);
+    setShowDeleteModal(true);
+  };
+
+  // Handle fabric update
+  const handleSaveFabric = async (updatedFabric: FabricOption) => {
+    try {
+      // Update local state optimistically
+      const updatedFabrics = fabrics.map(fabric => 
+        fabric.id === updatedFabric.id ? updatedFabric : fabric
+      );
+      setFabrics(updatedFabrics);
+      setShowEditModal(false);
+      setSelectedFabric(null);
+
+      console.log("Fabric updated successfully:", updatedFabric);
+      // Here you would make the API call to update the fabric
+      // await updateFabricOption(updatedFabric);
+    } catch (error) {
+      console.error("Error updating fabric:", error);
+      alert("Failed to update fabric. Please try again.");
+    }
+  };
+
+  // Handle fabric deletion
+  const handleConfirmDelete = async () => {
+    if (!selectedFabric) return;
+
+    try {
+      await deleteFabricOption(selectedFabric.id);
+      setFabrics(prev => prev.filter(f => f.id !== selectedFabric.id));
+      setShowDeleteModal(false);
+      setSelectedFabric(null);
+    } catch (err) {
+      console.error("Error deleting fabric:", err);
+      alert(err instanceof Error ? err.message : "Failed to delete fabric");
     }
   };
 
@@ -124,8 +166,9 @@ export default function FabricPage({ show = true }: { show?: boolean }) {
       header: "Actions",
       accessor: (row) => (
         <ActionDropdown
+          onView={() => handleView(row)}
           onEdit={() => handleEdit(row)}
-          onClear={() => handleDelete(row)}
+          onDelete={() => handleDelete(row)}
         />
       ),
     },
@@ -160,36 +203,40 @@ export default function FabricPage({ show = true }: { show?: boolean }) {
       {/* Header with Search */}
       <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-6">
         <h1 className="text-[24px] font-dmSans font-semibold">
-          Fabric Management ({fabrics.length})
+         Fabric Management {"  "} 
+         {!loading && (
+            <span className="bg-primary/10 text-primary text-sm font-medium px-2.5 py-0.5 rounded">
+              {filteredFabrics.length} orders
+            </span>
+          )}
         </h1>
 
         {show && (
           <div className="flex w-1/3 items-center gap-2">
-          {/* Add Fabric Button */}
-          <button
-            className="bg-primary text-white py-2 w-1/3 px-3 text-sm font-poppins rounded-lg hover:bg-primary/90 transition-colors"
-            onClick={() => setIsModalOpen(true)}
-            disabled={submitLoading}
-          >
-            Add Fabrics
-          </button>
-          
-          {/* Search Input */}
-          <SearchInput
-            placeholder="Search fabrics..."
-            value={search}
-            onChange={setSearch}
-            onSearch={() => {}}
-            onClear={() => setSearch("")}
-            suggestions={searchSuggestions}
-            onSuggestionClick={setSearch}
-            size="sm"
-            debounceMs={300}
-            className="w-80"
-          />
-        </div>
-          )}
-        
+            {/* Add Fabric Button */}
+            <button
+              className="bg-primary text-white py-2 w-1/3 px-3 text-sm font-poppins rounded-lg hover:bg-primary/90 transition-colors"
+              onClick={() => setIsModalOpen(true)}
+              disabled={submitLoading}
+            >
+              Add Fabrics
+            </button>
+            
+            {/* Search Input */}
+            <SearchInput
+              placeholder="Search fabrics..."
+              value={search}
+              onChange={setSearch}
+              onSearch={() => {}}
+              onClear={() => setSearch("")}
+              suggestions={searchSuggestions}
+              onSuggestionClick={setSearch}
+              size="sm"
+              debounceMs={300}
+              className="w-80"
+            />
+          </div>
+        )}
       </div>
 
       {/* Table */}
@@ -209,6 +256,38 @@ export default function FabricPage({ show = true }: { show?: boolean }) {
         onSubmit={handleAddFabric}
         loading={submitLoading}
       />
+
+      {/* View/Edit/Delete Modals */}
+      {selectedFabric && (
+        <>
+          <ViewFabricModal
+            isOpen={showViewModal}
+            onClose={() => {
+              setShowViewModal(false);
+              setSelectedFabric(null);
+            }}
+            fabric={selectedFabric}
+          />
+          <EditFabricModal
+            isOpen={showEditModal}
+            onClose={() => {
+              setShowEditModal(false);
+              setSelectedFabric(null);
+            }}
+            fabric={selectedFabric}
+            onSave={handleSaveFabric}
+          />
+          <DeleteFabricModal
+            isOpen={showDeleteModal}
+            onClose={() => {
+              setShowDeleteModal(false);
+              setSelectedFabric(null);
+            }}
+            fabric={selectedFabric}
+            onConfirm={handleConfirmDelete}
+          />
+        </>
+      )}
 
       {/* Search Results Info */}
       {search && (

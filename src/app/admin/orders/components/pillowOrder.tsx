@@ -2,19 +2,123 @@
 import { useEffect, useState } from "react";
 import { TableView } from "@/components/table/tableView";
 import SearchInput from "@/components/ui/Input";
-import { pillowOrdersColumns } from "@/utils/data/furanitureData";
 import {
   formatPillowOrders,
   getPillowOrders,
   FormattedPillowOrder,
 } from "@/lib/supabase";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
+import ActionDropdown from "../../components/actionDropdown";
+import ViewPillowModal from "./modals/ViewPillowModal";
+import EditPillowModal from "./modals/EditPillowModal";
+import DeletePillowModal from "./modals/DeletePillowModal";
+
+// Define the Column type
+type Column<T> = {
+  header: string;
+  accessor: keyof T | ((row: T) => React.ReactNode);
+};
 
 export default function Orders({ show }: { show: boolean }) {
   const [search, setSearch] = useState("");
   const [orders, setOrders] = useState<FormattedPillowOrder[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  
+  // Modal states
+  const [selectedOrder, setSelectedOrder] = useState<FormattedPillowOrder | null>(null);
+  const [showViewModal, setShowViewModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  // Action handlers
+  const handleView = (row: FormattedPillowOrder) => {
+    setSelectedOrder(row);
+    setShowViewModal(true);
+  };
+
+  const handleEdit = (row: FormattedPillowOrder) => {
+    setSelectedOrder(row);
+    setShowEditModal(true);
+  };
+
+  const handleDelete = (row: FormattedPillowOrder) => {
+    setSelectedOrder(row);
+    setShowDeleteModal(true);
+  };
+
+  // Handle order update
+  const handleSaveOrder = async (updatedOrder: FormattedPillowOrder) => {
+    try {
+      // Update local state optimistically
+      const updatedOrders = orders.map(order => 
+        order.orderNumber === updatedOrder.orderNumber ? updatedOrder : order
+      );
+      setOrders(updatedOrders);
+      setShowEditModal(false);
+      setSelectedOrder(null);
+      
+      console.log("Order updated successfully:", updatedOrder);
+      // Here you would make the API call to update the order
+      // await updatePillowOrderAPI(updatedOrder);
+    } catch (error) {
+      console.error("Error updating order:", error);
+      alert("Failed to update order. Please try again.");
+    }
+  };
+
+  // Handle order deletion
+  const handleConfirmDelete = async () => {
+    if (!selectedOrder) return;
+
+    try {
+      // Remove from local state optimistically
+      const updatedOrders = orders.filter(order => 
+        order.orderNumber !== selectedOrder.orderNumber
+      );
+      setOrders(updatedOrders);
+      setShowDeleteModal(false);
+      setSelectedOrder(null);
+      
+      console.log("Order deleted successfully:", selectedOrder);
+      // Here you would make the API call to delete the order
+      // await deletePillowOrderAPI(selectedOrder.orderNumber);
+    } catch (error) {
+      console.error("Error deleting order:", error);
+      alert("Failed to delete order. Please try again.");
+    }
+  };
+
+  const pillowOrdersColumns: Column<FormattedPillowOrder>[] = [
+    {
+      header: "Customer Name",
+      accessor: "customer",
+    },
+    {
+      header: "Pillow Type & Qty",
+      accessor: "pillowType",
+    },
+    {
+      header: "Status",
+      accessor: (row) => (
+        <span className="bg-orange-100 text-orange-500 px-2 py-1 rounded text-xs font-semibold">
+          {row.status}
+        </span>
+      ),
+    },
+    { header: "Fabric Type", accessor: "fabric" },
+    { header: "Order Date", accessor: "date" },
+    {
+      header: "Actions",
+      accessor: (row) => (
+        <ActionDropdown
+          onView={() => handleView(row)}
+          onEdit={() => handleEdit(row)}
+          onDelete={() => handleDelete(row)}
+        />
+      ),
+    },
+  ];
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -64,14 +168,6 @@ export default function Orders({ show }: { show: boolean }) {
     "Cancelled",
   ];
 
-  // if (loading) {
-  //   return (
-  //     <div className="container mx-auto p-2">
-  //       <LoadingSpinner message="Loading pillow orders..." />
-  //     </div>
-  //   );
-  // }
-
   if (error) {
     return (
       <div className="container mx-auto p-2">
@@ -96,20 +192,28 @@ export default function Orders({ show }: { show: boolean }) {
   return (
     <div className="container mx-auto p-2">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
-        <h1 className="text-[24px] font-dmSans font-semibold">Pillow Orders</h1>
+        <div className="flex items-center gap-4">
+          <h1 className="text-[24px] font-dmSans font-semibold">Pillow Orders</h1>
+          {!loading && (
+            <span className="bg-primary/10 text-primary text-sm font-medium px-2.5 py-0.5 rounded">
+              {filteredOrders.length} orders
+            </span>
+          )}
+        </div>
         {show && (
           <div className="w-full sm:w-80">
             <SearchInput
-              placeholder="Search..."
+              placeholder="Search orders"
               value={search}
               onChange={setSearch}
               onSearch={() => {}}
               onClear={() => setSearch("")}
               suggestions={searchSuggestions}
               onSuggestionClick={setSearch}
-              size="md"
+              size="sm"
               debounceMs={300}
               className="w-full"
+              disabled={loading}
             />
           </div>
         )}
@@ -130,16 +234,43 @@ export default function Orders({ show }: { show: boolean }) {
         )}
       </div>
 
-      {search && (
-        <div className="mt-4 text-sm text-gray-600">
-          Found {filteredOrders.length} order
-          {filteredOrders.length !== 1 ? "s" : ""} for &quot;{search}&quot;
-          {filteredOrders.length === 0 && (
-            <span className="block mt-1 text-gray-500">
-              Try searching for customer names, pillow types, status, or fabric
-            </span>
-          )}
+      {search && filteredOrders.length === 0 && !loading && (
+        <div className="mt-4 text-center py-8 text-gray-500">
+          <p>No orders found for &quot;{search}&quot;</p>
+          <p className="text-sm mt-1">Try searching for customer names, pillow types, status, or fabric</p>
         </div>
+      )}
+
+      {/* Modals */}
+      {selectedOrder && (
+        <>
+          <ViewPillowModal
+            isOpen={showViewModal}
+            onClose={() => {
+              setShowViewModal(false);
+              setSelectedOrder(null);
+            }}
+            order={selectedOrder}
+          />
+          <EditPillowModal
+            isOpen={showEditModal}
+            onClose={() => {
+              setShowEditModal(false);
+              setSelectedOrder(null);
+            }}
+            order={selectedOrder}
+            onSave={handleSaveOrder}
+          />
+          <DeletePillowModal
+            isOpen={showDeleteModal}
+            onClose={() => {
+              setShowDeleteModal(false);
+              setSelectedOrder(null);
+            }}
+            order={selectedOrder}
+            onConfirm={handleConfirmDelete}
+          />
+        </>
       )}
     </div>
   );
