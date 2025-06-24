@@ -7,7 +7,6 @@ import { addFabricOption, deleteFabricOption, FabricFormData, FabricOption, getF
 import ActionDropdown from "../../components/actionDropdown";
 import AddFabricModal from "./addFabrics";
 import ViewFabricModal from "./modals/ViewFabricModal";
-import EditFabricModal from "./modals/EditFabricModal";
 import DeleteFabricModal from "./modals/DeleteFabricModal";
 
 export default function FabricPage({ show = true }: { show?: boolean }) {
@@ -21,7 +20,6 @@ export default function FabricPage({ show = true }: { show?: boolean }) {
   // Modal states
   const [selectedFabric, setSelectedFabric] = useState<FabricOption | null>(null);
   const [showViewModal, setShowViewModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   // Fetch fabrics on component mount
@@ -64,34 +62,9 @@ export default function FabricPage({ show = true }: { show?: boolean }) {
     setShowViewModal(true);
   };
 
-  const handleEdit = (fabric: FabricOption) => {
-    setSelectedFabric(fabric);
-    setShowEditModal(true);
-  };
-
   const handleDelete = (fabric: FabricOption) => {
     setSelectedFabric(fabric);
     setShowDeleteModal(true);
-  };
-
-  // Handle fabric update
-  const handleSaveFabric = async (updatedFabric: FabricOption) => {
-    try {
-      // Update local state optimistically
-      const updatedFabrics = fabrics.map(fabric => 
-        fabric.id === updatedFabric.id ? updatedFabric : fabric
-      );
-      setFabrics(updatedFabrics);
-      setShowEditModal(false);
-      setSelectedFabric(null);
-
-      console.log("Fabric updated successfully:", updatedFabric);
-      // Here you would make the API call to update the fabric
-      // await updateFabricOption(updatedFabric);
-    } catch (error) {
-      console.error("Error updating fabric:", error);
-      alert("Failed to update fabric. Please try again.");
-    }
   };
 
   // Handle fabric deletion
@@ -167,7 +140,6 @@ export default function FabricPage({ show = true }: { show?: boolean }) {
       accessor: (row) => (
         <ActionDropdown
           onView={() => handleView(row)}
-          onEdit={() => handleEdit(row)}
           onDelete={() => handleDelete(row)}
         />
       ),
@@ -267,15 +239,6 @@ export default function FabricPage({ show = true }: { show?: boolean }) {
               setSelectedFabric(null);
             }}
             fabric={selectedFabric}
-          />
-          <EditFabricModal
-            isOpen={showEditModal}
-            onClose={() => {
-              setShowEditModal(false);
-              setSelectedFabric(null);
-            }}
-            fabric={selectedFabric}
-            onSave={handleSaveFabric}
           />
           <DeleteFabricModal
             isOpen={showDeleteModal}

@@ -8,7 +8,6 @@ import { useUpholsteryData } from "@/hooks/useUpholsteryData";
 import { generateSearchSuggestions } from "@/utils/searchSuggestions";
 import ActionDropdown from "../../components/actionDropdown";
 import ViewQuoteModal from "./modals/ViewQuoteModal";
-import EditQuoteModal from "./modals/EditQuoteModal";
 import DeleteConfirmModal from "./modals/DeleteConfirmModal";
 
 interface UpholsteryQuote {
@@ -42,7 +41,6 @@ export default function UpholsteryTable({ show = true }: { show: boolean }) {
   // Modal states
   const [selectedQuote, setSelectedQuote] = useState<UpholsteryQuote | null>(null);
   const [showViewModal, setShowViewModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   // Action handlers
@@ -51,10 +49,6 @@ export default function UpholsteryTable({ show = true }: { show: boolean }) {
     setShowViewModal(true);
   };
 
-  const handleEdit = (row: UpholsteryQuote) => {
-    setSelectedQuote(row);
-    setShowEditModal(true);
-  };
 
   const handleDelete = (row: UpholsteryQuote) => {
     setSelectedQuote(row);
@@ -97,7 +91,6 @@ export default function UpholsteryTable({ show = true }: { show: boolean }) {
       accessor: (row) => (
         <ActionDropdown
           onView={() => handleView(row)}
-          onEdit={() => handleEdit(row)}
           onDelete={() => handleDelete(row)}
         />
       ),
@@ -194,17 +187,6 @@ export default function UpholsteryTable({ show = true }: { show: boolean }) {
             isOpen={showViewModal}
             onClose={() => setShowViewModal(false)}
             quote={selectedQuote}
-          />
-          <EditQuoteModal
-            isOpen={showEditModal}
-            onClose={() => setShowEditModal(false)}
-            quote={selectedQuote}
-            onSave={(updatedQuote) => {
-              // Handle quote update
-              console.log("Quote updated:", updatedQuote);
-              setShowEditModal(false);
-              // You would typically update the state/refetch data here
-            }}
           />
           <DeleteConfirmModal
             isOpen={showDeleteModal}

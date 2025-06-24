@@ -1,17 +1,15 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import { BsThreeDots } from "react-icons/bs";
-import { Eye, Edit3, Trash2 } from "lucide-react";
+import { Eye, Trash2 } from "lucide-react";
 
 interface ActionDropdownProps {
   onView: () => void;
-  onEdit: () => void;
   onDelete: () => void;
 }
 
 export default function ActionDropdown({ 
   onView, 
-  onEdit, 
   onDelete 
 }: ActionDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -50,7 +48,7 @@ export default function ActionDropdown({
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 top-8  bg-white border border-gray-200 rounded-lg shadow-lg min-w-[140px]">
+        <div className="absolute right-0 top-8 z-50 bg-white border border-gray-200 rounded-lg shadow-lg min-w-[140px]">
           <div className="py-1">
             <button
               onClick={handleAction(onView)}
@@ -58,13 +56,6 @@ export default function ActionDropdown({
             >
               <Eye className="w-4 h-4" />
               View
-            </button>
-            <button
-              onClick={handleAction(onEdit)}
-              className="flex items-center gap-2 w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
-            >
-              <Edit3 className="w-4 h-4" />
-              Edit
             </button>
             <button
               onClick={handleAction(onDelete)}

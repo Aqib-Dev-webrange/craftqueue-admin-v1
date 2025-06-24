@@ -6,7 +6,6 @@ import ActionDropdown from "../../components/actionDropdown";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { getPillowOrdersForTracker, PillowOrderTracker } from "@/services/orderTracker";
 import ViewTrackerModal from "./components/modals/ViewTrackerModal";
-import EditTrackerModal from "./components/modals/EditTrackerModal";
 import DeleteTrackerModal from "./components/modals/DeleteTrackerModal";
 import { TrackerOrder } from "./types/TrackerOrder";
 
@@ -34,7 +33,6 @@ export default function OrderTrackerManager() {
   // Modal states
   const [selectedOrder, setSelectedOrder] = useState<TrackerOrder | null>(null);
   const [showViewModal, setShowViewModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   // Action handlers
@@ -43,40 +41,10 @@ export default function OrderTrackerManager() {
     setShowViewModal(true);
   };
 
-  const handleEdit = (row: TrackerOrder) => {
-    setSelectedOrder(row);
-    setShowEditModal(true);
-  };
 
   const handleDelete = (row: TrackerOrder) => {
     setSelectedOrder(row);
     setShowDeleteModal(true);
-  };
-
-  // Handle order update - FIXED: Made async and returns Promise<void>
-  const handleSaveOrder = async (updatedOrder: TrackerOrder): Promise<void> => {
-    try {
-      // Update local state optimistically
-      const updatedOrders = orders.map(order => 
-        order.quote === updatedOrder.quote ? updatedOrder : order
-      );
-      setOrders(updatedOrders);
-      setShowEditModal(false);
-      setSelectedOrder(null);
-
-      console.log("Order updated successfully:", updatedOrder);
-      
-      // Here you would make the API call to update the order
-      // await updateOrderAPI(updatedOrder);
-      
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 100));
-      
-    } catch (error) {
-      console.error("Error updating order:", error);
-      // Re-throw to let the modal handle the error
-      throw new Error("Failed to update order. Please try again.");
-    }
   };
 
   // Handle order deletion - FIXED: Made async and returns Promise<void>
@@ -151,7 +119,6 @@ export default function OrderTrackerManager() {
       accessor: (row) => (
         <ActionDropdown
           onView={() => handleView(row)}
-          onEdit={() => handleEdit(row)}
           onDelete={() => handleDelete(row)}
         />
       ),
@@ -302,15 +269,6 @@ export default function OrderTrackerManager() {
               setSelectedOrder(null);
             }}
             order={selectedOrder}
-          />
-          <EditTrackerModal
-            isOpen={showEditModal}
-            onClose={() => {
-              setShowEditModal(false);
-              setSelectedOrder(null);
-            }}
-            order={selectedOrder}
-            onSave={handleSaveOrder}
           />
           <DeleteTrackerModal
             isOpen={showDeleteModal}

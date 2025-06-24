@@ -10,7 +10,6 @@ import {
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import ActionDropdown from "../../components/actionDropdown";
 import ViewPillowModal from "./modals/ViewPillowModal";
-import EditPillowModal from "./modals/EditPillowModal";
 import DeletePillowModal from "./modals/DeletePillowModal";
 
 // Define the Column type
@@ -28,7 +27,6 @@ export default function Orders({ show }: { show: boolean }) {
   // Modal states
   const [selectedOrder, setSelectedOrder] = useState<FormattedPillowOrder | null>(null);
   const [showViewModal, setShowViewModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   // Action handlers
@@ -37,34 +35,9 @@ export default function Orders({ show }: { show: boolean }) {
     setShowViewModal(true);
   };
 
-  const handleEdit = (row: FormattedPillowOrder) => {
-    setSelectedOrder(row);
-    setShowEditModal(true);
-  };
-
   const handleDelete = (row: FormattedPillowOrder) => {
     setSelectedOrder(row);
     setShowDeleteModal(true);
-  };
-
-  // Handle order update
-  const handleSaveOrder = async (updatedOrder: FormattedPillowOrder) => {
-    try {
-      // Update local state optimistically
-      const updatedOrders = orders.map(order => 
-        order.orderNumber === updatedOrder.orderNumber ? updatedOrder : order
-      );
-      setOrders(updatedOrders);
-      setShowEditModal(false);
-      setSelectedOrder(null);
-      
-      console.log("Order updated successfully:", updatedOrder);
-      // Here you would make the API call to update the order
-      // await updatePillowOrderAPI(updatedOrder);
-    } catch (error) {
-      console.error("Error updating order:", error);
-      alert("Failed to update order. Please try again.");
-    }
   };
 
   // Handle order deletion
@@ -113,7 +86,6 @@ export default function Orders({ show }: { show: boolean }) {
       accessor: (row) => (
         <ActionDropdown
           onView={() => handleView(row)}
-          onEdit={() => handleEdit(row)}
           onDelete={() => handleDelete(row)}
         />
       ),
@@ -251,15 +223,6 @@ export default function Orders({ show }: { show: boolean }) {
               setSelectedOrder(null);
             }}
             order={selectedOrder}
-          />
-          <EditPillowModal
-            isOpen={showEditModal}
-            onClose={() => {
-              setShowEditModal(false);
-              setSelectedOrder(null);
-            }}
-            order={selectedOrder}
-            onSave={handleSaveOrder}
           />
           <DeletePillowModal
             isOpen={showDeleteModal}
