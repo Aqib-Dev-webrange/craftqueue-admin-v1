@@ -1,4 +1,4 @@
-import { BoxFast, Calendar, Dashboard, Pillow, Sofa, TruckLocation } from "../../../public/icons/icons";
+import { BoxFast, Dashboard, Pillow, Sofa, TruckLocation } from "../../../public/icons/icons";
 
 export type SidebarDataItem = {
   type: "item";
@@ -26,12 +26,12 @@ export const sidebarData: SidebarDataItem[] = [
     icon: <Pillow className="w-6 h-6" />,
     link: "/admin/orders",
   },
-  {
-    type: "item",
-    label: "Bookings",
-    icon: <Calendar className="w-6 h-6" />,
-    link: "/admin/bookings",
-  },
+  // {
+  //   type: "item",
+  //   label: "Bookings",
+  //   icon: <Calendar className="w-6 h-6" />,
+  //   link: "/admin/bookings",
+  // },
   {
     type: "item",
     label: "Fabric Management",
