@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/lib/supabase";
 import type { RawUpholsteryOrder } from "@/types/upholstery";
 
@@ -7,71 +7,75 @@ export function useUpholsteryOrderDetail(orderId: string) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    async function fetchOrderDetail() {
-      try {
-        setLoading(true);
-        setError(null);
+  const fetchOrderDetail = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
 
-        // Get all upholstery orders and find the specific one
-        const { data: upholstery_orders, error: fetchError } = await supabase.rpc(
-          "get_upholstery_orders"
-        );
+      const { data: upholstery_orders, error: fetchError } = await supabase.rpc(
+        "get_upholstery_orders"
+      );
 
-        if (fetchError) {
-          console.error("Error fetching upholstery order:", fetchError);
-          setError(fetchError.message);
-          return;
-        }
-
-        // Find the specific order by ID or order number
-        const foundOrder = upholstery_orders?.find(
-          (orderData: RawUpholsteryOrder) => 
-            orderData.id?.toString() === orderId || 
-            orderData.order_number === orderId
-        );
-
-        if (!foundOrder) {
-          setError("Order not found");
-          return;
-        }
-
-        console.log("Found order:", foundOrder);
-        setOrder(foundOrder);
-      } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : "Failed to load order details";
-        console.error("Failed to load order details:", err);
-        setError(errorMessage);
-      } finally {
-        setLoading(false);
+      if (fetchError) {
+        console.error("Error fetching upholstery order:", fetchError);
+        setError(fetchError.message);
+        return;
       }
-    }
 
-    if (orderId) {
-      fetchOrderDetail();
+      const foundOrder = upholstery_orders?.find(
+        (orderData: RawUpholsteryOrder) =>
+          orderData.id?.toString() === orderId ||
+          orderData.order_number === orderId
+      );
+
+      if (!foundOrder) {
+        setError("Order not found");
+        return;
+      }
+
+      setOrder(foundOrder);
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to load order details";
+      console.error("Failed to load order details:", err);
+      setError(errorMessage);
+    } finally {
+      setLoading(false);
     }
   }, [orderId]);
 
-  const updateStatus = async (newStatus: string) => {
-    try {
-      // Here you would implement the status update logic
-      // For now, just update local state
-      if (order) {
-        const updatedOrder = {
-          ...order,
-          order_status: order.order_status?.map((status, index) => ({
-            ...status,
-            is_active: index === 0 ? true : false, // Make first status active for demo
-            status: index === 0 ? newStatus : status.status,
-          })) || [],
-        };
-        setOrder(updatedOrder);
-      }
-    } catch (error) {
-      console.error("Failed to update status:", error);
-      throw error;
-    }
-  };
+  useEffect(() => {
+    if (orderId) fetchOrderDetail();
+  }, [fetchOrderDetail, orderId]);
 
-  return { order, loading, error, updateStatus };
+  const updateStatus = async (newStatus: string) => {
+  try {
+    if (!order?.id) throw new Error("Invalid order ID");
+
+    const { error } = await supabase
+      .from("orders") // or "upholstery_orders" if that's your actual table name
+      .update({
+        // Assuming order_status is a simple column (string)
+        order_status: newStatus
+      })
+      .eq("id", order.id)
+      .select();
+
+    if (error) throw error;
+
+    // Refetch the updated order to keep local state in sync
+    await fetchOrderDetail();
+  } catch (error) {
+    console.error("Failed to update status:", error);
+    throw error;
+  }
+};
+
+  return {
+    order,
+    loading,
+    error,
+    updateStatus,
+    refetch: fetchOrderDetail, // export refetch too if needed in modals
+  };
 }

@@ -18,44 +18,17 @@ export interface CreatedUser {
   raw_user_meta_data?: UserMetaData;
 }
 
-export interface FurnitureType {
-  display_name?: string;
-  name?: string;
-}
-
-export interface FabricType {
-  option_name?: string;
-  fabric_type?: string;
-}
-
-export interface Price {
-  total?: number;
-  base_price?: number;
-  rush_fee?: number;
-  fabric_markup?: number;
-  features_total?: number;
-}
-
-export interface Address {
-  address?: string;
-  addresstype?: string;
-}
-
-export interface FurnitureSize {
-  width?: number;
-  height?: number;
-  length?: number;
-}
-
-export interface LeadTime {
-  lead_time_text?: string;
-  lead_time_days?: number;
-}
-
-export interface UpholsteryFeature {
-  feature_name?: string;
-  description?: string;
-  additional_cost?: number;
+export interface FurnitureType { id?: number; name?: string; display_name?: string }
+export interface FabricType { id?: number; fabric_type?: string, option_name?: string }
+export interface UpholsteryFeature { id?: number; feature_name?: string }
+export interface LeadTime { id?: number; lead_time_text?: string; lead_time_days?: number }
+export interface Address { id?: number; address?: string }
+export interface FurnitureSize { id?: number; width?: number; height?: number; length?: number }
+export interface Price { id?: number; total?: number }
+export interface FurnitureImage {
+  id?: number;
+  image_url?: string;
+  created_at?: string;
 }
 
 export interface RawUpholsteryOrder {
@@ -68,7 +41,13 @@ export interface RawUpholsteryOrder {
   order_type?: string;
   furniture_type?: FurnitureType;
   fabric_type?: FabricType;
-  order_status?: OrderStatus[];
+   order_status: {
+    status: string;
+    date: string;
+    location: string;
+    is_active: boolean;
+    description: string | null;
+  }[];
   created_user?: CreatedUser;
   price?: Price;
   address?: Address;
