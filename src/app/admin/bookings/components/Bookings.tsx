@@ -22,14 +22,13 @@ export default function BookingsTable({ show = true }: { show?: boolean }) {
   const [search, setSearch] = useState("");
 
   // Define booking action handlers inside the component
-  const handleEditBooking = (row: Booking) => {
-    console.log("Edit booking:", row);
-    // Implement your edit logic here
+  const handleView = (row: Booking) => {
+    console.log("Viewing booking:", row);
+    // Implement view logic here
   };
-
-  const handleClearBooking = (row: Booking) => {
-    console.log("Clear booking:", row);
-    // Implement your clear logic here
+  const handleDelete = (row: Booking) => {
+    console.log("Deleting booking:", row);
+    // Implement delete logic here
   };
 
   // Define columns inside component to access the handlers
@@ -41,8 +40,8 @@ export default function BookingsTable({ show = true }: { show?: boolean }) {
       header: "Actions",
       accessor: (row) => (
         <ActionDropdown
-          onEdit={() => handleEditBooking(row)}
-          onClear={() => handleClearBooking(row)}
+          onView={() => handleView(row)}
+          onDelete={() => handleDelete(row)}
         />
       ),
     },
