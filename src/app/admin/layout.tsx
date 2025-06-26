@@ -1,6 +1,5 @@
 import Header from "@/components/header";
 import Sidebar from "@/components/sidebar/sidebar";
-import { IMAGES } from "@/constants/image";
 
 export default function DashboardLayout({
   children,
@@ -15,13 +14,7 @@ export default function DashboardLayout({
 
       <div className="pl-0 md:pl-[336px] w-full h-full">
         <div className="sticky top-0  z-50   bg-white ">
-          <Header
-            user={{
-              name: "Jack Jonson",
-              role: "Admin",
-              avatarUrl: IMAGES.avatar,
-            }}
-          />
+          <Header />
         </div>
         <div className="w-full h-full mt-10">{children}</div>
       </div>

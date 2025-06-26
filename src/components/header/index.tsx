@@ -3,12 +3,9 @@ import Image from "next/image";
 import React, { useState, useRef, useEffect } from "react";
 import { Logout } from "../../../public/icons/icons";
 import Link from "next/link";
-
-interface User {
-  name: string;
-  role: string;
-  avatarUrl: string;
-}
+import { supabase } from "@/lib/supabase";
+import { IMAGES } from "@/constants/image";
+import { useRouter } from "next/navigation";
 
 const getCurrentDate = () => {
   const date = new Date();
@@ -19,10 +16,27 @@ const getCurrentDate = () => {
   }).format(date);
 };
 
-const Header: React.FC<{ user: User }> = ({ user }) => {
-  const firstName = user.name.split(" ")[0];
+const Header: React.FC = () => {
+  const [user, setUser] = useState<{ name: string; role: string; avatarUrl: string } | null>(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+  // Fetch user from Supabase on mount
+  useEffect(() => {
+    async function fetchUser() {
+      const { data } = await supabase.auth.getUser();
+      if (data?.user) {
+        setUser({
+          name: data.user.user_metadata?.fullName || data.user.email || "User",
+          role: data.user.user_metadata?.isAdmin == true ? "Admin" : "User",
+          avatarUrl: data.user.user_metadata?.avatar_url || IMAGES.avatar,
+        });
+      } else {
+        router.push("/auth/login");
+      }
+    }
+    fetchUser();
+  }, [router]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -36,12 +50,26 @@ const Header: React.FC<{ user: User }> = ({ user }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleLogout = () => {
-    // Add your logout logic here
-    console.log('Logging out...');
-    // Redirect to login page
-    window.location.href = '/auth/login';
-  };
+  const handleLogout = async () => {
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    console.error("Error signing out:", error.message);
+  } else {
+    setShowDropdown(false);
+    setTimeout(() => router.push("/auth/login"), 300);
+  }
+};
+
+  if (!user) {
+    return (
+      <div className="flex justify-end items-center px-4 py-2">
+        <span className="text-gray-500">Loading user...</span>
+      </div>
+    );
+  }
+
+  const firstName = user.name.split(" ")[0];
 
   return (
     <div className="flex justify-between items-center px-4 sm:px-4 ">
@@ -99,13 +127,6 @@ const Header: React.FC<{ user: User }> = ({ user }) => {
           {/* Dropdown Menu */}
           {showDropdown && (
             <div className="absolute right-0 top-full mt-2 w-36 sm:w-40 bg-white rounded-xl font-d shadow-sm border py-2 z-50">
-              {/* User Info */}
-              {/* <div className="px-4 py-3 border-b border-gray-100 ">
-                <p className="font-semibold text-sm text-gray-900">{user.name}</p>
-                <p className="text-xs text-gray-500">{user.role}</p>
-              </div> */}
-              
-              {/* Menu Items */}
               <div className="py-1">
                 <Link 
                   href="/profile" 
