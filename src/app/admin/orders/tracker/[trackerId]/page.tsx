@@ -6,144 +6,112 @@ import { FaArrowLeft } from "react-icons/fa";
 import { IMAGES } from "@/constants/image";
 import OrderStatusDropdown from "@/app/admin/upholstery/[upholsteryId]/components/orderStatus";
 import OrdersTrack from "@/app/admin/upholstery/[upholsteryId]/components/orderTracker";
-import VendorModal from "@/app/admin/upholstery/[upholsteryId]/components/assignVendorModal";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
-import { 
-  getPillowOrderByNumber, 
-  PillowOrderTracker, 
-  transformOrderToSteps,
-  Step 
-} from "@/services/orderTracker";
+import { supabase } from "@/lib/supabase";
 
-// Define OrderData interface
-interface OrderData {
-  customer: {
-    name: string;
-    email: string;
-    phone: string;
-    address: string;
-    avatar: string;
-  };
-  status: string;
-  furnitureImage: string;
-  furnitureType: string;
-  fabricSource: string;
-  dimensions: string;
-  leadTime: string;
-  upholsteryFeatures: string;
-  priorityQuote: string;
-  quoteId: string;
-  quoteTotal: string;
-  shipTo: string;
-  priority: boolean;
-  productName: string;
+// --- Types ---
+export interface Step {
+  id: number;
+  title: string;
+  is_active: boolean;
+  date?: string;
+  location?: string;
 }
 
-// Transform Supabase order data to the format expected by OrdersTrack
-const transformOrderData = (pillowOrder: PillowOrderTracker): OrderData => ({
-  customer: {
-    name: pillowOrder.user_name || "Unknown Customer",
-    email: pillowOrder.user_email || "No Email",
-    phone: "+92316-456262", // Default phone since not in data
-    address: pillowOrder.address?.address || "No Address",
-    avatar: pillowOrder.user_email ? `https://www.gravatar.com/avatar/${pillowOrder.user_email}?d=identicon` : ""
-      } ,
-  status: pillowOrder.order_status?.[0]?.status || "Pending",
-  furnitureImage: IMAGES.furniture, // Default image
-  furnitureType: "Pillow",
-  fabricSource: pillowOrder.fabric_type?.fabric_type || "Unknown Fabric",
-  dimensions: "Standard Size", // Default dimension since not in data
-  leadTime: "2-3 weeks", // Default lead time since not in data
-  upholsteryFeatures: pillowOrder.upholstery_feature?.description || "Standard Features",
-  priorityQuote: pillowOrder.is_priority ? "Yes" : "No",
-  quoteId: `#${pillowOrder.order_number}`,
-  quoteTotal: `$${pillowOrder.price?.total?.toFixed(2) || '0.00'}`,
-  shipTo: pillowOrder.address?.address || "No shipping address",
-  priority: pillowOrder.is_priority,
-  productName: `${pillowOrder.fabric_type?.option_name || 'Custom'} Pillow`,
-});
+interface OrderStatus {
+  status: string;
+  date: string;
+  location: string;
+  is_active: boolean;
+  description: string | null;
+}
 
-export default function UpholsteryOrderDetail() {
-  const params = useParams();
-  const trackerId = Array.isArray(params?.trackerId)
-    ? params.trackerId[0]
-    : params?.trackerId;
+interface Order {
+  furnitureImage: string;
+  productName: string;
+  quoteId: string;
+  priority: boolean;
+  quoteTotal: string;
+  shipTo: string;
+  order_number: string;
+  order_status: OrderStatus[];
+}
 
-  // Fix line 54: Use proper type annotation
-  // const [pillowOrder, setPillowOrder] = useState<PillowOrderTracker | null>(null);
-  const [order, setOrder] = useState<OrderData | null>(null);
+// --- Page ---
+export default function OrderTrakerDetail() {
+  const { trackerId } = useParams<{ trackerId: string }>();
+  const [order, setOrder] = useState<Order | null>(null);
   const [steps, setSteps] = useState<Step[]>([]);
-  const [status, setStatus] = useState("Pending");
-  const [showVendorModal, setShowVendorModal] = useState(false);
+  const [status, setStatus] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchOrder() {
-      if (!trackerId) {
-        setError("No tracker ID provided");
+      setLoading(true);
+      setError(null);
+      // Fetch the order by order_number (trackerId)
+      const { data, error } = await supabase
+        .from("orders")
+        .select("*")
+        .eq("order_number", trackerId)
+        .single();
+
+      if (error || !data) {
+        setError("Order not found");
+        setOrder(null);
         setLoading(false);
         return;
       }
 
-      try {
-        setLoading(true);
-        setError(null);
+      // Map Supabase data to Order shape for OrdersTrack
+      const mappedOrder: Order = {
+        furnitureImage: data.furniture_images?.[0] || IMAGES.furniture,
+        productName: data.order_type === "pillow" ? "Pillow" : "Upholstery",
+        quoteId: `#${data.order_number}`,
+        priority: !!data.is_priority,
+        quoteTotal: "$0.00", // You can fetch price if needed
+        shipTo: "", // You can fetch address if needed
+        order_number: data.order_number,
+        order_status: Array.isArray(data.order_status) ? data.order_status : [],
+      };
 
-        const orderData = await getPillowOrderByNumber(trackerId);
+      setOrder(mappedOrder);
 
-        if (orderData) {
-          // setPillowOrder(orderData);
-          const transformedOrder = transformOrderData(orderData);
-          setOrder(transformedOrder);
-          setStatus(transformedOrder.status);
+      // Map order_status to steps
+      const mappedSteps: Step[] = mappedOrder.order_status.map((s, idx) => ({
+        id: idx + 1,
+        title: s.status
+          .replace(/(^|\s)\S/g, (l) => l.toUpperCase())
+          .replace(/_/g, " "),
+        is_active: Boolean(s.is_active), // This is always boolean, so it's correct!
+        date: s.date,
+        location: s.location,
+      }));
+      setSteps(mappedSteps);
 
-          // Generate tracking steps based on order status
-          const trackingSteps = transformOrderToSteps(orderData);
-          setSteps(trackingSteps);
-        } else {
-          setError("Order not found");
-        }
-      } catch (err) {
-        console.error("Error fetching order:", err);
-        setError(err instanceof Error ? err.message : "Failed to fetch order");
-      } finally {
-        setLoading(false);
-      }
+      // Set current status for dropdown
+      const activeStatus = mappedOrder.order_status.find((s) => s.is_active)?.status || "";
+      setStatus(activeStatus);
+
+      setLoading(false);
     }
-
     fetchOrder();
   }, [trackerId]);
 
   if (loading) {
     return (
       <div className="container mx-auto p-2">
-        <LoadingSpinner message="Processing ..." variant="dual" size="lg"/>
+        <LoadingSpinner message="Processing ..." variant="dual" size="lg" />
       </div>
     );
   }
 
-  if (error) {
-    return (
-      <div className="container mx-auto p-2">
-        <div className="text-center text-red-500">
-          <p>Error: {error}</p>
-          <Link
-            href="/admin/orders/tracker"
-            className="text-blue-500 underline mt-2 inline-block"
-          >
-            Back to Order Tracker
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
-  if (!order) {
+  if (error || !order) {
     return (
       <div className="container mx-auto p-2">
         <div className="text-center text-gray-500">
-          <p>Order not found</p>
+          <p>{error || "Order not found"}</p>
           <Link
             href="/admin/orders/tracker"
             className="text-blue-500 underline mt-2 inline-block"
@@ -166,7 +134,7 @@ export default function UpholsteryOrderDetail() {
           >
             <FaArrowLeft className="inline mr-1" />
             <span className="font-inter text-[18px] font-semibold">
-              Track Pillow Order #{order.quoteId.replace('#', '')}
+              Track {order.productName} Order {order.quoteId.replace("#", "")}
             </span>
           </Link>
         </div>
@@ -178,15 +146,13 @@ export default function UpholsteryOrderDetail() {
         </div>
       </div>
 
-      
-
       {/* Order Tracking Component */}
-      <OrdersTrack order={order} steps={steps} />
+      <OrdersTrack order={order} steps={steps} isShow={false} />
 
       {/* Vendor Modal */}
-      {showVendorModal && (
+      {/* {showVendorModal && (
         <VendorModal onClose={() => setShowVendorModal(false)} />
-      )}
+      )} */}
     </div>
   );
 }

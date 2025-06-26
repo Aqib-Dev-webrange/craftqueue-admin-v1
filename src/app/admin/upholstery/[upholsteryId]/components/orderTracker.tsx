@@ -33,6 +33,7 @@ interface Step {
 interface OrdersTrackProps {
   order: Order;
   steps: Step[];
+  isShow?: boolean;
 }
 
 const fixedStatuses = [
@@ -45,7 +46,7 @@ const fixedStatuses = [
   "delivered",
 ];
 
-export default function OrdersTrack({ order, steps }: OrdersTrackProps) {
+export default function OrdersTrack({ order, steps, isShow=true }: OrdersTrackProps) {
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState("");
   const [location, setLocation] = useState("");
@@ -123,8 +124,11 @@ export default function OrdersTrack({ order, steps }: OrdersTrackProps) {
           Order Status
         </button>
       </div>
-
-      <OrderCard order={order} />
+      { isShow && (
+        <div className="text-center mt-4">
+          <OrderCard order={order} />
+        </div>
+      )}
 
       {showStatusModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">

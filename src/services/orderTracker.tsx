@@ -81,20 +81,21 @@ export const getPillowOrderByNumber = async (orderNumber: string): Promise<Pillo
 export type Step = {
   id: number;
   title: string;
-  status: 'completed' | 'current' | 'pending';
   date?: string;
+  is_active?: boolean;
   location?: string;
+  description?: string;
 };
 
 export const transformOrderToSteps = (order: PillowOrderTracker): Step[] => {
   const baseSteps = [
-    { id: 1, title: "Quote Submitted", status: 'completed' as const },
-    { id: 2, title: "Fabric Confirmed", status: 'pending' as const },
-    { id: 3, title: "Fabric Received", status: 'pending' as const },
-    { id: 4, title: "In Production", status: 'pending' as const },
-    { id: 5, title: "Quality Check", status: 'pending' as const },
-    { id: 6, title: "Ready for Delivery", status: 'pending' as const },
-    { id: 7, title: "Delivered", status: 'pending' as const },
+    { id: 1, title: "Quote Submitted", is_active: true },
+    { id: 2, title: "Fabric Confirmed", is_active: false },
+    { id: 3, title: "Fabric Received", is_active: false },
+    { id: 4, title: "In Production", is_active: false },
+    { id: 5, title: "Quality Check", is_active: false },
+    { id: 6, title: "Ready for Delivery", is_active: false },
+    { id: 7, title: "Delivered", is_active: false },
   ];
 
   // Get the current status from order

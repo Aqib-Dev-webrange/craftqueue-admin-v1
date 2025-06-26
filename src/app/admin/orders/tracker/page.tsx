@@ -1,195 +1,202 @@
 "use client";
 import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
 import { TableView, Column } from "@/components/table/tableView";
 import SearchInput from "@/components/ui/Input";
 import ActionDropdown from "../../components/actionDropdown";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
-import { getPillowOrdersForTracker, PillowOrderTracker } from "@/services/orderTracker";
 import ViewTrackerModal from "./components/modals/ViewTrackerModal";
 import DeleteTrackerModal from "./components/modals/DeleteTrackerModal";
-import { TrackerOrder } from "./types/TrackerOrder";
 
-// Transform pillow order data to match the tracker format
-const transformOrderData = (order: PillowOrderTracker): TrackerOrder => ({
-  id: String(order.id),
-  customer: order.user_name || "Unknown Customer",
-  category: order.upholstery_feature?.feature_name || "Pillow",
-  quote: order.order_number,
-  progress: order.order_status?.[0]?.status || "Unknown",
-  fabric: order.fabric_type?.option_name || "Unknown Fabric",
-  total: order.price?.total || 0,
-  priority: order.is_priority,
-  date: new Date(order.created_at).toLocaleDateString(),
-  orderNumber: order.order_number,
-  rawData: order
-});
+// Define your Order interface at the top (already present)
+interface Order {
+  user_name?: string;
+  order_number?: string;
+  order_type?: string;
+  order_status?: { status?: string; is_active?: boolean }[];
+  fabric_type_id?: string;
+  fabric_option?: {
+    id?: string | number;
+    fabric_type?: string;
+    option_name?: string;
+    [key: string]: unknown;
+  };
+  [key: string]: unknown;
+}
+
+function toTrackerOrder(order: Order) {
+  return {
+    id: String(order.id ?? ""),
+    customer: (order.user_name as string) || "N/A",
+    category: (order.order_type as string) || "N/A",
+    quote: (order.order_number as string) || "N/A",
+    progress: (order.progress as string) || "pending",
+    fabric: (order.fabric as string) || "N/A",
+    total: typeof order.total === "number" ? order.total : 0,
+    priority: !!order.is_priority,
+    date: (order.created_at as string) || "",
+    orderNumber: (order.order_number as string) || "",
+    rawData: order,
+  };
+}
 
 export default function OrderTrackerManager() {
   const [search, setSearch] = useState("");
-  const [orders, setOrders] = useState<TrackerOrder[]>([]);
+  // Use Order | null for selectedOrder
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+
+  // Use Order[] for orders
+  const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   // Modal states
-  const [selectedOrder, setSelectedOrder] = useState<TrackerOrder | null>(null);
   const [showViewModal, setShowViewModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  // Action handlers
-  const handleView = (row: TrackerOrder) => {
-    setSelectedOrder(row);
-    setShowViewModal(true);
-  };
-
-
-  const handleDelete = (row: TrackerOrder) => {
-    setSelectedOrder(row);
-    setShowDeleteModal(true);
-  };
-
-  // Handle order deletion - FIXED: Made async and returns Promise<void>
-  const handleConfirmDelete = async (): Promise<void> => {
-    if (!selectedOrder) return;
-
-    try {
-      // Remove from local state optimistically
-      const updatedOrders = orders.filter(order => 
-        order.quote !== selectedOrder.quote
-      );
-      setOrders(updatedOrders);
-      setShowDeleteModal(false);
-      setSelectedOrder(null);
-
-      console.log("Order deleted successfully:", selectedOrder);
-      
-      // Here you would make the API call to delete the order
-      // await deleteOrderAPI(selectedOrder.id);
-      
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 100));
-      
-    } catch (error) {
-      console.error("Error deleting order:", error);
-      throw new Error("Failed to delete order. Please try again.");
+  useEffect(() => {
+    async function fetchOrders() {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from("orders")
+        .select(
+          `*, fabric_option:fabric_type_id (
+    id,
+    fabric_type,
+    option_name
+  )`
+        )
+        .order("created_at", { ascending: false });
+      if (error) {
+        setError(error.message);
+        setOrders([]);
+      } else {
+        setOrders(data || []);
+        setError(null);
+      }
+      setLoading(false);
     }
-  };
+    fetchOrders();
+  }, []);
 
-  const textileColumns: Column<TrackerOrder>[] = [
-    {
-      header: "Customer Name",
-      accessor: "customer",
-    },
-    { 
-      header: "Category", 
-      accessor: "category" 
-    },
-    { 
-      header: "Quote Identifier", 
-      accessor: "quote" 
-    },
-    {
-      header: "Fabric Type",
-      accessor: "fabric",
-    },
+  // Transform and filter for table
+  const filtered = orders
+    .filter(
+      (o) =>
+        (o.user_name || "").toLowerCase().includes(search.toLowerCase()) ||
+        (o.order_number || "").toLowerCase().includes(search.toLowerCase()) ||
+        (o.order_type || "").toLowerCase().includes(search.toLowerCase()) ||
+        (Array.isArray(o.order_status) &&
+          o.order_status.some((s: { status?: string; is_active?: boolean }) =>
+            (s.status || "").toLowerCase().includes(search.toLowerCase())
+          ))
+    )
+    .map((order) => ({
+      ...order,
+      customer: order.user_name || "N/A",
+      category: order.order_type || "N/A",
+      quote: order.order_number,
+      progress: Array.isArray(order.order_status)
+        ? order.order_status.find(
+            (s: { status?: string; is_active?: boolean }) => s.is_active
+          )?.status || "pending"
+        : "pending",
+      fabric: order.fabric_option
+        ? `${order.fabric_option.fabric_type || ""}${
+            order.fabric_option.fabric_type && order.fabric_option.option_name
+              ? " - "
+              : ""
+          }${order.fabric_option.option_name || ""}` || "N/A"
+        : "N/A",
+    }));
+
+  const textileColumns: Column<Order>[] = [
+    { header: "Customer Name", accessor: "customer" },
+    { header: "Category", accessor: "category" },
+    { header: "Quote Identifier", accessor: "quote" },
+    { header: "Fabric Type", accessor: "fabric" },
     {
       header: "Current Progress",
-      accessor: (row) => {
-        const progressColors = {
-          "pending": "bg-yellow-100 text-yellow-600",
-          "processing": "bg-blue-100 text-blue-600",
-          "completed": "bg-green-100 text-green-600",
-          "cancelled": "bg-red-100 text-red-600",
+      accessor: (row: Order) => {
+        const progressColors: Record<
+          "pending" | "processing" | "completed" | "cancelled" | "on route",
+          string
+        > = {
+          pending: "bg-yellow-100 text-yellow-600",
+          processing: "bg-blue-100 text-blue-600",
+          completed: "bg-green-100 text-green-600",
+          cancelled: "bg-red-100 text-red-600",
           "on route": "bg-purple-100 text-purple-600",
         };
-
+        const progressValue =
+          typeof row.progress === "string" ? row.progress : "";
+        const progressKey =
+          progressValue.toLowerCase() as keyof typeof progressColors;
         return (
           <span
             className={`px-2 py-1 rounded text-xs font-semibold ${
-              progressColors[row.progress.toLowerCase() as keyof typeof progressColors] ||
-              "bg-gray-100 text-gray-600"
+              progressColors[progressKey] || "bg-gray-100 text-gray-600"
             }`}
           >
-            {row.progress}
+            {typeof row.progress === "string" ? row.progress : ""}
           </span>
         );
       },
     },
     {
       header: "Actions",
-      accessor: (row) => (
+      accessor: (row: Order) => (
         <ActionDropdown
-          onView={() => handleView(row)}
-          onDelete={() => handleDelete(row)}
+          onView={() => {
+            setSelectedOrder(row);
+            setShowViewModal(true);
+          }}
+          onDelete={() => {
+            setSelectedOrder(row);
+            setShowDeleteModal(true);
+          }}
         />
       ),
     },
   ];
 
-  // Fetch orders on component mount
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const pillowOrders = await getPillowOrdersForTracker();
-        const transformedOrders = pillowOrders.map(transformOrderData);
-        setOrders(transformedOrders);
-      } catch (err) {
-        console.error("Error fetching orders:", err);
-        setError(err instanceof Error ? err.message : "Failed to fetch orders");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchOrders();
-  }, []);
-
-  // Generate search suggestions from real order data
-  const searchSuggestions = [
-    ...new Set([
-      ...orders.map((order) => order.customer).filter(Boolean),
-      ...orders.map((order) => order.category).filter(Boolean),
-      ...orders.map((order) => order.quote).filter(Boolean),
-      ...orders.map((order) => order.progress).filter(Boolean),
-      ...orders.map((order) => order.fabric).filter(Boolean),
-      // Add common terms
-      "Velvet",
-      "Cotton",
-      "Linen",
-      "Pillow",
-      "Cushion",
-      "Pending",
-      "Processing",
-      "Completed",
-      "Cancelled",
-    ]),
+  const searchSuggestions: string[] = [
+    ...new Set(
+      [
+        ...orders.map((order) => order.user_name),
+        ...orders.map((order) => order.order_type),
+        ...orders.map((order) => order.order_number),
+        ...orders.flatMap((order) =>
+          Array.isArray(order.order_status)
+            ? order.order_status.map(
+                (s: { status?: string; is_active?: boolean }) => s.status
+              )
+            : []
+        ),
+        "Velvet",
+        "Cotton",
+        "Linen",
+        "Pillow",
+        "Cushion",
+        "Pending",
+        "Processing",
+        "Completed",
+        "Cancelled",
+      ].filter((s): s is string => typeof s === "string" && !!s)
+    ),
   ];
 
-  const filtered = orders.filter(
-    (o) =>
-      o.customer.toLowerCase().includes(search.toLowerCase()) ||
-      o.category.toLowerCase().includes(search.toLowerCase()) ||
-      o.quote.toLowerCase().includes(search.toLowerCase()) ||
-      o.progress.toLowerCase().includes(search.toLowerCase()) ||
-      o.fabric.toLowerCase().includes(search.toLowerCase())
-  );
-
   const handleSearch = (value: string) => {
-    console.log("Searching textile orders for:", value);
+    setSearch(value);
   };
-
-  const handleClearSearch = () => {
-    setSearch("");
-    console.log("Textile order search cleared");
-  };
+  const handleClearSearch = () => setSearch("");
 
   if (error) {
     return (
       <div className="container mx-auto p-2">
         <div className="text-center text-red-500">
           <p>Error: {error}</p>
-          <button 
+          <button
             onClick={() => window.location.reload()}
             className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
           >
@@ -214,7 +221,6 @@ export default function OrderTrackerManager() {
             </span>
           )}
         </div>
-
         <div className="w-full sm:w-80">
           <SearchInput
             placeholder="Search orders..."
@@ -230,7 +236,6 @@ export default function OrderTrackerManager() {
           />
         </div>
       </div>
-
       {/* Table */}
       <div className="bg-white rounded-2xl">
         {loading ? (
@@ -239,26 +244,26 @@ export default function OrderTrackerManager() {
           </div>
         ) : (
           <TableView
-            listTitle={`Order Tracking Overview `}
+            listTitle={`Order Tracking Overview`}
             columns={textileColumns}
             data={filtered}
-            rowLink={(row) => `/admin/orders/tracker/${row.quote.toLowerCase()}`}
+            rowLink={(row) => `/admin/orders/tracker/${row.order_number}`}
           />
         )}
       </div>
-
       {/* Search Results Info */}
       {search && (
         <div className="mt-4 text-sm text-gray-600">
-          Found {filtered.length} order{filtered.length !== 1 ? "s" : ""} for &quot;{search}&quot;
+          Found {filtered.length} order{filtered.length !== 1 ? "s" : ""} for
+          &quot;{search}&quot;
           {filtered.length === 0 && (
             <span className="block mt-1 text-gray-500">
-              Try searching for customer names, fabric types, quote IDs, or progress status
+              Try searching for customer names, fabric types, quote IDs, or
+              progress status
             </span>
           )}
         </div>
       )}
-
       {/* Modals */}
       {selectedOrder && (
         <>
@@ -268,7 +273,7 @@ export default function OrderTrackerManager() {
               setShowViewModal(false);
               setSelectedOrder(null);
             }}
-            order={selectedOrder}
+            order={toTrackerOrder(selectedOrder)}
           />
           <DeleteTrackerModal
             isOpen={showDeleteModal}
@@ -276,8 +281,16 @@ export default function OrderTrackerManager() {
               setShowDeleteModal(false);
               setSelectedOrder(null);
             }}
-            order={selectedOrder}
-            onConfirm={handleConfirmDelete}
+            order={toTrackerOrder(selectedOrder)}
+            onConfirm={() => {
+              setOrders((prev) =>
+                prev.filter(
+                  (o) => o.order_number !== selectedOrder.order_number
+                )
+              );
+              setShowDeleteModal(false);
+              setSelectedOrder(null);
+            }}
           />
         </>
       )}
